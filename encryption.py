@@ -51,26 +51,33 @@ def getNumberRange(start,end):
 
 def generateKey():
     key=""
+    #loop to creat the rotor wirings
     for rotor in range(ROTORNUM):
         keyPeice=""
         numberRange=getNumberRange(0,len(CHARACTERS))
+        #create a string of scrambled numbers to act as the rotor wiring
         for i in range(len(numberRange)):
             keyPeice+=str(numberRange.pop(randint(0,len(numberRange)-1)))
+            #add a comma as a seperator unless you are on the last number
             if(len(numberRange)>=1):
                 keyPeice+=", "
+        #add a seperator between the keys and add the rotor wiring to the key
         key+=keyPeice+" | "
+    #create and add the rotor start positions to the key with seperators
     for i in range(ROTORNUM):
         key+=(str(randint(0,len(CHARACTERS)))+" | ")
     
         
     
-    #generate the initial scrambler key
+    #generate the initial scrambler wiring (near identical to  rotor wiring generation)
     numberRange=getNumberRange(0,len(CHARACTERS))
     initScrambler=""
     for i in range(len(numberRange)):
         initScrambler+=str(numberRange.pop(randint(0,len(numberRange)-1)))
+        #add a comma as a seperator unless you are on the last number
         if(len(numberRange)>=1):
             initScrambler+=", "
+    #add initial scrambler to the key
     key+=initScrambler
     print(key)
     return key
