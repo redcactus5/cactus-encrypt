@@ -2,7 +2,7 @@ from random import randint
 
 CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",")
 #len is 83
-key=None
+loadedKey=None
 
 ROTORNUM=10
 
@@ -88,39 +88,78 @@ def generateKey():
 def loadKey(key):
     #first seperation of the text into lists
     splitKeyStringList=key.rsplit(" | ")
-    keyInProgress=[]
+    key=[]
     
-    #seperates the keys into lists of strings of numbers
+    #for all the rotor wirings
     for i in range(ROTORNUM):
+        #pop the rotor wiring from splitkeystringlist
         temp=splitKeyStringList.pop(0)
-        keyInProgress.append(temp.rsplit(", "))
-    #convert the strings of numbers into numbers
-    for subKey in keyInProgress:
-        for i in range(len(subKey)):
-            subKey[i]=int(subKey[i])
-    #convert start positions into integers
+        #split the wiring into a list of strings
+        temp=temp.rsplit(", ")
+        #convert the number strings in the wiring list into integers
+        for i in range(len(temp)):
+            temp[i]=int(temp[i])
+        #add the decoded wiring to key
+        key.append(temp)
+    
+    #for all rotor start postions
     for i in range(ROTORNUM):
-        keyInProgress.append(int(splitKeyStringList.pop(0))) 
+        #covert the start position string into an integer and move it to key
+        key.append(int(splitKeyStringList.pop(0))) 
 
 
+
+    #decode the initial scrambler in the same way as the rotors
+    initialScrambler=splitKeyStringList.pop(0)
+    initialScrambler=initialScrambler.rsplit(", ")
+    for i in range(len(initialScrambler)):
+        initialScrambler[i]=int(initialScrambler[i])
+    #add the decoded scrambler key to key
+    key.append(temp)
     
+    global loadedKey
+    loadedKey=key
+    return key
     
-    return keyInProgress
+test=generateKey()    
+loadKey(test)
+
+
+def exportKey():
+    #get the currently loaded key
+    global loadedKey
+    #check to see if a key is loaded
+    if(loadedKey!=None):
+        
+        #if a key is loaded
+        key=""
+        #for all the rotor keys
+        for rotor in range(ROTORNUM):
+            keyPeice=""
+            #compile the key into a string
+            for i in range(len(loadedKey[rotor])):
+                keyPeice+=str(loadedKey[rotor][i])
+                if(i<len(loadedKey[rotor])-1):
+                    keyPeice+=", "
+            #add string to key string
+            key+=keyPeice+" | "
+        #convert start positions into strings and add them to key
+        for i in range(ROTORNUM):
+            key+=(str(loadedKey[i+ROTORNUM])+" | ")
+        
+        
+        print(key)
+
+        return key
+    return False
+        
     
-(loadKey(generateKey()))
 
 
-def encrypt(inputText):
-    #convert the input text into a list of numbers
-    chickenScratch=convertToNum(inputText)
-    Rotors=[]
-    #generate and initialize the Rotors
-    for i in range(ROTORNUM):
-        Rotors.append(Rotor(key[i],key[i+ROTORNUM]))
-    
+exportKey()
 
+print(test==exportKey())
 
-
-
+#to decrypt just trace the path back in reverse
     
 
