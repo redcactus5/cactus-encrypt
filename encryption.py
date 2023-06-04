@@ -60,17 +60,12 @@ def generateKey():
                 keyPeice+=", "
         key+=keyPeice+" | "
     for i in range(ROTORNUM):
-        key+=str(randint(0,len(CHARACTERS)))+" | "
+        key+=str(randint(0,len(CHARACTERS)))
+        if(i<ROTORNUM-1):
+            key+=" | "
     
     #generate the initial scrambler key
-    numberRange=getNumberRange(0,len(CHARACTERS))
-    initialScramblerKey=""
-    for i in range(len(numberRange)):
-        initialScramblerKey+=str(numberRange.pop(randint(0,len(numberRange)-1)))
-        if(len(numberRange)>=1):
-            initialScramblerKey+=", "
-        key+=initialScramblerKey
-
+    
     return key
     
 
@@ -94,12 +89,7 @@ def loadKey(key):
         keyInProgress.append(int(splitKeyStringList.pop(0))) 
 
 
-    #seperate the initial scrambler key string into a list of strings of numbers like done above 
-    scramblerKey=splitKeyStringList[0].rsplit(", ")
-    #convert strings of numbers into integers like done above
-    for i in range(len(scramblerKey)):
-        scramblerKey[i]=int(scramblerKey[i])
-    keyInProgress.append(scramblerKey)
+    
     
     return keyInProgress
     
