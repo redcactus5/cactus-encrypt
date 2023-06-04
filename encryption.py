@@ -21,7 +21,7 @@ def convertToText(numlist):
         text+=CHARACTERS[num]
     return text
 
-class rotor:
+class Rotor:
     def __init__(self, wiring, pos):
         self.pos=pos
         self.wiring=wiring
@@ -51,21 +51,28 @@ def getNumberRange(start,end):
 
 def generateKey():
     key=""
-    for i in range(ROTORNUM):
+    for rotor in range(ROTORNUM):
         keyPeice=""
         numberRange=getNumberRange(0,len(CHARACTERS))
-        for part in range(len(numberRange)):
+        for i in range(len(numberRange)):
             keyPeice+=str(numberRange.pop(randint(0,len(numberRange)-1)))
             if(len(numberRange)>=1):
                 keyPeice+=", "
         key+=keyPeice+" | "
     for i in range(ROTORNUM):
-        key+=str(randint(0,len(CHARACTERS)))
-        if(i<ROTORNUM-1):
-            key+=" | "
+        key+=(str(randint(0,len(CHARACTERS)))+" | ")
+    
+        
     
     #generate the initial scrambler key
-    
+    numberRange=getNumberRange(0,len(CHARACTERS))
+    initScrambler=""
+    for i in range(len(numberRange)):
+        initScrambler+=str(numberRange.pop(randint(0,len(numberRange)-1)))
+        if(len(numberRange)>=1):
+            initScrambler+=", "
+    key+=initScrambler
+    print(key)
     return key
     
 
@@ -93,16 +100,16 @@ def loadKey(key):
     
     return keyInProgress
     
-print(loadKey(generateKey()))
+(loadKey(generateKey()))
 
 
 def encrypt(inputText):
     #convert the input text into a list of numbers
     chickenScratch=convertToNum(inputText)
-    rotors=[]
-    #generate and initialize the rotors
+    Rotors=[]
+    #generate and initialize the Rotors
     for i in range(ROTORNUM):
-        rotors.append(rotor(key[i],key[i+ROTORNUM]))
+        Rotors.append(Rotor(key[i],key[i+ROTORNUM]))
     
 
 
