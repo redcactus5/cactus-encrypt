@@ -134,18 +134,20 @@ def loadKey(keyString):
             key[rotor+1][character]=int(key[rotor+1][character])
             
     
+    
     for rotor in range(key[0]):
         key.append(int(keyList[rotor+1+key[0]]))
         
-        
+    for cypher in range(2):
+        #compile the wiring of a cypher
+        key.append(keyList[cypher+1+(key[0]*2)].rsplit(","))
+        for character in range(len(key[cypher+1+(key[0]*2)])):
+            key[cypher+1+(key[0]*2)][character]=int(key[cypher+1+(key[0]*2)][character])
 
-    print(keyString,"\n")
-    print(keyList,"\n")
-    print(key)
-
+    return key
     
 
-loadKey(exportKey(generateKey(1)))
+    
 
 
     
