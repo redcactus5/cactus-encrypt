@@ -70,10 +70,11 @@ class Rotor:
         return self.wiring[searchNumber]
     
     def decodeValue(self, number):
-        searchNumber=number+self.pos
-        while(searchNumber>len(self.wiring)-1):
-            searchNumber-=len(self.wiring)
-        return self.wiring.index(searchNumber)
+        numIndex=self.wiring.index(number)-self.pos
+        while(numIndex<0):
+            numIndex+=len(self.wiring)
+        
+        return numIndex
     
 
 
@@ -168,9 +169,13 @@ def loadKey(keyString):
         key.append(keyList[cypher+1+(key[0]*2)].rsplit(","))
         for character in range(len(key[cypher+1+(key[0]*2)])):
             key[cypher+1+(key[0]*2)][character]=int(key[cypher+1+(key[0]*2)][character])
+    
+   
 
     return key
     
+
+
 def advanceRotors(rotorList):
     rollover=True
     for rotor in rotorList:
@@ -178,33 +183,78 @@ def advanceRotors(rotorList):
             rollover=rotor.advance()
         else:
             break
+        
     
+
+
 def encrypt(text):
+    #check for character compatablility
     for character in text:
         if(not character in CHARACTERS):
             return (False, character)
+    #initialize variables and the two static cyphers
     rotors=[]
+    cyphers=(Rotor(loadedKey[len(loadedKey)-2],0),Rotor(loadedKey[len(loadedKey)-1],0))
     toBeEncrypted=convertToNum(text)
     encryptedNumList=[]
+    #generate number of rotor objects specified in the key from the wiring provided in the key
     for i in range(loadedKey[0]):
         rotors.append(Rotor(loadedKey[i+1],loadedKey[loadedKey[0]+i+1]))
+    #do the actual encryption
     for character in toBeEncrypted:
-        temp=loadedKey[len(loadedKey)-2][character]
+        #put text through initial cypher
+        temp=cyphers[0].encodeValue(character)
+        #put text through rotors
         for rotor in rotors:
             temp=rotor.encodeValue(temp)
-        temp=loadedKey[len(loadedKey)-1][temp]
+        #put text through the final cypher
+        temp=cyphers[1].encodeValue(temp)
+        #add encrypted character to list of encrypted characters
         encryptedNumList.append(temp)
+        #advance the rotors
         advanceRotors(rotors)
     return convertToText(encryptedNumList)
     
-
-
-
-
-loadedKey=generateKey(1)
-print(encrypt("test"))
-
+def decrypt(text):
+    #check for character compatability
+    for character in text:
+        if(not character in CHARACTERS):
+            return (False, character)
+    #initialize variables and the two static cyphers
+    rotors=[]
+    cyphers=(Rotor(loadedKey[len(loadedKey)-2],0),Rotor(loadedKey[len(loadedKey)-1],0))
+    toBeDecrypted=convertToNum(text)
+    decryptedNumList=[]
+    #generate number of rotor objects specified in the key from the wiring provided in the key
+    for i in range(loadedKey[0]):
+        rotors.append(Rotor(loadedKey[i+1],loadedKey[loadedKey[0]+i+1]))
     
+    #do the actual decryption
+    for character in toBeDecrypted:
+        #put text through final cypher
+        temp=cyphers[1].decodeValue(character)
+        #put text through the rotors
+        for rotor in range(len(rotors)-1,-1,-1):
+            temp=rotors[rotor].decodeValue(temp)
+        #put text through initial cypher
+        temp=cyphers[0].decodeValue(temp)
+        #add decrypted character to decrypted characters list
+        decryptedNumList.append(temp)
+        #advance the rotors by one
+        advanceRotors(rotors)
+    #convert the decrypted list into a string of plain text and return it
+    return convertToText(decryptedNumList)
+
+
+
+loadedKey=generateKey(10)
+
+textToTest=""
+
+print(encrypt("the quick brown fox jumped over the lazy dog"))
+ln()
+print(decrypt(encrypt("the quick brown fox jumped over the lazy dog")))
+   
     
 
   
