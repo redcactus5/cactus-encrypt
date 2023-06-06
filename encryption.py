@@ -2,7 +2,7 @@
 from random import randint
 
 
-CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/")
+CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\")
 CHARACTERCOUNT=len(CHARACTERS)
 
 loadedKey=None
@@ -249,11 +249,11 @@ def decrypt(text):
 
 loadedKey=generateKey(10)
 
-textToTest=""
+textToTest= input()
 
-print(encrypt("the quick brown fox jumped over the lazy dog"))
+print(encrypt(textToTest))
 ln()
-print(decrypt(encrypt("the quick brown fox jumped over the lazy dog")))
+print(decrypt(encrypt(textToTest)))
    
     
 
