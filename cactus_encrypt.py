@@ -304,8 +304,10 @@ def userInterface():
                     error: unsupported character in text! check text for unsupoorted characters.
                     a complete list of supported characters can be found in the information menu.''')
                     input("press enter to continue")
+                    print("encrypting...")
                 else:
                     uiHeader()
+                    print("encryption successful")
                     print("here is your encrypted text:{"+encryptedText+"}")
                     ln()
                     input("press enter to continue")
@@ -320,7 +322,9 @@ def userInterface():
                 uiHeader()
                 print("please enter text to be decrypted:")
                 text=input()
+                print("decrypting...")
                 decryptedText=decrypt(text)
+                
                 ln(40)
                 if(decryptedText==False):
                     uiHeader()
@@ -330,6 +334,7 @@ def userInterface():
                     input("press enter to continue")
                 else:
                     uiHeader()
+                    print("decryption successful")
                     print("here is your decrypted text:{"+decryptedText+"}")
                     ln()
                     input("press enter to continue")
@@ -344,6 +349,7 @@ def userInterface():
                 uiHeader()
                 print("please enter key:")
                 try:
+                    print("loading key...")
                     loadedKey=loadKey(input())
                     ln(40)
                     uiHeader()
@@ -366,6 +372,7 @@ def userInterface():
                     ln(40)
                     uiHeader()
                     print("please input key complexity value:")
+                    print("generating key...")
                     try:
                         complexity=int(input())
                         loadedKey=generateKey(complexity)
