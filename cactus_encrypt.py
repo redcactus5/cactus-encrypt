@@ -24,6 +24,8 @@ def convertToText(numlist):
 
 
 
+
+
 def getNumberRange(start,end):
     temp=[]
     for i in range(start,end):
@@ -191,7 +193,7 @@ def encrypt(text):
     #check for character compatablility
     for character in text:
         if(not character in CHARACTERS):
-            return (False, character)
+            return (False)
     #initialize variables and the two static cyphers
     rotors=[]
     cyphers=(Rotor(loadedKey[len(loadedKey)-2],0),Rotor(loadedKey[len(loadedKey)-1],0))
@@ -250,18 +252,168 @@ def decrypt(text):
 
     
 
-  
 
 
-
-
-
+def uiHeader():
+    print("cactus encrypt v1.0 by redcacus5")
+    ln()
+    if(loadedKey==None):
+        print("no key loaded!")
+    else:
+        print("key loaded")
+    ln(5)
+ 
     
 
+def userInterface():
+    global loadedKey
+    running=True
+    while running:
+        ln(40)
+        uiHeader()
+        print("please select an option:")
+        print("1: encrypt text")
+        print("2: decrypt text")
+        print("3: load a key")
+        print("4: generate a key")
+        print("5: export current key")
+        print("6: information")
+        print("7: exit")
+        selection=input("please enter selection:")
+        if(selection=="7"):
+            ln(40)
+            print("thank you for using cactus encrypt -red")
+            running=False
+            break
+        elif(selection=="1"):
+            if(loadedKey==None):
+                ln(40)
+                uiHeader()
+                print("error: encryption key not found! please load or generate a key to continue.")
+                input("press enter to continue")
+            else:
+                ln(40)
+                uiHeader()
+                print("please enter text to be encrypted:")
+                text=input()
+                encryptedText=encrypt(text)
+                ln(40)
+                if(encryptedText==False):
+                    uiHeader()
+                    print('''error: unsupported character in text! check text for unsupoorted characters. \n
+                    a complete list of supported characters can be found in the information menu.''')
+                    input("press enter to continue")
+                else:
+                    uiHeader()
+                    print("here is your encrypted text:{"+encryptedText+"}")
+                    ln()
+                    input("press enter to continue")
+        elif(selection=="2"):
+            if(loadedKey==None):
+                ln(40)
+                uiHeader()
+                print("error: encryption key not found! please load or generate a key to continue.")
+                input("press enter to continue")
+            else:
+                ln(40)
+                uiHeader()
+                print("please enter text to be decrypted:")
+                text=input()
+                decryptedText=decrypt(text)
+                ln(40)
+                if(decryptedText==False):
+                    uiHeader()
+                    print('''error: unsupported character in text! check text for unsupoorted characters. \n
+                    a complete list of supported characters can be found in the information menu.''')
+                    input("press enter to continue")
+                else:
+                    uiHeader()
+                    print("here is your decrypted text:{"+decryptedText+"}")
+                    ln()
+                    input("press enter to continue")
+        elif(selection=="3"):
+            ln(40)
+            uiHeader()
+            print("are you sure you want to load a new key?")
+            print("this will replace any currently loaded key.")
+            decision=input("(y/n)")
+            if(decision=="y"):
+                ln(40)
+                uiHeader()
+                print("please enter key:")
+                try:
+                    loadedKey=loadKey(input())
+                    ln(40)
+                    uiHeader()
+                    print("key successfully loaded")
+                    input("press enter to continue")
+                except:
+                    ln(40)
+                    uiHeader()
+                    print("error: key failed to load. please check key and try again")
+                    input("press enter to continue")
+        elif(selection=="4"):
+            ln(40)
+            uiHeader()
+            print("are you sure you want to generate a new key?")
+            print("this will replace any currently loaded key.")
+            decision=input("(y/n)")
+            if(decision=="y"):
+                generating=True
+                while generating:
+                    ln(40)
+                    uiHeader()
+                    print("please input key complexity value:")
+                    try:
+                        complexity=int(input())
+                        loadedKey=generateKey(complexity)
+                        ln(40)
+                        uiHeader()
+                        print("key successfully generated")
+                        input("press enter to continue")
+                        generating=False
+                        break
+                        
+                    except:
+                        print("error: key generation error. please make sure key complexity value is a positive integer")
+        elif(selection=="5"):
+            ln(40)
+            uiHeader()
+            if(loadedKey==None):
+                
+                print("error: encryption key not found! please load or generate a key to continue.")
+                input("press enter to continue")
+            else:
+                print("key:{"+exportKey(loadedKey)+"}")
+                input("press enter to continue")
+                
+                
+
+
+        elif(selection=="6"):
+            uiHeader()
+            print('''
+            Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because 
+            I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up 
+            here. Cactus encrypt is very picky about its keys, and they must be entered exactly as they are exported to 
+            successfully load. Also, it uses a nonstandard character set and errors out if it detects an unsupported character.
+            To prevent confusion I have listed out all of the supported characters here: 
+            {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]/'}. Please note that curly 
+            braces are not supported characters and are only used to denote the start and end of text feilds. pipe characters 
+            are only used in keys and are also not supported characters. on the contrary, spaces are supported characters, so 
+            keep that in mind. have fun with cactus encrypt! 
+            -redcactus5''')
+            ln()
+            input("press enter to continue")
+            
+        else:
+            ln(40)
+            uiHeader()
+            print("error: input error, selection not found")
+            input("press enter to continue")
 
 
 
 
-#to decrypt just trace the path back in reverse
-    
 
+userInterface()
