@@ -261,7 +261,7 @@ def uiHeader():
         print("no key loaded!")
     else:
         print("key loaded")
-    ln(5)
+    ln(3)
  
     
 
@@ -300,7 +300,8 @@ def userInterface():
                 ln(40)
                 if(encryptedText==False):
                     uiHeader()
-                    print('''error: unsupported character in text! check text for unsupoorted characters. \n
+                    print('''
+                    error: unsupported character in text! check text for unsupoorted characters.
                     a complete list of supported characters can be found in the information menu.''')
                     input("press enter to continue")
                 else:
@@ -323,7 +324,8 @@ def userInterface():
                 ln(40)
                 if(decryptedText==False):
                     uiHeader()
-                    print('''error: unsupported character in text! check text for unsupoorted characters. \n
+                    print('''
+                    error: unsupported character in text! check text for unsupoorted characters.
                     a complete list of supported characters can be found in the information menu.''')
                     input("press enter to continue")
                 else:
