@@ -301,9 +301,7 @@ def userInterface():
                 ln(40)
                 if(encryptedText==False):
                     uiHeader()
-                    print('''
-                    error: unsupported character in text! check text for unsupoorted characters.
-                    a complete list of supported characters can be found in the information menu.''')
+                    print("error: unsupported character in text! check text for unsupoorted characters. a complete list of supported characters can be found in the information menu.")
                     input("press enter to continue")
                     print("encrypting...")
                 else:
@@ -329,9 +327,7 @@ def userInterface():
                 ln(40)
                 if(decryptedText==False):
                     uiHeader()
-                    print('''
-                    error: unsupported character in text! check text for unsupoorted characters.
-                    a complete list of supported characters can be found in the information menu.''')
+                    print("error: unsupported character in text! check text for unsupoorted characters. a complete list of supported characters can be found in the information menu.")
                     input("press enter to continue")
                 else:
                     uiHeader()
@@ -411,17 +407,7 @@ def userInterface():
 
         elif(selection=="6"):
             uiHeader()
-            print('''
-            Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because 
-            I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up 
-            here. Cactus encrypt is very picky about its keys, and they must be entered exactly as they are exported to 
-            successfully load. Also, it uses a nonstandard character set and errors out if it detects an unsupported character.
-            To prevent confusion I have listed out all of the supported characters here: 
-            {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]/'}. Please note that curly 
-            braces are not supported characters and are only used to denote the start and end of text feilds. pipe characters 
-            are only used in keys and are also not supported characters. on the contrary, spaces are supported characters, so 
-            keep that in mind. have fun with cactus encrypt! 
-            -redcactus5''')
+            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very picky about its keys, and they must be entered exactly as they are exported to successfully load. Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]/'}. Please note that curly braces are not supported characters and are only used to denote the start and end of text feilds. pipe characters are only used in keys and are also not supported characters. on the contrary, spaces are supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
             ln()
             input("press enter to continue")
             
