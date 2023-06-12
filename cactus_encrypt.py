@@ -296,6 +296,7 @@ def userInterface():
                 uiHeader()
                 print("please enter text to be encrypted:")
                 text=input()
+                print("encrypting...")
                 encryptedText=encrypt(text)
                 ln(40)
                 if(encryptedText==False):
@@ -349,13 +350,15 @@ def userInterface():
                 uiHeader()
                 print("please enter key:")
                 try:
-                    print("loading key...")
+                    
                     loadedKey=loadKey(input())
+                    print("loading key...")
                     ln(40)
                     uiHeader()
                     print("key successfully loaded")
                     input("press enter to continue")
                 except:
+                    print("loading key...")
                     ln(40)
                     uiHeader()
                     print("error: key failed to load. please check key and try again")
@@ -367,24 +370,31 @@ def userInterface():
             print("this will replace any currently loaded key.")
             decision=input("(y/n)")
             if(decision=="y"):
-                generating=True
-                while generating:
+            
+            
+                ln(40)
+                uiHeader()
+                print("please input key complexity value:")
+                complexity=input()
+                print("generating key...")
+                
+                try:
+                    complexity=int(complexity)
+                    
+                    loadedKey=generateKey(complexity)
                     ln(40)
                     uiHeader()
-                    print("please input key complexity value:")
-                    print("generating key...")
-                    try:
-                        complexity=int(input())
-                        loadedKey=generateKey(complexity)
-                        ln(40)
-                        uiHeader()
-                        print("key successfully generated")
-                        input("press enter to continue")
-                        generating=False
-                        break
-                        
-                    except:
-                        print("error: key generation error. please make sure key complexity value is a positive integer")
+                    print("key successfully generated")
+                    input("press enter to continue")
+                    
+                    
+                    
+                except:
+                    ln(40)
+                    print("error: key generation error. please make sure key complexity value is a positive integer and try again")
+                    input("press enter to continue")
+
+
         elif(selection=="5"):
             ln(40)
             uiHeader()
