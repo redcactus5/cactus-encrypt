@@ -255,7 +255,7 @@ def decrypt(text):
 
 
 def uiHeader():
-    print("cactus encrypt v1.0 by redcacus5")
+    print("cactus encrypt closed beta 3 by redcacus5")
     ln()
     if(loadedKey==None):
         print("no key found!")
