@@ -260,7 +260,7 @@ def uiHeader():
     if(loadedKey==None):
         print("no key found!")
     else:
-        print("key ready")
+        print("ready")
     ln(3)
  
     
