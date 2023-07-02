@@ -149,14 +149,14 @@ def exportKey(key):
     
 def loadKey(keyString):
     #seperate the keystring into a list at the terminator strings
-    keyList=keyString.rsplit(" | ")
+    keyList=keyString.split(" | ")
     #convert the rotor count into a string at put it in its place in the decoded list
     key=[int(keyList[0])]
     #decode the rotors
     for rotor in range(key[0]):
         #decode the wiring of a rotor
         #split the string into list at the commas
-        key.append(keyList[rotor+1].rsplit(","))
+        key.append(keyList[rotor+1].split(","))
         for character in range(len(key[rotor+1])):
             
             key[rotor+1][character]=int(key[rotor+1][character])
@@ -168,7 +168,7 @@ def loadKey(keyString):
         
     for cypher in range(2):
         #compile the wiring of a cypher
-        key.append(keyList[cypher+1+(key[0]*2)].rsplit(","))
+        key.append(keyList[cypher+1+(key[0]*2)].split(","))
         for character in range(len(key[cypher+1+(key[0]*2)])):
             key[cypher+1+(key[0]*2)][character]=int(key[cypher+1+(key[0]*2)][character])
     
@@ -258,9 +258,9 @@ def uiHeader():
     print("cactus encrypt v1.0 by redcacus5")
     ln()
     if(loadedKey==None):
-        print("no key loaded!")
+        print("no key found!")
     else:
-        print("key loaded")
+        print("key ready")
     ln(3)
  
     
