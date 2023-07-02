@@ -1,0 +1,2 @@
+1. navigate to folder in terminal
+2. run the command: pyinstaller -F cactus_encrypt.py
