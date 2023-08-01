@@ -6,7 +6,7 @@ import time
 
 
 CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\","\n","\r","\t")
-CHARACTERCOUNT=len(CHARACTERS)
+
 
 loadedKey=None
 
@@ -43,11 +43,9 @@ def convertToText(numlist:list):
 
 
 
-def getNumberRange(start:int,end:int):
-    temp=[]
-    for i in range(start,end):
-        temp.append(i)
-    return temp
+
+
+
 
 def ln(*number:int):
     if(len(number)<1):
@@ -106,19 +104,19 @@ def generateKey(rotorCount:int):
     key=[rotorCount]
     for rotor in range(rotorCount):
         #generate the wiring for one rotor
-        catalog=getNumberRange(0,CHARACTERCOUNT)
+        catalog=list(range(0, len(CHARACTERS)))
         rotorWiring=[]
         for character in range(len(catalog)):
             rotorWiring.append(catalog.pop(randint(0,len(catalog)-1)))
         key.append(rotorWiring)
     #gnerate the start positions of the rotors
     for i in range(rotorCount):
-        key.append(randint(0,CHARACTERCOUNT))
+        key.append(randint(0,len(CHARACTERS)))
     
     #generate the wiring for the initial and final static cyphers
     for cypher in range(2):
         
-        catalog=getNumberRange(0,CHARACTERCOUNT)
+        catalog=list(range(0, len(CHARACTERS)))
         rotorWiring=[]
         for character in range(len(catalog)):
             rotorWiring.append(catalog.pop(randint(0,len(catalog)-1)))
@@ -174,12 +172,13 @@ def loadKey(keyString:str):
         #decode the wiring of a rotor
         #split the string into list at the commas
         key.append(keyList[rotor+1].split(","))
+        #integerize keys
         for character in range(len(key[rotor+1])):
             
             key[rotor+1][character]=int(key[rotor+1][character])
             
     
-    
+    #append the rotor wirings to the key
     for rotor in range(key[0]):
         key.append(int(keyList[rotor+1+key[0]]))
         
@@ -195,7 +194,7 @@ def loadKey(keyString:str):
     
 
 
-def advanceRotors(rotorList):
+def advanceRotors(rotorList:list):
     rollover=True
     for rotor in rotorList:
         if(rollover):
