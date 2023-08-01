@@ -236,7 +236,7 @@ def encrypt(text:str):
     
 def decrypt(text):
     #check for character compatability
-    for character in text:
+    for character in listifyAndSanitizeInput(text):
         if(not character in CHARACTERS):
             return (False)
     #initialize variables and the two static cyphers
@@ -272,7 +272,7 @@ def decrypt(text):
 
 
 def uiHeader():
-    print("cactus encrypt closed beta 3 by redcacus5")
+    print("cactus encrypt v1.1 experimental build 1 by redcacus5")
     ln()
     if(loadedKey==None):
         print("no key found!")
@@ -314,7 +314,9 @@ def userInterface():
                 print("please enter text to be encrypted:")
                 text=input()
                 print("encrypting...")
+                start=time.time()
                 encryptedText=encrypt(text)
+                elapsed=time.time()-start
                 ln(40)
                 if(encryptedText==False):
                     uiHeader()
@@ -324,6 +326,7 @@ def userInterface():
                 else:
                     uiHeader()
                     print("encryption successful")
+                    print("finished in "+str(elapsed)+" second(s)")
                     print("here is your encrypted text:{"+encryptedText+"}")
                     ln()
                     input("press enter to continue")
@@ -331,7 +334,7 @@ def userInterface():
             if(loadedKey==None):
                 ln(40)
                 uiHeader()
-                print("error: encryption key not found! please load or generate a key to continue.")
+                print("error: encryption key not found! please load the corisponding key to continue.")
                 input("press enter to continue")
             else:
                 ln(40)
@@ -339,8 +342,9 @@ def userInterface():
                 print("please enter text to be decrypted:")
                 text=input()
                 print("decrypting...")
+                start=time.time()
                 decryptedText=decrypt(text)
-                
+                elapsed=time.time()-start
                 ln(40)
                 if(decryptedText==False):
                     uiHeader()
@@ -349,6 +353,7 @@ def userInterface():
                 else:
                     uiHeader()
                     print("decryption successful")
+                    print("finished in "+str(elapsed)+" second(s)")
                     print("here is your decrypted text:{"+decryptedText+"}")
                     ln()
                     input("press enter to continue")
@@ -363,12 +368,14 @@ def userInterface():
                 uiHeader()
                 print("please enter key:")
                 try:
-                    
+                    start=time.time()
                     loadedKey=loadKey(input())
+                    elapsed=time.time()-start
                     print("loading key...")
                     ln(40)
                     uiHeader()
                     print("key successfully loaded")
+                    print("finished in "+str(elapsed)+" second(s)")
                     input("press enter to continue")
                 except:
                     print("loading key...")
@@ -393,11 +400,13 @@ def userInterface():
                 
                 try:
                     complexity=int(complexity)
-                    
+                    start=time.time()
                     loadedKey=generateKey(complexity)
+                    elapsed=time.time()-start
                     ln(40)
                     uiHeader()
                     print("key successfully generated")
+                    print("finished in "+str(elapsed)+" second(s)")
                     input("press enter to continue")
                     
                     
