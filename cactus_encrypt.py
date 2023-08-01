@@ -1,23 +1,40 @@
 
 from random import randint
+import time
 
 
-CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","'")
+
+#remember to impement proccessing time printing
+
+
+
+CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\")
 CHARACTERCOUNT=len(CHARACTERS)
 
 loadedKey=None
 
-def convertToNum(text):
-
+def listifyAndSanitizeInput(text:str):
     textList=list(text)
+    for i in range(len(textList)):
+        textList[i]=textList[i].replace("\\","\\\\").replace('"','\\"').replace("'","\\'")
+    return textList
+
+
+
+
+def convertToNum(text:str):
+
+    textList=listifyAndSanitizeInput(text)
+
     numList=[]
     for character in textList:
         numList.append(CHARACTERS.index(character))
     return numList
 
-def convertToText(numlist):
+def convertToText(numlist:list):
 
     text=""
+    
     for num in numlist:
         text+=CHARACTERS[num]
     return text
@@ -26,13 +43,13 @@ def convertToText(numlist):
 
 
 
-def getNumberRange(start,end):
+def getNumberRange(start:int,end:int):
     temp=[]
     for i in range(start,end):
         temp.append(i)
     return temp
 
-def ln(*number):
+def ln(*number:int):
     if(len(number)<1):
         print("")
     elif(len(number)>1):
@@ -54,7 +71,7 @@ def ln(*number):
 
 
 class Rotor:
-    def __init__(self, wiring, pos):
+    def __init__(self, wiring:list, pos:int):
         self.pos=pos
         self.wiring=wiring
     
@@ -65,13 +82,13 @@ class Rotor:
             return True
         return False
     
-    def encodeValue(self,number):
+    def encodeValue(self,number:int):
         searchNumber=number+self.pos
         while(searchNumber>len(self.wiring)-1):
             searchNumber-=len(self.wiring)
         return self.wiring[searchNumber]
     
-    def decodeValue(self, number):
+    def decodeValue(self, number:int):
         numIndex=self.wiring.index(number)-self.pos
         while(numIndex<0):
             numIndex+=len(self.wiring)
@@ -84,7 +101,7 @@ class Rotor:
 
 
 
-def generateKey(rotorCount):
+def generateKey(rotorCount:int):
     #key structure [rotor keys],[rotor starts],[initial and final static cyphers]
     key=[rotorCount]
     for rotor in range(rotorCount):
@@ -110,7 +127,7 @@ def generateKey(rotorCount):
 
     
 
-def exportKey(key):
+def exportKey(key:list):
     
     keyString=str(key[0])+" | "
     #compile the rotor wirings into importable strings
@@ -147,7 +164,7 @@ def exportKey(key):
 
 
     
-def loadKey(keyString):
+def loadKey(keyString:str):
     #seperate the keystring into a list at the terminator strings
     keyList=keyString.split(" | ")
     #convert the rotor count into a string at put it in its place in the decoded list
@@ -189,9 +206,9 @@ def advanceRotors(rotorList):
     
 
 
-def encrypt(text):
+def encrypt(text:str):
     #check for character compatablility
-    for character in text:
+    for character in listifyAndSanitizeInput(text):
         if(not character in CHARACTERS):
             return (False)
     #initialize variables and the two static cyphers
@@ -408,7 +425,7 @@ def userInterface():
         elif(selection=="6"):
             ln(40)
             uiHeader()
-            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very picky about its keys, and they must be entered exactly as they are exported to successfully load. Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]/'}. Please note that curly braces are not supported characters and are only used to denote the start and end of text feilds. pipe characters are only used in keys and are also not supported characters. on the contrary, spaces are supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
+            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very picky about its keys, and they must be entered exactly as they are exported to successfully load. Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]'\"\\}. Please note that curly braces are not supported characters and are only used to denote the start and end of text feilds. pipe characters are only used in keys and are also not supported characters. on the contrary, spaces are supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
             
             input("press enter to continue")
             
