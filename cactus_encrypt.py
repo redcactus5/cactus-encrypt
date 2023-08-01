@@ -4,19 +4,19 @@ import time
 
 
 
-#remember to impement proccessing time printing
 
-
-
-CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\")
+CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\","\n","\r","\t")
 CHARACTERCOUNT=len(CHARACTERS)
 
 loadedKey=None
 
 def listifyAndSanitizeInput(text:str):
-    textList=list(text)
+    restrictedCharacterReplacements = {'\\': '\\\\', '"': '\\"', "'": "\\'", "\n": "\\n", "\r": "\\r", "\t": "\\t"}
+
+    textList = list(text)
     for i in range(len(textList)):
-        textList[i]=textList[i].replace("\\","\\\\").replace('"','\\"').replace("'","\\'")
+        if textList[i] in restrictedCharacterReplacements:
+            textList[i] = restrictedCharacterReplacements[textList[i]]
     return textList
 
 
@@ -360,7 +360,7 @@ def userInterface():
         elif(selection=="3"):
             ln(40)
             uiHeader()
-            print("are you sure you want to load a new key?")
+            print("are you sure you want to load a key?")
             print("this will replace any currently loaded key.")
             decision=input("(y/n)")
             if(decision=="y"):
