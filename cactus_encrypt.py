@@ -10,21 +10,14 @@ CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j",
 
 loadedKey=None
 
-def listifyAndSanitizeInput(text:str):
-    restrictedCharacterReplacements = {'\\': '\\\\', '"': '\\"', "'": "\\'", "\n": "\\n", "\r": "\\r", "\t": "\\t"}
 
-    textList = list(text)
-    for i in range(len(textList)):
-        if textList[i] in restrictedCharacterReplacements:
-            textList[i] = restrictedCharacterReplacements[textList[i]]
-    return textList
 
 
 
 
 def convertToNum(text:str):
 
-    textList=listifyAndSanitizeInput(text)
+    textList=list(text)
 
     numList=[]
     for character in textList:
@@ -207,7 +200,7 @@ def advanceRotors(rotorList:list):
 
 def encrypt(text:str):
     #check for character compatablility
-    for character in listifyAndSanitizeInput(text):
+    for character in text:
         if(not character in CHARACTERS):
             return (False)
     #initialize variables and the two static cyphers
@@ -235,7 +228,7 @@ def encrypt(text:str):
     
 def decrypt(text):
     #check for character compatability
-    for character in listifyAndSanitizeInput(text):
+    for character in text:
         if(not character in CHARACTERS):
             return (False)
     #initialize variables and the two static cyphers
