@@ -277,7 +277,7 @@ def decrypt(text):
 
 #ui header function to save time
 def uiHeader():
-    print("cactus encrypt v1.1 test build 1 by redcacus5")
+    print("cactus encrypt v1.1 release canidate 1 by redcacus5")
     ln()
     if(loadedKey==None):
         print("no key found!")
