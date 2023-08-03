@@ -1,0 +1,7 @@
+compiler is called nuitka
+
+build command is python -m nuitka cactus_encrypt.py 
+
+for distribution use --standalone --follow-imports flags as well 
+
+for example: python -m nuitka --standalone cactus_encrypt.py 
