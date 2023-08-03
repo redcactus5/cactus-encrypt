@@ -4,17 +4,19 @@ import time
 
 
 
-
+#list of all suported characters
 CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\","\n","\t","~")
 
-
+#stores the currently loaded key
 loadedKey=None
 
 
 
 
-
-
+'''
+#converts of string of characters into a list of their corisponding number values as 
+defined in the characters tuple (the index of the character is its number)
+'''
 def convertToNum(text:str):
 
     textList=list(text)
@@ -24,6 +26,11 @@ def convertToNum(text:str):
         numList.append(CHARACTERS.index(character))
     return numList
 
+
+'''
+converts a list of number into their corisponding text characters in the CHARACTERS tuple 
+(what character is at that index). returns them all as a concatinated string
+'''
 def convertToText(numlist:list):
 
     text=""
@@ -39,7 +46,7 @@ def convertToText(numlist:list):
 
 
 
-
+#handy newline function. not neccesary just nice to have
 def ln(*number:int):
     if(len(number)<1):
         print("")
@@ -60,12 +67,12 @@ def ln(*number:int):
 
 
 
-
+# the rotor class. used for both the rotors and the initial and final cyphers. the path a value takes through the rotors encrypts it
 class Rotor:
     def __init__(self, wiring:list, pos:int):
         self.pos=pos
         self.wiring=wiring
-    
+    #advance the rotor fowards by 1
     def advance(self):
         self.pos+=1
         if(self.pos>len(self.wiring)-1):
@@ -91,7 +98,7 @@ class Rotor:
 
 
 
-
+#randomly generates a new key with a user provided compelxity value (how many rotors to use)
 def generateKey(rotorCount:int):
     #key structure [rotor keys],[rotor starts],[initial and final static cyphers]
     key=[rotorCount]
@@ -117,7 +124,7 @@ def generateKey(rotorCount:int):
     return key
 
     
-
+#compiles the string argument into a key
 def exportKey(key:list):
     
     keyString=str(key[0])+" | "
@@ -151,10 +158,10 @@ def exportKey(key:list):
          
 
 
-    
+#red was here
 
 
-    
+#loads the encyption key from the string argument
 def loadKey(keyString:str):
     #seperate the keystring into a list at the terminator strings
     keyList=keyString.split(" | ")
@@ -186,7 +193,7 @@ def loadKey(keyString:str):
     return key
     
 
-
+#function that advances a list of rotors given as the argument using mechanical counter logic. critical to the program's functionality. 
 def advanceRotors(rotorList:list):
     rollover=True
     for rotor in rotorList:
@@ -197,7 +204,7 @@ def advanceRotors(rotorList:list):
         
     
 
-
+#encrypts string argument. returns a tuple of success and encrypted string or failure and the problem character
 def encrypt(text:str):
     #check for character compatablility
     for character in text:
@@ -226,6 +233,12 @@ def encrypt(text:str):
         advanceRotors(rotors)
     return (True,convertToText(encryptedNumList))
     
+
+
+#I hate documenting but I want this code to be maintainable so its a neccesary evil
+
+
+#decrypts string argument. returns a tuple of either success and the decrypted string or failure and the problem character
 def decrypt(text):
     #check for character compatability
     for character in text:
@@ -262,7 +275,7 @@ def decrypt(text):
     
 
 
-
+#ui header function to save time
 def uiHeader():
     print("cactus encrypt v1.1 experimental build 1 by redcacus5")
     ln()
@@ -273,7 +286,7 @@ def uiHeader():
     ln(3)
  
     
-
+#CLI user interface
 def userInterface():
     global loadedKey
     running=True
@@ -439,5 +452,5 @@ def userInterface():
 
 
 
-
+#incredibly important function call
 userInterface()
