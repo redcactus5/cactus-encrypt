@@ -378,8 +378,9 @@ def userInterface():
                 uiHeader()
                 print("please enter key:")
                 try:
+                    text=input()
                     start=time.time()
-                    loadedKey=loadKey(input())
+                    loadedKey=loadKey(text)
                     elapsed=time.time()-start
                     print("loading key...")
                     ln(40)
@@ -435,7 +436,12 @@ def userInterface():
                 print("error: encryption key not found! please load or generate a key to continue.")
                 input("press enter to continue")
             else:
-                print("key:{"+exportKey(loadedKey)+"}")
+                start=time.time()
+                compiledKey=exportKey(loadedKey)
+                elapsed=time.time()-start
+                print("key:{"+compiledKey+"}")
+                ln()
+                print("finished in "+str(elapsed)+" second(s)")
                 input("press enter to continue")
                 
                 
