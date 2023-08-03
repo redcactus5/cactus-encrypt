@@ -5,7 +5,7 @@ import time
 
 
 
-CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\","\n","\r","\t")
+CHARACTERS=("q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"," ",";","1","2","3","4","5","6","7","8","9","0","-","=","!","#","$","%","^","&","*","(",")","_","+","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L",":","Z","X","C","B","V","N","M","<",">","?",".",",","[","]","/","\'","\"","\\","\n","\t","~")
 
 
 loadedKey=None
@@ -202,7 +202,7 @@ def encrypt(text:str):
     #check for character compatablility
     for character in text:
         if(not character in CHARACTERS):
-            return (False)
+            return (False,character)
     #initialize variables and the two static cyphers
     rotors=[]
     cyphers=(Rotor(loadedKey[len(loadedKey)-2],0),Rotor(loadedKey[len(loadedKey)-1],0))
@@ -224,13 +224,13 @@ def encrypt(text:str):
         encryptedNumList.append(temp)
         #advance the rotors
         advanceRotors(rotors)
-    return convertToText(encryptedNumList)
+    return (True,convertToText(encryptedNumList))
     
 def decrypt(text):
     #check for character compatability
     for character in text:
         if(not character in CHARACTERS):
-            return (False)
+            return (False,character)
     #initialize variables and the two static cyphers
     rotors=[]
     cyphers=(Rotor(loadedKey[len(loadedKey)-2],0),Rotor(loadedKey[len(loadedKey)-1],0))
@@ -254,7 +254,7 @@ def decrypt(text):
         #advance the rotors by one
         advanceRotors(rotors)
     #convert the decrypted list into a string of plain text and return it
-    return convertToText(decryptedNumList)
+    return (True,convertToText(decryptedNumList))
 
 
 
@@ -310,18 +310,19 @@ def userInterface():
                 encryptedText=encrypt(text)
                 elapsed=time.time()-start
                 ln(40)
-                if(encryptedText==False):
-                    uiHeader()
-                    print("error: unsupported character in text! check text for unsupoorted characters. a complete list of supported characters can be found in the information menu.")
-                    input("press enter to continue")
-                    print("encrypting...")
-                else:
+                if(encryptedText[0]):
                     uiHeader()
                     print("encryption successful")
                     print("finished in "+str(elapsed)+" second(s)")
-                    print("here is your encrypted text:{"+encryptedText+"}")
+                    print("here is your encrypted text:{"+encryptedText[1]+"}")
                     ln()
                     input("press enter to continue")
+                else:
+                    uiHeader()
+                    print("error: unsupported character {"+encryptedText[1]+"} in text! check text for the unsuported character. a complete list of supported characters can be found in the information menu.")
+                    input("press enter to continue")
+                    print("encrypting...")
+
         elif(selection=="2"):
             if(loadedKey==None):
                 ln(40)
@@ -338,16 +339,16 @@ def userInterface():
                 decryptedText=decrypt(text)
                 elapsed=time.time()-start
                 ln(40)
-                if(decryptedText==False):
-                    uiHeader()
-                    print("error: unsupported character in text! check text for unsupoorted characters. a complete list of supported characters can be found in the information menu.")
-                    input("press enter to continue")
-                else:
+                if(decryptedText[0]):
                     uiHeader()
                     print("decryption successful")
                     print("finished in "+str(elapsed)+" second(s)")
-                    print("here is your decrypted text:{"+decryptedText+"}")
+                    print("here is your decrypted text:{"+decryptedText[1]+"}")
                     ln()
+                    input("press enter to continue")
+                else:
+                    uiHeader()
+                    print("error: unsupported character {"+encryptedText[1]+"} in text! check text for the unsuported character. a complete list of supported characters can be found in the information menu.")
                     input("press enter to continue")
         elif(selection=="3"):
             ln(40)
@@ -426,8 +427,7 @@ def userInterface():
         elif(selection=="6"):
             ln(40)
             uiHeader()
-            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very picky about its keys, and they must be entered exactly as they are exported to successfully load. Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]'\"\\}. Please note that curly braces are not supported characters and are only used to denote the start and end of text feilds. pipe characters are only used in keys and are also not supported characters. on the contrary, spaces are supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
-            
+            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very picky about its keys, and they must be entered exactly as they are exported to successfully load. Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]'\"\\~}. Please note that curly braces are not supported characters and are only used to denote the start and end of text feilds. pipe characters are only used in keys and are also not supported characters. on the contrary, spaces are supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
             input("press enter to continue")
             
         else:
