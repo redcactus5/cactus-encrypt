@@ -31,6 +31,7 @@ def convertToNum(text:str):
 converts a list of number into their corisponding text characters in the CHARACTERS tuple 
 (what character is at that index). returns them all as a concatinated string
 '''
+
 def convertToText(numlist:list):
 
     text=""
