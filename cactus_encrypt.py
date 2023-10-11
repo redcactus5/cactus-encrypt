@@ -9,6 +9,7 @@ import crypto_engine
 TO DO:
 1. add getters and setters to crypto engine
 2. replace direct acessess in cactus encrypt with getter and setter calls
+3. scramble default character set
 3. add features in update manifest:
  a. add ability to load and store keys in a txt file
  b. add ability to encrypt and decrpyt text files
@@ -16,6 +17,7 @@ TO DO:
  d. have you you enter the name of the file to use in the above additional options
  e. add curly braces to character set and a note saying that text feilds are encapolated by curly braces
  f. overhaul ui function
+ g. completely rewrite information text
 '''
 
 
@@ -215,7 +217,7 @@ def userInterface():
         elif(selection=="6"):
             ln(40)
             uiHeader()
-            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very strict with its key formatting. keys must be entered exactly the same as they are exported (all the stuff between the curly braces and no extra). Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]'\"\\~|}. Please note that curly braces are not supported characters and are only used to denote the start and end of text feilds. on the contrary, spaces are supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
+            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very strict with its key formatting. keys must be entered exactly the same as they are exported (all the stuff between the curly braces and no extra). Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*{}()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]'\"\\~|@}. Please note that though curly braces are supported characters they are also used to denote the start and end of output text feilds, so be careful when copying. additionally spaces are also supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
             input("press enter to continue")
             
         else:
