@@ -5,8 +5,8 @@ it is very posible to make a gui wrapper for the program, but I probable won't m
 cactus encrypt is compiled using the excellent nuitka compiler. 
 
 v1.5 update:
-this update adds bug fixes, adds two more characters to the default character set, splits the encryption engine and 
-user interface into seperate files adding room for custom  and possibly grpahical user interfaces in the future and 
+this update adds bug fixes, adds two more characters to the default character set, finally reorders the default character set to a sacrambled version, splits the encryption engine and 
+user interface into seperate files adding room for custom and possibly grpahical user interfaces in the future and 
 increasing readability and maintainabilty, adds support for loading and saving keys as text files, encrypting and 
 decrypting text files, and loading character sets from text files. 
 
