@@ -9,7 +9,6 @@ import crypto_engine
 TO DO:
 1. add getters and setters to crypto engine
 2. replace direct acessess in cactus encrypt with getter and setter calls
-3. scramble default character set
 3. add features in update manifest:
  a. add ability to load and store keys in a txt file
  b. add ability to encrypt and decrpyt text files
