@@ -14,10 +14,14 @@ TO DO:
  a. add ability to load and store keys in a txt file
  b. add ability to encrypt and decrpyt text files
  c. add ability to load character sets from text files
- d. have you you enter the name of the file to use in the above additional options
- e. add curly braces to character set and a note saying that text feilds are encapolated by curly braces
+ d. add ability to export character sets to text files
+ e. have you you enter the name of the file to use in the above additional options
  f. overhaul ui function
  g. completely rewrite information text
+ h. add a note saying that text feilds are encapsolated by curly braces
+ i. add ability to scramble the current character set
+ j. add avility to import and export character sets through the terminal
+ k. it is recomended to try and make one set of functions for all the txt file stuff and then link those together with exisitng work
 '''
 
 
