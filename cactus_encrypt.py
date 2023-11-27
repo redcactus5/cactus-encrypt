@@ -50,10 +50,14 @@ def ln(*number:int):
 def uiHeader():
     print("cactus encrypt v1.5 release canidate 1 by redcacus5")
     ln()
-    if(crypto_engine.loadedKey==None):
-        print("no key found!")
+    if(crypto_engine.loadedKey==None or crypto_engine.CHARACTERS==None):
+        print("errors detected! present errors:")
+        if(crypto_engine.loadedKey==None):
+            print("key error: no key in memory! please generate or load a key")
+        if(crypto_engine.CHARACTERS==None):
+            print("char set error: no character set in memory! please load a character set")
     else:
-        print("ready")
+        print("no errors detected. system ready")
     ln(3)
  
 
