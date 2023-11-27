@@ -57,7 +57,7 @@ def uiHeader():
         if(crypto_engine.CHARACTERS==None):
             print("char set error: no character set in memory! please load a character set")
     else:
-        print("no errors detected. system ready")
+        print("no errors detected: system ready")
     ln(3)
  
 
