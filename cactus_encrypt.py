@@ -48,7 +48,7 @@ def ln(*number:int):
 
 #ui header function to save time
 def uiHeader():
-    print("cactus encrypt v1.5 release canidate 1 by redcacus5")
+    print("cactus encrypt v2 debug build 1 by redcacus5")
     ln()
     if(crypto_engine.loadedKey==None or crypto_engine.CHARACTERS==None):
         print("errors detected! present errors:")
