@@ -4,6 +4,34 @@ from random import randint
 
 
 
+
+'''
+guide for adding file support:
+https://www.geeksforgeeks.org/reading-writing-text-files-python/
+
+using File_object.read() should work for loading
+File_object.write(str1) should work for writing
+
+use try catch to detect file not found errors
+
+
+remember to close the file when done
+
+# Opening and Closing a file "MyFile.txt"
+# for object name file1.
+file1 = open("MyFile.txt","a")
+file1.close()
+
+use "w" open mode for writing, and "r" open mode for reading
+
+
+when loading remember to replace all "\n" with " "
+there is a built in function that can do this
+
+'''
+
+
+
 #list of all suported characters
 CHARACTERS=("D", "[", " ", "Z", "2", "}", "J", "K", "y", ".", "O", "z", "{", "V", "w", "~", "L", "3", "E", "X", "f", "=", "g", "q", "(", "C", "7", ",", "p", "^", "F", "l", "!", "<", "m", "/", "e", "o", "H", "W", "9", "?", "\"", "S", "x", "i", "*", "a", "B", "M", "j", "T", "U", "R", "-", ">", "+", "0", "s", ":", "n", "b", "#", "d", "]", "4", "r", ")", "I", "u", "\\", "t", "c", "|", "&", "P", "h", "$", "v", "k", "@", "5", "%", ";", "A", "G", "\'", "N", "6", "1", "Q", "8", "_", "Y")
 #stores the currently loaded key
