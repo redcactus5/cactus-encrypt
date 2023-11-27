@@ -19,7 +19,7 @@ TO DO:
  g. completely rewrite information text
  h. add a note saying that text feilds are encapsolated by curly braces
  i. add ability to scramble the current character set
- j. add avility to import and export character sets through the terminal
+ j. add ability to import and export character sets through the terminal
  k. it is recomended to try and make one set of functions for all the txt file stuff and then link those together with exisitng work
 '''
 
@@ -118,7 +118,7 @@ def userInterface():
             if(crypto_engine.loadedKey==None):
                 ln(40)
                 uiHeader()
-                print("error: encryption key not found! please load the corisponding key to continue.")
+                print("error: encryption key not found! please load the corisponding key to the text to continue.")
                 input("press enter to continue")
             else:
                 ln(40)
