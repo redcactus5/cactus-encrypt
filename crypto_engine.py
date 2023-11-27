@@ -28,6 +28,11 @@ use "w" open mode for writing, and "r" open mode for reading
 when loading remember to replace all "\n" with " "
 there is a built in function that can do this
 
+
+for the character set, rember to special case it so that it ignores extra spaces at the start and end
+
+also, posibly move the defualt character set into a separate file, just like the demo key
+
 '''
 
 
