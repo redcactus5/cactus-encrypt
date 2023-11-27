@@ -1,7 +1,7 @@
 #imports
 import time
 import crypto_engine
-
+from os import system, name
 
 
 
@@ -24,7 +24,15 @@ TO DO:
 '''
 
 
+def clear():
 
+    if name == 'nt':
+
+        system('cls')
+
+    else:
+
+        system('clear')
 
 
 

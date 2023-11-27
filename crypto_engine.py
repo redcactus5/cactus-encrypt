@@ -15,6 +15,8 @@ File_object.write(str1) should work for writing
 use try catch to detect file not found errors
 
 
+remember to add warnings to the prompts
+
 remember to close the file when done
 
 # Opening and Closing a file "MyFile.txt"
