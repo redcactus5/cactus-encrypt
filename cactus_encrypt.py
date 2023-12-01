@@ -21,6 +21,7 @@ TO DO:
  i. add ability to scramble the current character set
  j. add ability to import and export character sets through the terminal
  k. it is recomended to try and make one set of functions for all the txt file stuff and then link those together with exisitng work
+4. figure out how to add an icon to the final exe
 '''
 
 

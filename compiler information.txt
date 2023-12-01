@@ -1,3 +1,7 @@
 compiler is called nuitka
 
 build command is: python -m nuitka --standalone cactus_encrypt.py 
+
+look into adding this switch: --windows-icon-from-ico=cactus_encrypt_icon.ico
+
+to make ico files use:https://www.icoconverter.com/
