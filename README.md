@@ -12,3 +12,6 @@ decrypting text files, and loading character sets from text files.
 
 WARNING!
 cactus encrypt uses a nonstandard character set and will either refuse to work or completely break if an unsupported character is used. a list of supported characters is avalible on the information screen.
+
+
+#todo: rewrite README.md
