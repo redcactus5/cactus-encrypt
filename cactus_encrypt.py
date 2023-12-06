@@ -4,6 +4,12 @@ import crypto_engine
 from os import system, name
 
 
+#TODO: remember to fix the version string for final release
+
+PRGVERSION="V2.0 alpha 1: active development"
+#"V2.0 beta: debug build 1"
+#"V2.0 RC1"
+#"V2.0"
 
 '''
 TO DO:
@@ -20,8 +26,8 @@ TO DO:
  h. add a note saying that text feilds are encapsolated by curly braces
  i. add ability to scramble the current character set
  j. add ability to import and export character sets through the terminal
- k. it is recomended to try and make one set of functions for all the txt file stuff and then link those together with exisitng work
-4. figure out how to add an icon to the final exe
+ k. it is recomended to try and make one set of functions for all the txt file stuff and then link those together with existing work
+ l. make it attempt to load a default character set and key at startup
 '''
 
 
@@ -57,19 +63,38 @@ def ln(*number:int):
 
 #ui header function to save time
 def uiHeader():
-    print("cactus encrypt v2 debug build 1 by redcacus5")
+    global PRGVERSION
+    print("cactus encrypt "+PRGVERSION+" by redcacus5")
     ln()
     if(crypto_engine.loadedKey==None or crypto_engine.CHARACTERS==None):
-        print("errors detected! present errors:")
+        print("system not ready. detected problems:")
         if(crypto_engine.loadedKey==None):
-            print("key error: no key in memory! please generate or load a key")
+            print("warning, no key in memory! please generate or load a key")
         if(crypto_engine.CHARACTERS==None):
-            print("char set error: no character set in memory! please load a character set")
+            print("warning, no character set in memory! please load a character set")
     else:
-        print("no errors detected: system ready")
+        print("no errors detected. system ready")
     ln(3)
  
 
+
+
+
+
+'''
+new options to implement:
+load char set
+scramble char set
+export char set
+encrypt text file
+decrypt text file
+load key from text file
+export key to text file
+
+
+
+you still need to rewrite everything from scratch or at least near scratch.
+'''
 
     
 #who ya gunna call?
