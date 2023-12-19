@@ -1,8 +1,10 @@
 
 from random import randint
+from re import L
 
 
 
+#special thank you to the devs of Nuikita for making this project possible
 
 
 '''
@@ -31,19 +33,31 @@ when loading remember to replace all "\n" with " "
 there is a built in function that can do this
 
 
-for the character set, rember to special case it so that it ignores extra spaces at the start and end
-
-also, posibly move the defualt character set into a separate file, just like the demo key
-
 '''
+
+
+#default key backup: CHARACTERS=("D", "[", " ", "Z", "2", "}", "J", "K", "y", ".", "O", "z", "{", "V", "w", "~", "L", "3", "E", "X", "f", "=", "g", "q", "(", "C", "7", ",", "p", "^", "F", "l", "!", "<", "m", "/", "e", "o", "H", "W", "9", "?", "\"", "S", "x", "i", "*", "a", "B", "M", "j", "`", "T", "U", "R", "-", ">", "+", "0", "s", ":", "n", "b", "#", "d", "]", "4", "r", ")", "I", "u", "\\", "t", "c", "|", "&", "P", "h", "$", "v", "k", "@", "5", "%", ";", "A", "G", "\'", "N", "6", "1", "Q", "8", "_", "Y")
 
 
 
 #list of all suported characters
-CHARACTERS=("D", "[", " ", "Z", "2", "}", "J", "K", "y", ".", "O", "z", "{", "V", "w", "~", "L", "3", "E", "X", "f", "=", "g", "q", "(", "C", "7", ",", "p", "^", "F", "l", "!", "<", "m", "/", "e", "o", "H", "W", "9", "?", "\"", "S", "x", "i", "*", "a", "B", "M", "j", "`", "T", "U", "R", "-", ">", "+", "0", "s", ":", "n", "b", "#", "d", "]", "4", "r", ")", "I", "u", "\\", "t", "c", "|", "&", "P", "h", "$", "v", "k", "@", "5", "%", ";", "A", "G", "\'", "N", "6", "1", "Q", "8", "_", "Y")
+CHARACTERS=None
 #stores the currently loaded key
 loadedKey=None
 
+
+
+def isKeyLoaded():
+    if(loadedKey==None):
+        return False
+    return True
+
+
+
+def isCharSetLoaded():
+    if(CHARACTERS==None):
+        return False
+    return True
 
 
 
@@ -77,13 +91,26 @@ def convertToText(numlist:list):
 
 
 
-
-
+def getCharSet():
+    global CHARACTERS
+    return CHARACTERS
 
 
     
 
+def setCharSet(charSet:tuple):
+    global CHARACTERS
+    CHARACTERS=charSet
 
+
+
+def scrambleCharSet():
+    global CHARACTERS
+    oldSet=list(CHARACTERS)
+    scrambled=[]
+    for i in range(len(oldSet)):
+        scrambled.append(oldSet.pop(randint(0,len(oldSet)-1)))
+    CHARACTERS= tuple(scrambled)
 
 
 # the rotor class. used for both the rotors and the initial and final cyphers. the path a value takes through the rotors encrypts it
@@ -92,20 +119,22 @@ class Rotor:
         self.pos=pos
         self.wiring=wiring
     #advance the rotor fowards by 1
-    def advance(self):
+    def advance(self):#self explanitory logic
         self.pos+=1
         if(self.pos>len(self.wiring)-1):
             self.pos-=len(self.wiring)
             return True
         return False
     
+    #self explanitory name
     def encodeValue(self,number:int):
-        searchNumber=number+self.pos
-        while(searchNumber>len(self.wiring)-1):
+        searchNumber=number+self.pos#calculate number to get
+        while(searchNumber>len(self.wiring)-1):#logic to prevent index errors and enforce rollover
             searchNumber-=len(self.wiring)
-        return self.wiring[searchNumber]
+        return self.wiring[searchNumber]#return final number
     
-    def decodeValue(self, number:int):
+        #self explanitory name
+    def decodeValue(self, number:int):#logic of encode value in reverse
         numIndex=self.wiring.index(number)-self.pos
         while(numIndex<0):
             numIndex+=len(self.wiring)
@@ -142,6 +171,14 @@ def generateKey(rotorCount:int):
         key.append(rotorWiring)
     return key
 
+
+def setKey(key:list):
+    global loadedKey
+    loadedKey = key
+
+def getKey():
+    global loadedKey
+    return loadedKey
     
 #compiles the string argument into a key
 def exportKey(key:list):
@@ -211,6 +248,10 @@ def loadKey(keyString:str):
 
     return key
     
+
+
+
+
 
 #function that advances a list of rotors given as the argument using mechanical counter logic. critical to the program's functionality. 
 def advanceRotors(rotorList:list):

@@ -31,15 +31,7 @@ TO DO:
 '''
 
 
-def clear():
-
-    if name == 'nt':
-
-        system('cls')
-
-    else:
-
-        system('clear')
+    
 
 
 
@@ -58,6 +50,21 @@ def ln(*number:int):
     
     elif(number[0]>=1):
         print("\n"*(number[0]-1))
+
+
+def clear():
+
+    try:
+
+        if name == 'nt':
+
+            system('cls')
+
+        else:
+
+            system('clear')
+    except:
+        ln(50)
     
 
 
@@ -66,11 +73,13 @@ def uiHeader():
     global PRGVERSION
     print("cactus encrypt "+PRGVERSION+" by redcacus5")
     ln()
-    if(crypto_engine.loadedKey==None or crypto_engine.CHARACTERS==None):
+    print("checking system state...")
+    ln()
+    if(not(crypto_engine.isKeyLoaded) or not(crypto_engine.isCharSetLoaded)):
         print("system not ready. detected problems:")
-        if(crypto_engine.loadedKey==None):
+        if(crypto_engine.isKeyLoaded):
             print("warning, no key in memory! please generate or load a key")
-        if(crypto_engine.CHARACTERS==None):
+        if(crypto_engine.isCharSetLoaded):
             print("warning, no character set in memory! please load a character set")
     else:
         print("no errors detected. system ready")
@@ -78,11 +87,74 @@ def uiHeader():
  
 
 
+def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accuracy:int):
+    while True:
+        clear()
+        uiHeader()
+        ln()
+        print(message)
+        ln()
+        for m in optionsMessage:
+            print(m)
+        ln()
+        selection=input()
+        if(len(selection)>=1):
+            if(accuracy>len(selection)):
+                accuracy=len(selection)
+            for i in range(len(options)):
+                if(selection[slice(0,accuracy-1)]==options[i]):
+                    return i
+        clear()
+        uiHeader()
+        print("syntax error: bad input. please enter one of the provided options")
+        ln(2)
+        input("press enter to continue")
+
+
+
+
+            
+
+def booleanQuestionScreen(message:str):
+    choice=multipleChoiceScreen(message,("(y)es","(n)o"),("y","n"),1)
+    if(choice==1):
+        return True
+    return False
+
+
+
+
+
+def CLI_V2():
+    pass
+
+
+
+def startup():
+    try:
+        characterSetFile = open("default_charset.txt","r")
+        charSet=characterSetFile.read()
+        charSet.replace("\n","").replace("\t"," ").replace("\r"," ").replace("\f"," ")
+        charSet=list(charSet)
+        crypto_engine.setCharSet(tuple(charSet))
+
+    except:
+        pass
+
+    try:
+        keyFile = open("default_key.txt","r")
+        key=keyFile.read()
+        key.replace("\n","").replace("\t"," ").replace("\r"," ").replace("\f"," ")
+        crypto_engine.setKey(crypto_engine.loadKey(key))
+    except:
+        pass
+
+    CLI_V2()
 
 
 
 '''
-new options to implement:
+options to implement (as functions this time):
 load char set
 scramble char set
 export char set
@@ -90,8 +162,14 @@ encrypt text file
 decrypt text file
 load key from text file
 export key to text file
+encrypt text input
+decrypt text input
+load a key via text input
+export key to terminal
+generate new key
+exit
 
-
+help is being farmed out to the readme file
 
 you still need to rewrite everything from scratch or at least near scratch.
 '''
@@ -99,6 +177,7 @@ you still need to rewrite everything from scratch or at least near scratch.
     
 #who ya gunna call?
 
+#this is being depricated and will be removed on the production version if i remember 
 #CLI user interface
 def userInterface():
     running=True
@@ -188,7 +267,7 @@ def userInterface():
                 try:
                     text=input()
                     start=time.time()
-                    crypto_engine.loadedKey=crypto_engine.loadKey(text)
+                    crypto_engine.setKey(crypto_engine.loadKey(text))
                     elapsed=time.time()-start
                     print("loading key...")
                     ln(40)
@@ -220,7 +299,7 @@ def userInterface():
                 try:
                     complexity=int(complexity)
                     start=time.time()
-                    crypto_engine.loadedKey=crypto_engine.generateKey(complexity)
+                    crypto_engine.setKey(crypto_engine.generateKey(complexity))
                     elapsed=time.time()-start
                     ln(40)
                     uiHeader()
@@ -271,4 +350,5 @@ def userInterface():
 
 
 #incredibly important function call
-userInterface()
+#userInterface()
+            
