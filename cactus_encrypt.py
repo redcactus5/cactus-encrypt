@@ -120,9 +120,79 @@ def booleanQuestionScreen(message:str):
     return False
 
 
+'''
+options to implement (as functions this time):
+load char set from text file
+load char set from terminal
+scramble char set
+export char set to text file
+export char set to terminal
+encrypt text file
+decrypt text file
+load key from text file
+export key to text file
+encrypt text input
+decrypt text input
+load a key via text input
+export key to terminal
+generate new key
+print readme.txt
+exit
+
+help is being farmed out to the readme file
+
+you still need to rewrite everything from scratch or at least near scratch.
+'''
+
+#remember to check for presence of thne things you need
+
+def loadCharSet():
+    pass
+
+def loadCharSetFromTXT():
+    pass
+
+def scrambleCharSet():
+    pass
+
+def exportCharSetToTXT():
+    pass
+
+def exportCharSet():
+    pass
+
+def ecryptTXT():
+    pass
+
+def decryptTXT():
+    pass
+
+def loadKeyFromTXT():
+    pass
+
+def exportKeyToTXT():
+    pass
+
+def encryptTerminalInput():
+    pass
+
+def decryptTerminalInput():
+    pass
+
+def loadKeyFromTerminal():
+    pass
+
+def exportKeyToTerminal():
+    pass
+
+def generateKey():
+    pass
+
+def helpScreen():
+    pass #just print readme.txt
 
 
-
+#todo:
 def CLI_V2():
     pass
 
@@ -151,26 +221,6 @@ def startup():
 
 
 
-'''
-options to implement (as functions this time):
-load char set
-scramble char set
-export char set
-encrypt text file
-decrypt text file
-load key from text file
-export key to text file
-encrypt text input
-decrypt text input
-load a key via text input
-export key to terminal
-generate new key
-exit
-
-help is being farmed out to the readme file
-
-you still need to rewrite everything from scratch or at least near scratch.
-'''
 
     
 #who ya gunna call?
