@@ -19,6 +19,7 @@ HELP=None
 
 '''
 TO DO:
+1.write readme/help file
 3. add features in update manifest:
  a. add ability to load and store keys in a txt file
  b. add ability to encrypt and decrpyt text files
