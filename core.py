@@ -1,63 +1,11 @@
-
 from random import randint
-from re import L
 
 
 
 #special thank you to the devs of Nuikita for making this project possible
 
 
-'''
-guide for adding file support:
-https://www.geeksforgeeks.org/reading-writing-text-files-python/
 
-using File_object.read() should work for loading
-File_object.write(str1) should work for writing
-
-use try catch to detect file not found errors
-
-
-remember to add warnings to the prompts
-
-remember to close the file when done
-
-# Opening and Closing a file "MyFile.txt"
-# for object name file1.
-file1 = open("MyFile.txt","a")
-file1.close()
-
-use "w" open mode for writing, and "r" open mode for reading
-
-
-when loading remember to replace all "\n" with " "
-there is a built in function that can do this
-
-
-'''
-
-
-#default key backup: CHARACTERS=("D", "[", " ", "Z", "2", "}", "J", "K", "y", ".", "O", "z", "{", "V", "w", "~", "L", "3", "E", "X", "f", "=", "g", "q", "(", "C", "7", ",", "p", "^", "F", "l", "!", "<", "m", "/", "e", "o", "H", "W", "9", "?", "\"", "S", "x", "i", "*", "a", "B", "M", "j", "`", "T", "U", "R", "-", ">", "+", "0", "s", ":", "n", "b", "#", "d", "]", "4", "r", ")", "I", "u", "\\", "t", "c", "|", "&", "P", "h", "$", "v", "k", "@", "5", "%", ";", "A", "G", "\'", "N", "6", "1", "Q", "8", "_", "Y")
-
-
-
-#list of all suported characters
-CHARACTERS=None
-#stores the currently loaded key
-loadedKey=None
-
-
-
-def isKeyLoaded():
-    if(loadedKey==None):
-        return False
-    return True
-
-
-
-def isCharSetLoaded():
-    if(CHARACTERS==None):
-        return False
-    return True
 
 
 
@@ -65,52 +13,33 @@ def isCharSetLoaded():
 #converts of string of characters into a list of their corisponding number values as 
 defined in the characters tuple (the index of the character is its number)
 '''
-def convertToNum(text:str):
+def convertToNum(text:str, characterSet:tuple):
 
     textList=list(text)
 
     numList=[]
     for character in textList:
-        numList.append(CHARACTERS.index(character))
+        numList.append(characterSet.index(character))
     return numList
 
 
 '''
-converts a list of number into their corisponding text characters in the CHARACTERS tuple 
+converts a list of number into their corisponding text characters in the characterSet tuple 
 (what character is at that index). returns them all as a concatinated string
 '''
-def convertToText(numlist:list):
+def convertToText(numlist:list, characterSet:tuple):
 
     text=""
     
     for num in numlist:
-        text+=CHARACTERS[num]
+        text+=characterSet[num]
     return text
 
 
 
 
 
-def getCharSet():
-    global CHARACTERS
-    return CHARACTERS
 
-
-    
-
-def setCharSet(charSet:tuple):
-    global CHARACTERS
-    CHARACTERS=charSet
-
-
-
-def scrambleCharSet():
-    global CHARACTERS
-    oldSet=list(CHARACTERS)
-    scrambled=[]
-    for i in range(len(oldSet)):
-        scrambled.append(oldSet.pop(randint(0,len(oldSet)-1)))
-    CHARACTERS= tuple(scrambled)
 
 
 # the rotor class. used for both the rotors and the initial and final cyphers. the path a value takes through the rotors encrypts it
@@ -147,24 +76,24 @@ class Rotor:
 
 
 #randomly generates a new key with a user provided compelxity value (how many rotors to use)
-def generateKey(rotorCount:int):
+def generateKey(rotorCount:int, characterSet:tuple):
     #key structure [rotor keys],[rotor starts],[initial and final static cyphers]
     key=[rotorCount]
     for rotor in range(rotorCount):
         #generate the wiring for one rotor
-        catalog=list(range(0, len(CHARACTERS)))
+        catalog=list(range(0, len(characterSet)))
         rotorWiring=[]
         for character in range(len(catalog)):
             rotorWiring.append(catalog.pop(randint(0,len(catalog)-1)))
         key.append(rotorWiring)
     #gnerate the start positions of the rotors
     for i in range(rotorCount):
-        key.append(randint(0,len(CHARACTERS)))
+        key.append(randint(0,len(characterSet)))
     
     #generate the wiring for the initial and final static cyphers
     for cypher in range(2):
         
-        catalog=list(range(0, len(CHARACTERS)))
+        catalog=list(range(0, len(characterSet)))
         rotorWiring=[]
         for character in range(len(catalog)):
             rotorWiring.append(catalog.pop(randint(0,len(catalog)-1)))
@@ -172,13 +101,7 @@ def generateKey(rotorCount:int):
     return key
 
 
-def setKey(key:list):
-    global loadedKey
-    loadedKey = key
 
-def getKey():
-    global loadedKey
-    return loadedKey
     
 #compiles the string argument into a key
 def exportKey(key:list):
@@ -265,19 +188,19 @@ def advanceRotors(rotorList:list):
     
 
 #encrypts string argument. returns a tuple of success and encrypted string or failure and the problem character
-def encrypt(text:str):
+def encrypt(text:str, characterSet:tuple, encryptionKey:list):
     #check for character compatablility
     for character in text:
-        if(not character in CHARACTERS):
+        if(not character in characterSet):
             return (False,character)
     #initialize variables and the two static cyphers
     rotors=[]
-    cyphers=(Rotor(loadedKey[len(loadedKey)-2],0),Rotor(loadedKey[len(loadedKey)-1],0))
+    cyphers=(Rotor(encryptionKey[len(encryptionKey)-2],0),Rotor(encryptionKey[len(encryptionKey)-1],0))
     toBeEncrypted=convertToNum(text)
     encryptedNumList=[]
     #generate number of rotor objects specified in the key from the wiring provided in the key
-    for i in range(loadedKey[0]):
-        rotors.append(Rotor(loadedKey[i+1],loadedKey[loadedKey[0]+i+1]))
+    for i in range(encryptionKey[0]):
+        rotors.append(Rotor(encryptionKey[i+1],encryptionKey[encryptionKey[0]+i+1]))
     #do the actual encryption
     for character in toBeEncrypted:
         #put text through initial cypher
@@ -299,19 +222,19 @@ def encrypt(text:str):
 
 
 #decrypts string argument. returns a tuple of either success and the decrypted string or failure and the problem character
-def decrypt(text):
+def decrypt(text, characterSet:tuple, encryptionKey:list):
     #check for character compatability
     for character in text:
-        if(not character in CHARACTERS):
+        if(not character in characterSet):
             return (False,character)
     #initialize variables and the two static cyphers
     rotors=[]
-    cyphers=(Rotor(loadedKey[len(loadedKey)-2],0),Rotor(loadedKey[len(loadedKey)-1],0))
+    cyphers=(Rotor(encryptionKey[len(encryptionKey)-2],0),Rotor(encryptionKey[len(encryptionKey)-1],0))
     toBeDecrypted=convertToNum(text)
     decryptedNumList=[]
     #generate number of rotor objects specified in the key from the wiring provided in the key
-    for i in range(loadedKey[0]):
-        rotors.append(Rotor(loadedKey[i+1],loadedKey[loadedKey[0]+i+1]))
+    for i in range(encryptionKey[0]):
+        rotors.append(Rotor(encryptionKey[i+1],encryptionKey[encryptionKey[0]+i+1]))
     
     #do the actual decryption
     for character in toBeDecrypted:
