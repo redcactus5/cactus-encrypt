@@ -1,7 +1,9 @@
 #imports
 import time
-import crypto_engine
+import core_engine
 from os import system, name
+
+
 
 
 #TODO: remember to fix the version string for final release
@@ -10,6 +12,10 @@ PRGVERSION="V2.0 alpha 1: active development"
 #"V2.0 beta: debug build 1"
 #"V2.0 RC1"
 #"V2.0"
+
+HELP=None
+
+
 
 '''
 TO DO:
@@ -33,7 +39,7 @@ TO DO:
 
 
 
-#handy newline function. not neccesary just nice to have
+#handy newline function. not necessary just nice to have
 def ln(*number:int):
     if(len(number)<1):
         print("")
@@ -67,43 +73,46 @@ def clear():
 
 
 #ui header function to save time
-def uiHeader():
+def uiHeader(mode:str):
     global PRGVERSION
+    global HELP
     print("cactus encrypt "+PRGVERSION+" by redcacus5")
+    print(mode)
     ln()
-    print("checking system state...")
-    ln()
-    if(not(crypto_engine.isKeyLoaded) or not(crypto_engine.isCharSetLoaded)):
+    print("system check results:")
+    if(not(core_engine.isKeyLoaded) or not(core_engine.isCharSetLoaded) or (HELP==None)):
         print("system not ready. detected problems:")
-        if(crypto_engine.isKeyLoaded):
+        if(core_engine.isKeyLoaded):
             print("warning, no key in memory! please generate or load a key")
-        if(crypto_engine.isCharSetLoaded):
+        if(core_engine.isCharSetLoaded):
             print("warning, no character set in memory! please load a character set")
+        if(HELP==None):
+            print("warning, readme file could not be loaded! the program can still run in \nthis state, but the help function will be disabled")
     else:
         print("no errors detected. system ready")
     ln(3)
  
 
 
-def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accuracy:int):
+def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accuracy:int, headerMode:str):
     while True:
         clear()
-        uiHeader()
+        uiHeader(headerMode)
         ln()
         print(message)
         ln()
         for m in optionsMessage:
             print(m)
         ln()
-        selection=input()
+        selection=input("please enter selection:")
         if(len(selection)>=1):
             if(accuracy>len(selection)):
                 accuracy=len(selection)
             for i in range(len(options)):
-                if(selection[slice(0,accuracy-1)]==options[i]):
+                if(selection[:accuracy]==options[i]):
                     return i
         clear()
-        uiHeader()
+        uiHeader(headerMode)
         print("syntax error: bad input. please enter one of the provided options")
         ln(2)
         input("press enter to continue")
@@ -113,11 +122,52 @@ def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accur
 
             
 
-def booleanQuestionScreen(message:str):
-    choice=multipleChoiceScreen(message,("(y)es","(n)o"),("y","n"),1)
-    if(choice==1):
+def booleanQuestionScreen(message:str,headerMode:str):
+    choice=multipleChoiceScreen(message,("(y)es","(n)o"),("y","n"),1,headerMode)
+    if(choice==0):
         return True
     return False
+
+
+def sanitizeInput(text:str):
+    return text.replace("\n","").replace("\r","").replace("\t","").replace("\f","")
+
+
+def getTextFromFile(fileName:str):
+    file=None
+    text=""
+    try:
+        file=open(fileName,"r")
+    except:
+        return (True,"io error: file could not be opened. please check that file is present, accessible, and the name is correct")
+    try:
+        text=file.read()
+    except:
+        return (True,"io error: file could not be read. please check the file for errors")
+    try:
+        file.close()
+    except:
+        return (True,"io error: file could not be closed. please check file for errors")
+    return (False,text)
+
+
+def writeTextToFile(fileName:str,text:str):
+    file=None
+    try:
+        file=open(fileName,"w")
+    except:
+        return (True,"io error: file could not be opened/created. please check that file is present, accessible, and the name is correct, or that the destination is writeable")
+    try:
+        file.write(text)
+    except:
+        return (True, "io error: file could not be written to. please check that the file is not write protected")
+    try:
+        file.close()
+    except:
+        return (True,"io error: file could not be closed. please check file for errors")
+    return (False,"successful")
+    
+    
 
 
 '''
@@ -144,19 +194,226 @@ help is being farmed out to the readme file
 you still need to rewrite everything from scratch or at least near scratch.
 '''
 
-#remember to check for presence of thne things you need
+#remember to check for presence of the things you need
 
 def loadCharSet():
-    pass
+    menuName="load character set from terminal"
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nthis will overwrite any character set currently in memory.",menuName)):
+        clear()
+        uiHeader(menuName)
+        print("please enter the new character set now")
+        ln()
+
+        newSet=sanitizeInput(input())
+
+        clear()
+        uiHeader(menuName)
+        print("proccessing input...")
+
+        success=True
+        start=time.time()
+
+        try:
+            charSet=list(newSet)
+            core_engine.setCharSet(tuple(charSet))
+        except:
+            success=False
+
+        elapsed=time.time()-start
+        if(success):
+            clear()
+            uiHeader(menuName)
+            print("character set successfully loaded!")
+            print("finished in "+str(elapsed)+" second(s)")
+            ln()
+            print("now returning to the main menu")
+            ln(2)
+            input("press enter to continue")
+        else:
+            clear()
+            uiHeader(menuName)
+            print("load failed!")
+            print("please check your inputs for errors and try again")
+            ln()
+            print("now returning to the main menu")
+            ln(2)
+            input("press enter to continue")
+
+  
 
 def loadCharSetFromTXT():
-    pass
+
+    menuName="load character set from file"
+
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nthis will overwrite any character set currently in memory.",menuName)):
+        
+        clear()
+        uiHeader(menuName)
+        print("please enter the name of the txt file containing the new character set")
+
+        fileName=input("file:")
+
+        clear()
+        uiHeader(menuName)
+        print("loading...")
+        start=time.time()
+        fileData=getTextFromFile(fileName)
+        elapsed=time.time()-start
+
+        if(fileData[0]):
+            clear()
+            uiHeader(menuName)
+            print("load failed!")
+            print(fileData[1])
+            ln()
+            print("now returning to the main menu")
+            ln(2)
+            input("press enter to continue")
+
+        else:
+            success=True
+            start=time.time()
+
+            try:
+                charSet=list(fileData[1])
+                core_engine.setCharSet(tuple(charSet))
+            except:
+                success=False
+
+            elapsed=elapsed+(time.time()-start)
+
+            if(success):
+                clear()
+                uiHeader(menuName)
+                print("character set successfully loaded!")
+                print("finished in "+str(elapsed)+" second(s)")
+                ln()
+                print("now returning to the main menu")
+                ln(2)
+                input("press enter to continue")
+            else:
+                clear()
+                uiHeader(menuName)
+                print("load failed!")
+                print("please check the file's data for errors and try again")
+                ln()
+                print("now returning to the main menu")
+                ln(2)
+                input("press enter to continue")
+
+
 
 def scrambleCharSet():
-    pass
+    menuName="scramble character set"
+    if(core_engine.isCharSetLoaded):
+        if(booleanQuestionScreen("are you sure you want to scramble the character set? \nthis will break compatibility with text bound to the current character set.\n(this can be fixed by reloading the current character set again)",menuName)):
+            
+            clear()
+            uiHeader(menuName)
+            print("now scrambling...")
+            start=time.time()
+            core_engine.scrambleCharSet()
+            elapsed=time.time()-start
+
+            clear()
+            uiHeader(menuName)
+            print("scramble successful!")
+            ln()
+            print("now returning to the main menu")
+            ln(2)
+            input("press enter to continue")
+
+    else:
+        clear()
+        uiHeader(menuName)
+        print("uh-oh! no character set in memory!")
+        print("please load a character set then try again!")
+        ln()
+        print("now returning to the main menu")
+        ln(2)
+        input("press enter to continue")
+
+
 
 def exportCharSetToTXT():
-    pass
+    
+    menuName="export character set to file"
+
+    if(core_engine.isCharSetLoaded):
+    
+        if(booleanQuestionScreen("are you sure you want to export the current character set to a file? \n any data in the file will be overwritten.",menuName)):
+            clear()
+            uiHeader(menuName)
+            print("please enter the name of the file to export the character set to.")
+            print("any exisiting data in the file will be overwritten. if the file does not exist, it will be created.")
+            ln()
+            fileName=input("file:")
+
+            clear()
+            uiHeader(menuName)
+            print("proccessing...")
+            success=True
+            start=time.time()
+            charset=""
+            try:
+                charset=charset.join(core_engine.getCharSet())
+            except:
+                success=False
+            elapsed=time.time()-start
+            if(success):
+                print("done!")
+                print("writing...")
+                start=time.time()
+                isError=writeTextToFile(fileName,charset)
+                elapsed+=time.time()-start
+
+                if(isError[0]):
+                    clear()
+                    uiHeader(menuName)
+                    print("export failed!")
+                    print(isError[1])
+                    ln()
+                    print("now returning to the main menu")
+                    ln(2)
+                    input("press enter to continue")
+
+                else:
+                    print("done!")
+                    clear()
+                    uiHeader(menuName)
+                    print("export sucessful!")
+                    print("finished in "+str(elapsed)+" second(s)")
+                    ln()
+                    print("now returning to the main menu")
+                    ln(2)
+                    input("press enter to continue")
+
+
+            
+            else:
+                clear()
+                uiHeader(menuName)
+                print("export failed!")
+                print("critical error: character set could not be processed! \nplease reload character set and try again")
+                ln()
+                print("now returning to the main menu")
+                ln(2)
+                input("press enter to continue")
+                
+
+            
+
+
+    else:
+        clear()
+        uiHeader(menuName)
+        print("uh-oh! no character set in memory!")
+        print("please load a character set then try again!")
+        ln()
+        print("now returning to the main menu")
+        ln(2)
+        input("press enter to continue")
+       
 
 def exportCharSet():
     pass
@@ -192,7 +449,7 @@ def helpScreen():
     pass #just print readme.txt
 
 
-#todo:
+#TODO:
 def CLI_V2():
     pass
 
@@ -202,9 +459,10 @@ def startup():
     try:
         characterSetFile = open("default_charset.txt","r")
         charSet=characterSetFile.read()
+        characterSetFile.close()
         charSet.replace("\n","").replace("\t"," ").replace("\r"," ").replace("\f"," ")
         charSet=list(charSet)
-        crypto_engine.setCharSet(tuple(charSet))
+        core_engine.setCharSet(tuple(charSet))
 
     except:
         pass
@@ -212,8 +470,18 @@ def startup():
     try:
         keyFile = open("default_key.txt","r")
         key=keyFile.read()
+        keyFile.close()
         key.replace("\n","").replace("\t"," ").replace("\r"," ").replace("\f"," ")
-        crypto_engine.setKey(crypto_engine.loadKey(key))
+        core_engine.setKey(core_engine.loadKey(key))
+    except:
+        pass
+
+
+    try:
+        helpFile = open("readme.txt","r")
+        global HELP
+        HELP=helpFile.read()
+        helpFile.close()
     except:
         pass
 
@@ -247,7 +515,7 @@ def userInterface():
             running=False
             break
         elif(selection=="1"):
-            if(crypto_engine.loadedKey==None):
+            if(core_engine.loadedKey==None):
                 ln(40)
                 uiHeader()
                 print("error: encryption key not found! please load or generate a key to continue.")
@@ -259,7 +527,7 @@ def userInterface():
                 text=input()
                 print("encrypting...")
                 start=time.time()
-                encryptedText=crypto_engine.encrypt(text)
+                encryptedText=core_engine.encrypt(text)
                 elapsed=time.time()-start
                 ln(40)
                 if(encryptedText[0]):
@@ -276,7 +544,7 @@ def userInterface():
                     print("encrypting...")
 
         elif(selection=="2"):
-            if(crypto_engine.loadedKey==None):
+            if(core_engine.loadedKey==None):
                 ln(40)
                 uiHeader()
                 print("error: encryption key not found! please load the corisponding key to the text to continue.")
@@ -288,7 +556,7 @@ def userInterface():
                 text=input()
                 print("decrypting...")
                 start=time.time()
-                decryptedText=crypto_engine.decrypt(text)
+                decryptedText=core_engine.decrypt(text)
                 elapsed=time.time()-start
                 ln(40)
                 if(decryptedText[0]):
@@ -315,7 +583,7 @@ def userInterface():
                 try:
                     text=input()
                     start=time.time()
-                    crypto_engine.setKey(crypto_engine.loadKey(text))
+                    core_engine.setKey(core_engine.loadKey(text))
                     elapsed=time.time()-start
                     print("loading key...")
                     ln(40)
@@ -347,7 +615,7 @@ def userInterface():
                 try:
                     complexity=int(complexity)
                     start=time.time()
-                    crypto_engine.setKey(crypto_engine.generateKey(complexity))
+                    core_engine.setKey(core_engine.generateKey(complexity))
                     elapsed=time.time()-start
                     ln(40)
                     uiHeader()
@@ -366,13 +634,13 @@ def userInterface():
         elif(selection=="5"):
             ln(40)
             uiHeader()
-            if(crypto_engine.loadedKey==None):
+            if(core_engine.loadedKey==None):
                 
                 print("error: encryption key not found! please load or generate a key to continue.")
                 input("press enter to continue")
             else:
                 start=time.time()
-                compiledKey=crypto_engine.exportKey(crypto_engine.loadedKey)
+                compiledKey=core_engine.exportKey(core_engine.loadedKey)
                 elapsed=time.time()-start
                 print("key:{"+compiledKey+"}")
                 ln()
