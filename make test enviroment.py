@@ -28,16 +28,17 @@ def copy_files_from_subdirectories(src_subdirectory1, src_subdirectory2, dest_su
             src_path = os.path.join(src_subdirectory2, filename)
             dest_path = os.path.join(dest_subdirectory, filename)
             shutil.copy(src_path, dest_path)
-
+        print("test enviroment successfully created")
         print(f"Files copied successfully from '{src_subdirectory1}' and '{src_subdirectory2}' to '{dest_subdirectory}'.")
+        input("press enter to finish")
     except Exception as e:
         print(f"Error: {e}")
 
 # Example usage:
 # Specify the source subdirectories and the destination subdirectory
-source_subdirectory1 = "path/to/source/subdirectory1"
-source_subdirectory2 = "path/to/source/subdirectory2"
-destination_subdirectory = "path/to/destination/subdirectory"
+source_subdirectory1 = "source_code"
+source_subdirectory2 = "txt_dependancies"
+destination_subdirectory = "test_build"
 
 # Call the function
 copy_files_from_subdirectories(source_subdirectory1, source_subdirectory2, destination_subdirectory)
