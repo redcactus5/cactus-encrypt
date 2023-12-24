@@ -140,7 +140,7 @@ def exportKey(key:list):
 #red was here
 
 
-#loads the encyption key from the string argument
+#loads the encyption key from the string argument and returns the key
 def loadKey(keyString:str):
     #seperate the keystring into a list at the terminator strings
     keyList=keyString.split(" | ")

@@ -166,8 +166,7 @@ you still need to rewrite everything from scratch or at least near scratch.
 
 #remember to check for presence of the things you need
 
-
-#TODO: refactor this function for new archetecture
+#this function is completed
 def loadCharSet():
     menuName="load character set from terminal"
     if(booleanQuestionScreen("are you sure you want to load a new character set? \nthis will overwrite any character set currently in memory.",menuName)):
@@ -182,19 +181,17 @@ def loadCharSet():
         uiHeader(menuName)
         print("proccessing input...")
 
-        success=True
+
         start=time.time()
 
-        try:
-            charSet=list(newSet)
-            engine.setCharSet(tuple(charSet))
-        except:
-            success=False
+        success=engine.loadCharSet(newSet)
 
         elapsed=time.time()-start
-        if(success):
-            clear()
-            uiHeader(menuName)
+
+        clear()
+        uiHeader(menuName)
+
+        if(success[0]):
             print("character set successfully loaded!")
             print("finished in "+str(elapsed)+" second(s)")
             ln()
@@ -202,17 +199,16 @@ def loadCharSet():
             ln(2)
             input("press enter to continue")
         else:
-            clear()
-            uiHeader(menuName)
             print("load failed!")
-            print("please check your inputs for errors and try again")
+            print(success[1])
             ln()
             print("now returning to the main menu")
             ln(2)
             input("press enter to continue")
 
   
-#TODO: refactor this function for new archetecture
+
+#this function is completed
 def loadCharSetFromTXT():
 
     menuName="load character set from file"
@@ -229,49 +225,31 @@ def loadCharSetFromTXT():
         uiHeader(menuName)
         print("loading...")
         start=time.time()
-        fileData=engine.getTextFromFile(fileName)
+        successful=engine.loadCharSetFromTXT(fileName)
         elapsed=time.time()-start
 
-        if(fileData[0]):
-            clear()
-            uiHeader(menuName)
-            print("load failed!")
-            print(fileData[1])
+        clear()
+        uiHeader(menuName)
+
+            
+
+        if(successful[0]):
+
+            print("character set successfully loaded!")
+            print("finished in "+str(elapsed)+" second(s)")
             ln()
             print("now returning to the main menu")
             ln(2)
             input("press enter to continue")
-
         else:
-            success=True
-            start=time.time()
-
-            try:
-                charSet=list(fileData[1])
-                engine.setCharSet(tuple(charSet))
-            except:
-                success=False
-
-            elapsed=elapsed+(time.time()-start)
-
-            if(success):
-                clear()
-                uiHeader(menuName)
-                print("character set successfully loaded!")
-                print("finished in "+str(elapsed)+" second(s)")
-                ln()
-                print("now returning to the main menu")
-                ln(2)
-                input("press enter to continue")
-            else:
-                clear()
-                uiHeader(menuName)
-                print("load failed!")
-                print("please check the file's data for errors and try again")
-                ln()
-                print("now returning to the main menu")
-                ln(2)
-                input("press enter to continue")
+            clear()
+            uiHeader(menuName)
+            print("load failed!")
+            print(successful[1])
+            ln()
+            print("now returning to the main menu")
+            ln(2)
+            input("press enter to continue")
 
 
 #TODO: refactor this function for new archetecture
@@ -283,17 +261,30 @@ def scrambleCharSet():
             clear()
             uiHeader(menuName)
             print("now scrambling...")
+
             start=time.time()
-            engine.scrambleCharSet()
+            successful=engine.scrambleCharSet()
             elapsed=time.time()-start
 
             clear()
             uiHeader(menuName)
-            print("scramble successful!")
-            ln()
-            print("now returning to the main menu")
-            ln(2)
-            input("press enter to continue")
+
+            if(successful[0]):
+                print("scramble successful!")
+                print("finished in "+str(elapsed)+" second(s)")
+                ln()
+                print("now returning to the main menu")
+                ln(2)
+                input("press enter to continue")
+            else:
+                print("scramble failed!")
+                print(successful[1]) 
+                print("please reload character set and try again")
+                ln()
+                print("now returning to the main menu")
+                ln(2)
+                input("press enter to continue")
+
 
     else:
         clear()
@@ -324,53 +315,11 @@ def exportCharSetToTXT():
             clear()
             uiHeader(menuName)
             print("proccessing...")
-            success=True
             start=time.time()
-            charset=""
-            try:
-                charset=charset.join(engine.getCharSet())
-            except:
-                success=False
-            elapsed=time.time()-start
-            if(success):
-                print("done!")
-                print("writing...")
-                start=time.time()
-                isError=engine.writeTextToFile(fileName,charset)
-                elapsed+=time.time()-start
+            success=engine.export
 
-                if(isError[0]):
-                    clear()
-                    uiHeader(menuName)
-                    print("export failed!")
-                    print(isError[1])
-                    ln()
-                    print("now returning to the main menu")
-                    ln(2)
-                    input("press enter to continue")
-
-                else:
-                    print("done!")
-                    clear()
-                    uiHeader(menuName)
-                    print("export sucessful!")
-                    print("finished in "+str(elapsed)+" second(s)")
-                    ln()
-                    print("now returning to the main menu")
-                    ln(2)
-                    input("press enter to continue")
-
-
+            #TODO: put logic and error handleing here
             
-            else:
-                clear()
-                uiHeader(menuName)
-                print("export failed!")
-                print("critical error: character set could not be processed! \nplease reload character set and try again")
-                ln()
-                print("now returning to the main menu")
-                ln(2)
-                input("press enter to continue")
                 
 
             
@@ -429,28 +378,13 @@ def CLI_V2():
 
 def start():
 
-    #needs to be rewritten 
+    #needs to be rewritten
+
+    
     '''
-    try:
-        characterSetFile = open("default_charset.txt","r")
-        charSet=characterSetFile.read()
-        characterSetFile.close()
-        charSet.replace("\n","").replace("\t"," ").replace("\r"," ").replace("\f"," ")
-        charSet=list(charSet)
-        engine.setCharSet(tuple(charSet))
 
-    except:
-        pass
-
-    try:
-        keyFile = open("default_key.txt","r")
-        key=keyFile.read()
-        keyFile.close()
-        key.replace("\n","").replace("\t"," ").replace("\r"," ").replace("\f"," ")
-        engine.setKey(engine.loadKey(key))
-    except:
-        pass
-
+    engine.loadCharSetFromTXT("default_charset.txt")
+    engine.loadKeyFromTXT("default_key.txt")
 
     try:
         helpFile = open("readme.txt","r")

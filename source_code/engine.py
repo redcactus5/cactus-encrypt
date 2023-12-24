@@ -1,3 +1,4 @@
+
 import core
 from random import randint
 
@@ -44,15 +45,8 @@ characterSet=None
 #stores the currently loaded key
 loadedKey=None
 
+#utility functions
 
-
-def scrambleCharSet():
-    global characterSet
-    oldSet=list(characterSet)
-    scrambled=[]
-    for i in range(len(oldSet)):
-        scrambled.append(oldSet.pop(randint(0,len(oldSet)-1)))
-    characterSet= tuple(scrambled)
 
 
 
@@ -104,16 +98,16 @@ def getTextFromFile(fileName:str):
     try:
         file=open(fileName,"r")
     except:
-        return (True,"io error: file could not be opened. please check that file is present, accessible, and the name is correct")
+        return (False,"io error: file could not be opened. please check that file is present, accessible, and the name is correct")
     try:
         text=file.read()
     except:
-        return (True,"io error: file could not be read. please check the file for errors")
+        return (False,"io error: file could not be read. please check the file for errors")
     try:
         file.close()
     except:
-        return (True,"io error: file could not be closed. please check file for errors")
-    return (False,text)
+        return (False,"io error: file could not be closed. please check file for errors")
+    return (True,text)
 
 
 
@@ -126,26 +120,27 @@ def writeTextToFile(fileName:str,text:str):
     try:
         file=open(fileName,"w")
     except:
-        return (True,"io error: file could not be opened/created. please check that file is present, accessible, and the name is correct, or that the destination is writeable")
+        return (False,"io error: file could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessable")
     try:
         file.write(text)
     except:
-        return (True, "io error: file could not be written to. please check that the file is not write protected")
+        return (False, "io error: file could not be written to. please check that the file is not write protected")
     try:
         file.close()
     except:
-        return (True,"io error: file could not be closed. please check file for errors")
-    return (False,"successful")
+        return (False,"io error: file could not be closed. please check file for errors")
+    return (True,"successful")
 
 
 
 
-
+#key and charset management functions
 
 
 def generateKey(rotorCount:int):
     global characterSet
-    core.generateKey(rotorCount, characterSet)
+    global loadedKey
+    loadedKey = core.generateKey(rotorCount, characterSet)
 
 
 
@@ -154,17 +149,82 @@ def generateKey(rotorCount:int):
 
 def exportKey():
     global loadedKey
-    return core.exportKey(loadedKey)
+    keyString=None
+    try:
+        keyString=core.exportKey(loadedKey)
+    except:
+        return (False, "critical error: key could not be compiled to a string.")
+    return (True,keyString)
 
 
 
 
 
 
-def loadKey(keyStringVer:str):
-    setKey(core.loadKey(keyStringVer))
+
+#TODO
+def exportKeyToTXT(fileName:str):
+    pass
+    
 
 
+
+
+
+def loadKey(keyString:str):
+    setKey(core.loadKey(keyString))
+
+
+
+
+#TODO
+def loadKeyFromTXT(fileName:str):
+    pass
+
+
+
+
+#TODO
+def loadCharSet(charSetString:str):
+    pass
+
+
+
+
+
+#TODO
+def loadCharSetFromTXT(fileName:str):
+    pass
+
+
+
+def exportCharSet():
+    pass
+
+
+
+def exportCharSetToTXT(fileName:str):
+    pass
+  
+
+
+
+def scrambleCharSet():
+    global characterSet
+    try:
+        oldSet=list(characterSet)
+        scrambled=[]
+        for i in range(len(oldSet)):
+            scrambled.append(oldSet.pop(randint(0,len(oldSet)-1)))
+        characterSet = tuple(scrambled)
+    except:
+        return (False, "critical error: character set could not be scrambled")
+    return (True,"character set scrambled successfully")
+
+
+
+
+#functions that actually do encyption stuff
 
 def encryptText(text:str):
 
@@ -177,7 +237,7 @@ def encryptText(text:str):
 
 
 
-
+#TODO
 def encryptTextFile(fileName:str):
     pass
 
@@ -193,10 +253,14 @@ def decryptText(text:str):
     return core.decrypt(text,characterSet, loadedKey)
 
 
+#TODO
+def decryptTextFile(fileName:str):
+    pass
 
 
 
-    
+
+  
 
 
     
