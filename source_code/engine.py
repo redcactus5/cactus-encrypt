@@ -153,7 +153,7 @@ def exportKey():
     try:
         keyString=core.exportKey(loadedKey)
     except:
-        return (False, "critical error: key could not be compiled to a string.")
+        return (False, "critical error: key could not be compiled to a string")
     return (True,keyString)
 
 
@@ -182,13 +182,27 @@ def exportKeyToTXT(fileName:str):
 
 
 def loadKey(keyString:str):
-    setKey(core.loadKey(keyString))
+    key=None
+
+    try:
+        key=core.loadKey(keyString)
+    except:
+        return (False, "critical error: key could not be parsed. please check the key for errors")
+    try:
+        setKey(key)
+    except:
+        return (False, "critical error: key could not be loaded. please check the key for errors")
+    return (True, "successful")
+
+
+        
 
 
 
 
 #TODO
 def loadKeyFromTXT(fileName:str):
+    
     pass
 
 
