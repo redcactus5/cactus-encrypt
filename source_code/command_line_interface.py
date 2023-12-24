@@ -252,7 +252,8 @@ def loadCharSetFromTXT():
             input("press enter to continue")
 
 
-#TODO: refactor this function for new archetecture
+
+#this function is completed
 def scrambleCharSet():
     menuName="scramble character set"
     if(engine.isCharSetLoaded):
