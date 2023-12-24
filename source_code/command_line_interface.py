@@ -298,7 +298,7 @@ def scrambleCharSet():
         input("press enter to continue")
 
 
-#TODO: refactor this function for new archetecture
+#this function is completed
 def exportCharSetToTXT():
     
     menuName="export character set to file"
@@ -317,7 +317,25 @@ def exportCharSetToTXT():
             uiHeader(menuName)
             print("proccessing...")
             start=time.time()
-            success=engine.export
+            success=engine.exportCharSetToTXT(fileName)
+            elapsed=time.time()-start
+            clear()
+            uiHeader(menuName)
+            if(success[0]):
+                print("export successful!")
+                print("finished in "+str(elapsed)+" second(s)")
+                ln()
+                print("now returning to the main menu")
+                ln(2)
+                input("press enter to continue")
+            else:
+                print("export failed!")
+                print(success[1])
+                ln()
+                print("now returning to the main menu")
+                ln(2)
+                input("press enter to continue")
+
 
             #TODO: put logic and error handleing here
             
@@ -379,11 +397,6 @@ def CLI_V2():
 
 def start():
 
-    #needs to be rewritten
-
-    
-    '''
-
     engine.loadCharSetFromTXT("default_charset.txt")
     engine.loadKeyFromTXT("default_key.txt")
 
@@ -396,7 +409,7 @@ def start():
         pass
 
     CLI_V2()
-    '''
+    
     
 
 
