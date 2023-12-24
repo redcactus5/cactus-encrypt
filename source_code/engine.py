@@ -202,7 +202,7 @@ def loadKey(keyString:str):
 
 #TODO
 def loadKeyFromTXT(fileName:str):
-    
+
     pass
 
 
@@ -275,6 +275,10 @@ def decryptText(text:str):
     global loadedKey
 
     return core.decrypt(text,characterSet, loadedKey)
+
+
+
+
 
 
 #TODO
