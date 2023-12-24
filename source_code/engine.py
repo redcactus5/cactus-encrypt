@@ -140,7 +140,7 @@ def writeTextToFile(fileName:str,text:str):
 def generateKey(rotorCount:int):
     global characterSet
     global loadedKey
-    loadedKey = core.generateKey(rotorCount, characterSet)
+    setKey(core.generateKey(rotorCount, characterSet))
 
 
 
@@ -162,9 +162,19 @@ def exportKey():
 
 
 
-#TODO
+
 def exportKeyToTXT(fileName:str):
-    pass
+    keyString=exportKey()
+
+    if(keyString[0]):
+        success=writeTextToFile(fileName,keyString[1])
+        if(success[0]):
+            return (True,"successful")
+        return success
+    return keyString
+    
+    
+
     
 
 
@@ -219,7 +229,7 @@ def scrambleCharSet():
         characterSet = tuple(scrambled)
     except:
         return (False, "critical error: character set could not be scrambled")
-    return (True,"character set scrambled successfully")
+    return (True,"successful")
 
 
 
