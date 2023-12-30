@@ -84,9 +84,9 @@ def uiHeader(mode:str):
     print("system check results:")
     if(not(backend.isKeyLoaded) or not(backend.isCharSetLoaded) or (HELP==None)):
         print("system not ready. detected problems:")
-        if(backend.isKeyLoaded):
+        if(not backend.isKeyLoaded):
             print("warning, no key in memory! please generate or load a key")
-        if(backend.isCharSetLoaded):
+        if(not backend.isCharSetLoaded):
             print("warning, no character set in memory! please load a character set")
         if(HELP==None):
             print("warning, readme file could not be loaded! the program can still run in \nthis state, but the help function will be disabled")
@@ -132,6 +132,21 @@ def booleanQuestionScreen(message:str,headerMode:str):
 
 
 
+def enterFileNameScreen(message:str, headerMode:str):
+    while True:
+        clear()
+        uiHeader(headerMode)
+
+        print(message)
+        ln()
+
+        fileName=input("file name:")
+
+        if(multipleChoiceScreen("is \""+fileName+"\" the correct file?",("(c)onfirm","(r)eenter"),("c","r"),1,headerMode)==0):
+            return fileName
+
+
+
 
 
 def sanitizeInput(text:str):
@@ -166,227 +181,66 @@ you still need to rewrite everything from scratch or at least near scratch.
 
 #remember to check for presence of the things you need
 
-#this function is completed
+
 def loadCharSet():
     menuName="load character set from terminal"
-    if(booleanQuestionScreen("are you sure you want to load a new character set? \nthis will overwrite any character set currently in memory.",menuName)):
-        clear()
-        uiHeader(menuName)
-        print("please enter the new character set now")
-        ln()
-
-        newSet=sanitizeInput(input())
-
-        clear()
-        uiHeader(menuName)
-        print("proccessing input...")
-
-
-        start=time.time()
-
-        success=backend.loadCharSet(newSet)
-
-        elapsed=time.time()-start
-
-        clear()
-        uiHeader(menuName)
-
-        if(success[0]):
-            print("character set successfully loaded!")
-            print("finished in "+str(elapsed)+" second(s)")
-            ln()
-            print("now returning to the main menu")
-            ln(2)
-            input("press enter to continue")
-        else:
-            print("load failed!")
-            print(success[1])
-            ln()
-            print("now returning to the main menu")
-            ln(2)
-            input("press enter to continue")
-
   
 
-#this function is completed
 def loadCharSetFromTXT():
-
     menuName="load character set from file"
 
-    if(booleanQuestionScreen("are you sure you want to load a new character set? \nthis will overwrite any character set currently in memory.",menuName)):
-        
-        clear()
-        uiHeader(menuName)
-        print("please enter the name of the txt file containing the new character set")
 
-        fileName=input("file:")
-
-        clear()
-        uiHeader(menuName)
-        print("loading...")
-        start=time.time()
-        successful=backend.loadCharSetFromTXT(fileName)
-        elapsed=time.time()-start
-
-        clear()
-        uiHeader(menuName)
-
-            
-
-        if(successful[0]):
-
-            print("character set successfully loaded!")
-            print("finished in "+str(elapsed)+" second(s)")
-            ln()
-            print("now returning to the main menu")
-            ln(2)
-            input("press enter to continue")
-        else:
-            clear()
-            uiHeader(menuName)
-            print("load failed!")
-            print(successful[1])
-            ln()
-            print("now returning to the main menu")
-            ln(2)
-            input("press enter to continue")
-
-
-
-#this function is completed
 def scrambleCharSet():
     menuName="scramble character set"
-    if(backend.isCharSetLoaded):
-        if(booleanQuestionScreen("are you sure you want to scramble the character set? \nthis will break compatibility with text bound to the current character set.\n(this can be fixed by reloading the current character set again)",menuName)):
-            
-            clear()
-            uiHeader(menuName)
-            print("now scrambling...")
-
-            start=time.time()
-            successful=backend.scrambleCharSet()
-            elapsed=time.time()-start
-
-            clear()
-            uiHeader(menuName)
-
-            if(successful[0]):
-                print("scramble successful!")
-                print("finished in "+str(elapsed)+" second(s)")
-                ln()
-                print("now returning to the main menu")
-                ln(2)
-                input("press enter to continue")
-            else:
-                print("scramble failed!")
-                print(successful[1]) 
-                print("please reload character set and try again")
-                ln()
-                print("now returning to the main menu")
-                ln(2)
-                input("press enter to continue")
-
-
-    else:
-        clear()
-        uiHeader(menuName)
-        print("uh-oh! no character set in memory!")
-        print("please load a character set then try again!")
-        ln()
-        print("now returning to the main menu")
-        ln(2)
-        input("press enter to continue")
-
-
-#this function is completed
-def exportCharSetToTXT():
     
+
+def exportCharSetToTXT():
     menuName="export character set to file"
 
-    if(backend.isCharSetLoaded):
-    
-        if(booleanQuestionScreen("are you sure you want to export the current character set to a file? \n any data in the file will be overwritten.",menuName)):
-            clear()
-            uiHeader(menuName)
-            print("please enter the name of the file to export the character set to.")
-            print("any exisiting data in the file will be overwritten. if the file does not exist, it will be created.")
-            ln()
-            fileName=input("file:")
-
-            clear()
-            uiHeader(menuName)
-            print("proccessing...")
-            start=time.time()
-            success=backend.exportCharSetToTXT(fileName)
-            elapsed=time.time()-start
-            clear()
-            uiHeader(menuName)
-            if(success[0]):
-                print("export successful!")
-                print("finished in "+str(elapsed)+" second(s)")
-                ln()
-                print("now returning to the main menu")
-                ln(2)
-                input("press enter to continue")
-            else:
-                print("export failed!")
-                print(success[1])
-                ln()
-                print("now returning to the main menu")
-                ln(2)
-                input("press enter to continue")
-
-
-            #TODO: put logic and error handleing here
-            
-                
-
-            
-
-
-    else:
-        clear()
-        uiHeader(menuName)
-        print("uh-oh! no character set in memory!")
-        print("please load a character set then try again!")
-        ln()
-        print("now returning to the main menu")
-        ln(2)
-        input("press enter to continue")
        
-
 def exportCharSet():
-    pass
+    menuName="export character set to terminal"
+
 
 def ecryptTXT():
-    pass
+    menuName="encrypt a text file"
+
 
 def decryptTXT():
-    pass
+    menuName="decrypt a text file"
+
 
 def loadKeyFromTXT():
-    pass
+    menuName="load key from file"
+
 
 def exportKeyToTXT():
-    pass
+    menuName="export key to file"
+
 
 def encryptTerminalInput():
-    pass
+    menuName="encrypt terminal entry"
+
 
 def decryptTerminalInput():
-    pass
+    menuName="decrypt terminal entry"
+
 
 def loadKeyFromTerminal():
-    pass
+    menuName="load key from terminal entry"
+
 
 def exportKeyToTerminal():
-    pass
+    menuName="export key to terminal"
+
 
 def generateKey():
-    pass
+    menuName="generate key"
+
 
 def helpScreen():
-    pass #just print readme.txt
+    menuName="help"
+    #just print readme.txt
 
 
 #TODO:
