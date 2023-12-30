@@ -1,5 +1,5 @@
 
-import core
+import source_code.crypto_engine as crypto_engine
 from random import randint
 
 
@@ -140,7 +140,7 @@ def writeTextToFile(fileName:str,text:str):
 def generateKey(rotorCount:int):
     global characterSet
     global loadedKey
-    setKey(core.generateKey(rotorCount, characterSet))
+    setKey(crypto_engine.generateKey(rotorCount, characterSet))
 
 
 
@@ -151,7 +151,7 @@ def exportKey():
     global loadedKey
     keyString=None
     try:
-        keyString=core.exportKey(loadedKey)
+        keyString=crypto_engine.exportKey(loadedKey)
     except:
         return (False, "critical error: key could not be compiled to a string")
     return (True,keyString)
@@ -185,7 +185,7 @@ def loadKey(keyString:str):
     key=None
 
     try:
-        key=core.loadKey(keyString)
+        key=crypto_engine.loadKey(keyString)
     except:
         return (False, "critical error: key could not be parsed. please check the key for errors")
     try:
@@ -255,7 +255,7 @@ def encryptText(text:str):
     global characterSet
     global loadedKey
 
-    return core.encrypt(text, characterSet, loadedKey)
+    return crypto_engine.encrypt(text, characterSet, loadedKey)
 
 
 
@@ -274,7 +274,7 @@ def decryptText(text:str):
     global characterSet
     global loadedKey
 
-    return core.decrypt(text,characterSet, loadedKey)
+    return crypto_engine.decrypt(text,characterSet, loadedKey)
 
 
 

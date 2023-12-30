@@ -1,6 +1,6 @@
 #imports
 import time
-import engine
+import source_code.backend as backend
 from os import system, name
 
 
@@ -82,11 +82,11 @@ def uiHeader(mode:str):
     print(mode)
     ln()
     print("system check results:")
-    if(not(engine.isKeyLoaded) or not(engine.isCharSetLoaded) or (HELP==None)):
+    if(not(backend.isKeyLoaded) or not(backend.isCharSetLoaded) or (HELP==None)):
         print("system not ready. detected problems:")
-        if(engine.isKeyLoaded):
+        if(backend.isKeyLoaded):
             print("warning, no key in memory! please generate or load a key")
-        if(engine.isCharSetLoaded):
+        if(backend.isCharSetLoaded):
             print("warning, no character set in memory! please load a character set")
         if(HELP==None):
             print("warning, readme file could not be loaded! the program can still run in \nthis state, but the help function will be disabled")
@@ -184,7 +184,7 @@ def loadCharSet():
 
         start=time.time()
 
-        success=engine.loadCharSet(newSet)
+        success=backend.loadCharSet(newSet)
 
         elapsed=time.time()-start
 
@@ -225,7 +225,7 @@ def loadCharSetFromTXT():
         uiHeader(menuName)
         print("loading...")
         start=time.time()
-        successful=engine.loadCharSetFromTXT(fileName)
+        successful=backend.loadCharSetFromTXT(fileName)
         elapsed=time.time()-start
 
         clear()
@@ -256,7 +256,7 @@ def loadCharSetFromTXT():
 #this function is completed
 def scrambleCharSet():
     menuName="scramble character set"
-    if(engine.isCharSetLoaded):
+    if(backend.isCharSetLoaded):
         if(booleanQuestionScreen("are you sure you want to scramble the character set? \nthis will break compatibility with text bound to the current character set.\n(this can be fixed by reloading the current character set again)",menuName)):
             
             clear()
@@ -264,7 +264,7 @@ def scrambleCharSet():
             print("now scrambling...")
 
             start=time.time()
-            successful=engine.scrambleCharSet()
+            successful=backend.scrambleCharSet()
             elapsed=time.time()-start
 
             clear()
@@ -303,7 +303,7 @@ def exportCharSetToTXT():
     
     menuName="export character set to file"
 
-    if(engine.isCharSetLoaded):
+    if(backend.isCharSetLoaded):
     
         if(booleanQuestionScreen("are you sure you want to export the current character set to a file? \n any data in the file will be overwritten.",menuName)):
             clear()
@@ -317,7 +317,7 @@ def exportCharSetToTXT():
             uiHeader(menuName)
             print("proccessing...")
             start=time.time()
-            success=engine.exportCharSetToTXT(fileName)
+            success=backend.exportCharSetToTXT(fileName)
             elapsed=time.time()-start
             clear()
             uiHeader(menuName)
@@ -397,8 +397,8 @@ def CLI_V2():
 
 def start():
 
-    engine.loadCharSetFromTXT("default_charset.txt")
-    engine.loadKeyFromTXT("default_key.txt")
+    backend.loadCharSetFromTXT("default_charset.txt")
+    backend.loadKeyFromTXT("default_key.txt")
 
     try:
         helpFile = open("readme.txt","r")
@@ -440,7 +440,7 @@ def userInterface():
             running=False
             break
         elif(selection=="1"):
-            if(engine.loadedKey==None):
+            if(backend.loadedKey==None):
                 ln(40)
                 uiHeader()
                 print("error: encryption key not found! please load or generate a key to continue.")
@@ -452,7 +452,7 @@ def userInterface():
                 text=input()
                 print("encrypting...")
                 start=time.time()
-                encryptedText=engine.encrypt(text)
+                encryptedText=backend.encrypt(text)
                 elapsed=time.time()-start
                 ln(40)
                 if(encryptedText[0]):
@@ -469,7 +469,7 @@ def userInterface():
                     print("encrypting...")
 
         elif(selection=="2"):
-            if(engine.loadedKey==None):
+            if(backend.loadedKey==None):
                 ln(40)
                 uiHeader()
                 print("error: encryption key not found! please load the corisponding key to the text to continue.")
@@ -481,7 +481,7 @@ def userInterface():
                 text=input()
                 print("decrypting...")
                 start=time.time()
-                decryptedText=engine.decrypt(text)
+                decryptedText=backend.decrypt(text)
                 elapsed=time.time()-start
                 ln(40)
                 if(decryptedText[0]):
@@ -508,7 +508,7 @@ def userInterface():
                 try:
                     text=input()
                     start=time.time()
-                    engine.setKey(engine.loadKey(text))
+                    backend.setKey(backend.loadKey(text))
                     elapsed=time.time()-start
                     print("loading key...")
                     ln(40)
@@ -540,7 +540,7 @@ def userInterface():
                 try:
                     complexity=int(complexity)
                     start=time.time()
-                    engine.setKey(engine.generateKey(complexity))
+                    backend.setKey(backend.generateKey(complexity))
                     elapsed=time.time()-start
                     ln(40)
                     uiHeader()
@@ -559,13 +559,13 @@ def userInterface():
         elif(selection=="5"):
             ln(40)
             uiHeader()
-            if(engine.loadedKey==None):
+            if(backend.loadedKey==None):
                 
                 print("error: encryption key not found! please load or generate a key to continue.")
                 input("press enter to continue")
             else:
                 start=time.time()
-                compiledKey=engine.exportKey(engine.loadedKey)
+                compiledKey=backend.exportKey(backend.loadedKey)
                 elapsed=time.time()-start
                 print("key:{"+compiledKey+"}")
                 ln()
