@@ -1,6 +1,6 @@
 #imports
 import time
-import source_code.backend as backend
+import backend
 from os import system, name
 
 
