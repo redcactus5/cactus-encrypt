@@ -200,10 +200,16 @@ def loadKey(keyString:str):
 
 
 
-#TODO
-def loadKeyFromTXT(fileName:str):
 
-    pass
+def loadKeyFromTXT(fileName:str):
+    fileData=getTextFromFile(fileName)
+    if(not fileData[0]):
+        return fileData
+    else:
+        error=loadKey(fileData)
+        if(not error[0]):
+            return error
+    return (True, "successful")
 
 
 
@@ -284,12 +290,3 @@ def decryptText(text:str):
 #TODO
 def decryptTextFile(fileName:str):
     pass
-
-
-
-
-  
-
-
-    
-
