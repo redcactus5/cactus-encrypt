@@ -76,17 +76,18 @@ def clear():
 
 #ui header function to save time
 def uiHeader(mode:str):
+    clear()
     global PRGVERSION
     global HELP
     print("cactus encrypt "+PRGVERSION+" by redcacus5")
     print(mode)
     ln()
     print("system check results:")
-    if(not(backend.isKeyLoaded) or not(backend.isCharSetLoaded) or (HELP==None)):
+    if(not(backend.isKeyLoaded()) or not(backend.isCharSetLoaded()) or (HELP==None)):
         print("system not ready. detected problems:")
-        if(not backend.isKeyLoaded):
+        if(not backend.isKeyLoaded()):
             print("warning, no key in memory! please generate or load a key")
-        if(not backend.isCharSetLoaded):
+        if(not backend.isCharSetLoaded()):
             print("warning, no character set in memory! please load a character set")
         if(HELP==None):
             print("warning, readme file could not be loaded! the program can still run in \nthis state, but the help function will be disabled")
@@ -96,11 +97,9 @@ def uiHeader(mode:str):
  
 
 
-def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accuracy:int, headerMode:str):
+def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accuracy:int, currentMode:str):
     while True:
-        clear()
-        uiHeader(headerMode)
-        ln()
+        uiHeader(currentMode)
         print(message)
         ln()
         for m in optionsMessage:
@@ -113,8 +112,7 @@ def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accur
             for i in range(len(options)):
                 if(selection[:accuracy]==options[i]):
                     return i
-        clear()
-        uiHeader(headerMode)
+        uiHeader(currentMode)
         print("syntax error: bad input. please enter one of the provided options")
         ln(2)
         input("press enter to continue")
@@ -124,27 +122,51 @@ def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accur
 
             
 
-def booleanQuestionScreen(message:str,headerMode:str):
-    choice=multipleChoiceScreen(message,("(y)es","(n)o"),("y","n"),1,headerMode)
+def booleanQuestionScreen(message:str,currentMode:str):
+    choice=multipleChoiceScreen(message,("(y)es","(n)o"),("y","n"),1,currentMode)
     if(choice==0):
         return True
     return False
 
 
 
-def enterFileNameScreen(message:str, headerMode:str):
+def enterFileNameScreen(message:str, currentMode:str):
     while True:
-        clear()
-        uiHeader(headerMode)
+        uiHeader(currentMode)
 
         print(message)
         ln()
 
         fileName=input("file name:")
 
-        if(multipleChoiceScreen("is \""+fileName+"\" the correct file?",("(c)onfirm","(r)eenter"),("c","r"),1,headerMode)==0):
+        if(multipleChoiceScreen("is \""+fileName+"\" correct?",("(c)onfirm","(r)eenter"),("c","r"),1,currentMode)==0):
             return fileName
 
+
+
+
+def errorScreen(errorMessage:str, currentMode:str):
+    uiHeader(currentMode)
+    print(errorMessage)
+
+    ln()
+    print("now returning to the main menu")
+    ln(2)
+    input("press enter to continue")
+
+
+
+
+
+def finishedScreen(finishedMessage:str, completionTime:float, currentMode:str):
+    uiHeader(currentMode)
+
+    print(finishedMessage)
+    print("finished in "+str(completionTime)+" second(s)")
+    ln()
+    print("now returning to the main menu")
+    ln(2)
+    input("press enter to continue")
 
 
 
@@ -153,6 +175,7 @@ def sanitizeInput(text:str):
     return text.replace("\n","").replace("\r","").replace("\t","").replace("\f","")
     
     
+
 
 
 '''
@@ -182,16 +205,71 @@ you still need to rewrite everything from scratch or at least near scratch.
 #remember to check for presence of the things you need
 
 
+
 def loadCharSet():
     menuName="load character set from terminal"
-  
+
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written", menuName)):
+        uiHeader(menuName)
+        print("please enter the new character set:")
+        ln()
+        newSet=input("character set:")
+        uiHeader(menuName)
+        print("now loading...")
+
+        start=time.time()
+        success=backend.loadCharSet(newSet)
+        total=time.time()-start
+
+        if(success[0]):
+            finishedScreen("character set successfully loaded!",total,menuName)
+        else:
+            errorScreen("load failed!\n\n"+success[1], menuName)
+
+        
+
 
 def loadCharSetFromTXT():
     menuName="load character set from file"
 
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written",menuName)):
+        uiHeader(menuName)
+        sourceFile=enterFileNameScreen("please enter the name of the file to load the character set from (include the file extension)",menuName)
+        uiHeader(menuName)
+        print("now loading...")
+
+        start=time.time()
+        success=backend.loadCharSetFromTXT(sourceFile)
+        total=time.time()-start
+
+        if(success[0]):
+            finishedScreen("character set successfully loaded!",total,menuName)
+        else:
+            errorScreen("load failed!\n\n"+success[1], menuName)
+
+
 
 def scrambleCharSet():
     menuName="scramble character set"
+    if(backend.isCharSetLoaded()):
+        if(booleanQuestionScreen("are you sure you want to scramble the currently loaded character set?\n this will overwrite the currently loaded character set, \nand break compatibility with anything encrypted with it",menuName)):
+            
+            uiHeader(menuName)
+            print("now scrambling...")
+
+            start=time.time()
+            success=backend.scrambleCharSet()
+            total=time.time()-start
+            if(success[0]):
+                finishedScreen("scramble successful!",total,menuName)
+            else:
+                errorScreen("scramble failed!\n\n"+success[1],menuName)
+
+
+    else:
+        errorScreen("uh, oh!\nthere is no character set in memory to scramble!\nplease load a character set then try again!",menuName)
+
+
     
 
 def exportCharSetToTXT():
