@@ -171,6 +171,25 @@ def finishedScreen(finishedMessage:str, completionTime:float, currentMode:str):
 
 
 
+
+def terminalExportScreen(finishedMessage:str, completionTime:float, exportMessage:str, exportedText:str, currentMode:str):
+    uiHeader(currentMode)
+
+    print(finishedMessage)
+    print("finished in "+str(completionTime)+" second(s)")
+    ln(2)
+    print(exportMessage)
+    print(exportedText)
+    ln()
+    print("now returning to the main menu")
+    ln(2)
+    input("press enter to continue")
+
+
+
+
+
+
 def sanitizeInput(text:str):
     return text.replace("\n","").replace("\r","").replace("\t","").replace("\f","")
     
@@ -261,31 +280,90 @@ def scrambleCharSet():
             success=backend.scrambleCharSet()
             total=time.time()-start
             if(success[0]):
-                finishedScreen("scramble successful!",total,menuName)
+                finishedScreen("character set scramble successful!",total,menuName)
             else:
-                errorScreen("scramble failed!\n\n"+success[1],menuName)
+                errorScreen("character set scramble failed!\n\n"+success[1],menuName)
 
 
     else:
         errorScreen("uh, oh!\nthere is no character set in memory to scramble!\nplease load a character set then try again!",menuName)
 
 
-    
 
 def exportCharSetToTXT():
     menuName="export character set to file"
+    if(backend.isCharSetLoaded()):
+        if(booleanQuestionScreen("are you sure you want to export the current character set to a file?",menuName)):
+            sourceFile=enterFileNameScreen("please enter the name of the file to export the character set to (include the file extension)\nWarning! if the does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            
+            uiHeader(menuName)
+            print("exporting...")
+
+            start=time.time()
+            success=backend.exportCharSetToTXT(sourceFile)
+            total=time.time()-start
+
+            if(success[0]):
+                finishedScreen("character set export successful!",total, menuName)
+            else:
+                errorScreen("character set export failed!\n\n"+success[1],menuName)
+ 
+
+    else:
+        errorScreen("uh, oh!\nthere is no character set in memory to export!\nplease load a character set then try again!",menuName)
+
+        
 
        
 def exportCharSet():
     menuName="export character set to terminal"
+    if(backend.isCharSetLoaded()):
+        if(booleanQuestionScreen("are you sure you want to export the current character set to the terminal?",menuName)):
+            uiHeader(menuName)
+            print("exporting...")
+
+            start=time.time()
+            charSetString=backend.exportCharSet()
+            total=time.time()-start
+
+            if(charSetString[0]):
+                terminalExportScreen("character set export successful!",total,"please remember that curly braces are used to denote the start and end \nof the character set, but can also appear in it","character set:{"+charSetString[1]+"}", menuName)
+            else:
+                errorScreen("character set export failed!\n\n"+charSetString[1],menuName)
+ 
+
+    else:
+        errorScreen("uh, oh!\nthere is no character set in memory to export!\nplease load a character set then try again!",menuName)
 
 
-def ecryptTXT():
-    menuName="encrypt a text file"
+
+def loadKeyFromTerminal():
+    menuName="load encryption key from terminal entry"
+    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten",menuName)):
+        uiHeader(menuName)
+        print("please enter the new encryption key:")
+        ln()
+        newKeyString=input("key:")
+
+        uiHeader(menuName)
+        print("now loading...")
+
+        start=time.time()
+        success=backend.loadKey(newKeyString)
+        total=time.time()-start
+
+        if(success[0]):
+            finishedScreen("encryption key load successful!",total,menuName)
+        else:
+            errorScreen("encryption key load failed\n\n"+success[1],menuName)  
 
 
-def decryptTXT():
-    menuName="decrypt a text file"
+def exportKeyToTerminal():
+    menuName="export key to terminal"
+
+
+def generateKey():
+    menuName="generate key"
 
 
 def loadKeyFromTXT():
@@ -304,16 +382,12 @@ def decryptTerminalInput():
     menuName="decrypt terminal entry"
 
 
-def loadKeyFromTerminal():
-    menuName="load key from terminal entry"
+def ecryptTXT():
+    menuName="encrypt a text file"
 
 
-def exportKeyToTerminal():
-    menuName="export key to terminal"
-
-
-def generateKey():
-    menuName="generate key"
+def decryptTXT():
+    menuName="decrypt a text file"
 
 
 def helpScreen():
