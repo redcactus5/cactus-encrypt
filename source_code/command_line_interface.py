@@ -419,14 +419,15 @@ def generateKey():
         
         uiHeader(menuName)
         print("now generating...")
+
+        start=time.time()
         success=backend.generateKey(complexity)
+        total=time.time()-start
 
         if(success[0]):
-
-        
-        
-
-
+            finishedScreen("encryption key generation successful!",total,menuName)
+        else:
+            errorScreen("encryption key generation failed!\n\n"+success[1],menuName)
 
 
 
