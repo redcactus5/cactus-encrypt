@@ -140,7 +140,19 @@ def writeTextToFile(fileName:str,text:str):
 def generateKey(rotorCount:int):
     global characterSet
     global loadedKey
-    setKey(crypto_engine.generateKey(rotorCount, characterSet))
+    if(type(rotorCount) is not int or rotorCount<1):
+        return (False, "input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again")
+    try:
+        newKey=crypto_engine.generateKey(rotorCount, characterSet)
+    except:
+        return (False, "critical error: new key could not be generated. please check input for errors then try again")
+
+    try:
+        setKey(newKey)
+    except:
+        return (False, "critical error: new key could not be loaded. please check for errors then try again")
+
+    return (True, "successful")
 
 
 

@@ -230,7 +230,7 @@ def loadCharSet():
 
     if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written", menuName)):
         uiHeader(menuName)
-        print("please enter the new character set:")
+        print("please enter the new character set")
         ln()
         newSet=input("character set:")
         uiHeader(menuName)
@@ -341,7 +341,7 @@ def loadKeyFromTerminal():
     menuName="load encryption key from terminal entry"
     if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten",menuName)):
         uiHeader(menuName)
-        print("please enter the new encryption key:")
+        print("please enter the new encryption key")
         ln()
         newKeyString=input("key:")
 
@@ -355,15 +355,79 @@ def loadKeyFromTerminal():
         if(success[0]):
             finishedScreen("encryption key load successful!",total,menuName)
         else:
-            errorScreen("encryption key load failed\n\n"+success[1],menuName)  
+            errorScreen("encryption key load failed!\n\n"+success[1],menuName)  
 
 
 def exportKeyToTerminal():
     menuName="export key to terminal"
+    if(backend.isKeyLoaded()):
+        if(booleanQuestionScreen("are you sure you want to export the current encryption key to the terminal?",menuName)):
+            uiHeader(menuName)
+            print("exporting...")
 
+            start=time.time()
+            keyString=backend.exportKey()
+            total=time.time()-start
+
+            if(keyString[0]):
+                terminalExportScreen("encryption key export successful!",total,"please remember that curly braces are used to denote the start \nand end of the key, and are not part of it","encryption key:{"+keyString[1]+"}", menuName)
+            else:
+                errorScreen("encryption key export failed!\n\n"+keyString[1],menuName)
+
+    
+    else:
+        errorScreen("uh, oh!\nthere is encryption key in memory to export!\nplease load a key then try again!",menuName)
+        
 
 def generateKey():
     menuName="generate key"
+
+
+    if(booleanQuestionScreen("are you sure you want to generate a new encryption key?\n any currently loaded key will be overwritten",menuName)):
+
+
+        complexity=0
+
+        while True:
+            uiHeader(menuName)
+            print("please enter a complexity value for the new key (complexity value must be a positive integer):")
+            ln()
+            userInput=input("complexity value:")
+
+
+            inputError=False
+
+            try:
+                userInput=int(userInput)
+            except:
+                inputError=True
+            
+
+            if(inputError==False and userInput<1):
+                inputError=True
+
+
+            if(inputError):
+                uiHeader(menuName)
+                print("input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again")
+                ln(2)
+                input("press enter to continue")
+            
+            else:
+                complexity=userInput
+                break
+        
+        uiHeader(menuName)
+        print("now generating...")
+        success=backend.generateKey(complexity)
+
+        if(success[0]):
+
+        
+        
+
+
+
 
 
 def loadKeyFromTXT():
@@ -395,8 +459,14 @@ def helpScreen():
     #just print readme.txt
 
 
+def exit():
+    menuName="quit?"
+    return booleanQuestionScreen("are you sure you want to quit?",menuName)
+
+
 #TODO:
 def CLI_V2():
+    #todo: rewrite readme.md and write help.txt
     pass
 
 
@@ -407,7 +477,7 @@ def start():
     backend.loadKeyFromTXT("default_key.txt")
 
     try:
-        helpFile = open("readme.txt","r")
+        helpFile = open("help.txt","r")
         global HELP
         HELP=helpFile.read()
         helpFile.close()
