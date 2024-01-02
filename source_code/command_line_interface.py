@@ -382,57 +382,75 @@ def exportKeyToTerminal():
 def generateKey():
     menuName="generate key"
 
-
-    if(booleanQuestionScreen("are you sure you want to generate a new encryption key?\n any currently loaded key will be overwritten",menuName)):
-
-
-        complexity=0
-
-        while True:
-            uiHeader(menuName)
-            print("please enter a complexity value for the new key (complexity value must be a positive integer):")
-            ln()
-            userInput=input("complexity value:")
+    if(backend.isCharSetLoaded()):
+        if(booleanQuestionScreen("are you sure you want to generate a new encryption key?\n any currently loaded key will be overwritten",menuName)):
 
 
-            inputError=False
+            complexity=0
 
-            try:
-                userInput=int(userInput)
-            except:
-                inputError=True
-            
-
-            if(inputError==False and userInput<1):
-                inputError=True
-
-
-            if(inputError):
+            while True:
                 uiHeader(menuName)
-                print("input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again")
-                ln(2)
-                input("press enter to continue")
+                print("please enter a complexity value for the new key (complexity value must be a positive integer):")
+                ln()
+                userInput=input("complexity value:")
+
+
+                inputError=False
+
+                try:
+                    userInput=int(userInput)
+                except:
+                    inputError=True
+                
+
+                if(inputError==False and userInput<1):
+                    inputError=True
+
+
+                if(inputError):
+                    uiHeader(menuName)
+                    print("input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again")
+                    ln(2)
+                    input("press enter to continue")
+                
+                else:
+                    complexity=userInput
+                    break
             
+            uiHeader(menuName)
+            print("now generating...")
+
+            start=time.time()
+            success=backend.generateKey(complexity)
+            total=time.time()-start
+
+            if(success[0]):
+                finishedScreen("encryption key generation successful!",total,menuName)
             else:
-                complexity=userInput
-                break
-        
-        uiHeader(menuName)
-        print("now generating...")
+                errorScreen("encryption key generation failed!\n\n"+success[1],menuName)
+    else:
+        errorScreen("uh, oh!\nthere is no character set in memory, a requirement to generate a key!\nplease load a character set then try again!",menuName)
 
-        start=time.time()
-        success=backend.generateKey(complexity)
-        total=time.time()-start
-
-        if(success[0]):
-            finishedScreen("encryption key generation successful!",total,menuName)
-        else:
-            errorScreen("encryption key generation failed!\n\n"+success[1],menuName)
 
 
 
 def loadKeyFromTXT():
-    menuName="load key from file"
+    menuName="load encryption key from file"
+    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten",menuName)):
+        
+        fileName=enterFileNameScreen("please enter the name of the file to load the encryption key from (include the file extension)",menuName)
+
+        uiHeader(menuName)
+        print("now loading...")
+
+        start=time.time()
+        success=backend.loadKeyFromTXT(fileName)
+        total=time.time()-start
+
+        if(success[0]):
+            finishedScreen("encryption key load successful!",total,menuName)
+        else:
+            errorScreen("encryption key load failed!\n\n"+success[1],menuName)
 
 
 def exportKeyToTXT():
@@ -457,6 +475,15 @@ def decryptTXT():
 
 def helpScreen():
     menuName="help"
+    if(HELP==None):
+        uiHeader(menuName)
+        errorScreen("uh, oh!\nthe help file couldn't be loaded!\nplease check it for errors, and if it has been moved, please put it back. after that, please restart the program then try again",menuName)
+    else:
+        uiHeader(menuName)
+        print(HELP)
+        ln(3)
+        input("press enter to return to the main menu")
+
     #just print readme.txt
 
 
