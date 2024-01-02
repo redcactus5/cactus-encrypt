@@ -454,7 +454,7 @@ def loadKeyFromTXT():
 
 
 def exportKeyToTXT():
-    menuName="export key to file"
+    menuName="export encryption key to file"
 
 
 def encryptTerminalInput():
