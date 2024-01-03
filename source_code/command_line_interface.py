@@ -567,6 +567,11 @@ def ecryptTXT():
     menuName="encrypt a text file"
 
     if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
+        
+        
+        
+        
+        
         pass#placeholder
 
     else:
@@ -586,6 +591,14 @@ def decryptTXT():
     menuName="decrypt a text file"
 
     if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
+
+
+
+
+
+
+
+        
         pass#placeholder
 
     else:
@@ -601,7 +614,7 @@ def helpScreen():
     menuName="help"
     if(HELP==None):
         uiHeader(menuName)
-        errorScreen("uh, oh!\nthe help file couldn't be loaded!\nplease check it for errors, and if it has been moved, please put it back. after that, please restart the program then try again",menuName)
+        errorScreen("uh, oh!\nthe help file couldn't be loaded!\nplease check it for errors, and if it has been moved, please put it back. \nafter that, please restart the program then try again",menuName)
     else:
         uiHeader(menuName)
         print(HELP)
