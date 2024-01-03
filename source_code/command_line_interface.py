@@ -233,8 +233,6 @@ you still need to rewrite everything from scratch or at least near scratch.
 
 #remember to check for presence of the things you need
 
-
-
 def loadCharSet():
     menuName="load character set from terminal"
 
@@ -255,8 +253,6 @@ def loadCharSet():
         else:
             errorScreen("load failed!\n\n"+success[1], menuName)
 
-        
-
 
 def loadCharSetFromTXT():
     menuName="load character set from file"
@@ -275,7 +271,6 @@ def loadCharSetFromTXT():
             finishedScreen("character set successfully loaded!",total,menuName)
         else:
             errorScreen("load failed!\n\n"+success[1], menuName)
-
 
 
 def scrambleCharSet():
@@ -299,12 +294,11 @@ def scrambleCharSet():
         errorScreen("uh, oh!\nthere is no character set in memory to scramble!\nplease load a character set then try again!",menuName)
 
 
-
 def exportCharSetToTXT():
     menuName="export character set to file"
     if(backend.isCharSetLoaded()):
         if(booleanQuestionScreen("are you sure you want to export the current character set to a file?",menuName)):
-            sourceFile=enterFileNameScreen("please enter the name of the file to export the character set to (include the file extension)\nWarning! if the does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            sourceFile=enterFileNameScreen("please enter the name of the file to export the character set to (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
             
             uiHeader(menuName)
             print("exporting...")
@@ -321,8 +315,6 @@ def exportCharSetToTXT():
 
     else:
         errorScreen("uh, oh!\nthere is no character set in memory to export!\nplease load a character set then try again!",menuName)
-
-        
 
        
 def exportCharSet():
@@ -344,7 +336,6 @@ def exportCharSet():
 
     else:
         errorScreen("uh, oh!\nthere is no character set in memory to export!\nplease load a character set then try again!",menuName)
-
 
 
 def loadKeyFromTerminal():
@@ -442,8 +433,6 @@ def generateKey():
         errorScreen("uh, oh!\nthere is no character set in memory, a requirement to generate a key!\nplease load a character set then try again!",menuName)
 
 
-
-
 def loadKeyFromTXT():
     menuName="load encryption key from file"
     if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten",menuName)):
@@ -485,8 +474,6 @@ def exportKeyToTXT():
     
     else:
         errorScreen("uh, oh!\nthere is encryption key in memory to export!\nplease load or generate a key then try again!",menuName)
-        
-
 
 #acual encryption stuff
 
@@ -519,12 +506,7 @@ def encryptTerminalInput():
         elif(not backend.isCharSetLoaded()):
             errorScreen("uh, oh! \nthere is no character set in memory, and you need that to encrypt! \nplease load one then try again!",menuName)
         else:
-            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to encrypt! \nplease load or generate one then try again!")
-
-        
-
-
-
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to encrypt! \nplease load or generate one then try again!",menuName)
 
 
 def decryptTerminalInput():
@@ -556,23 +538,36 @@ def decryptTerminalInput():
         elif(not backend.isCharSetLoaded()):
             errorScreen("uh, oh! \nthere is no character set in memory, and you need that to decrypt! \nplease load one then try again!",menuName)
         else:
-            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!")
-
-
-
-
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!",menuName)
 
 
 def ecryptTXT():
     menuName="encrypt a text file"
 
     if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
+
+        
+        if(booleanQuestionScreen("are you sure you want to encrypt a file?",menuName)):
+            
+            source=enterFileNameScreen("please enter the name of the file to encrypt (include the file extension)",menuName)
+
+
+            output=enterFileNameScreen("please enter the name of the destination file (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            
+            
+            uiHeader(menuName)
+            print("encrypting...")
+
+            start=time.time()
+            success=backend.encryptTextFile(source,output)
+            total=time.time()-start
+
+            if(success[1]):
+                finishedScreen("file encryption successful!", total, menuName)
+            else:
+                errorScreen("file encryption failed!\n\n"+success[1], menuName)
         
         
-        
-        
-        
-        pass#placeholder
 
     else:
         if((not backend.isCharSetLoaded()) and (not backend.isKeyLoaded())):
@@ -580,11 +575,7 @@ def ecryptTXT():
         elif(not backend.isCharSetLoaded()):
             errorScreen("uh, oh! \nthere is no character set in memory, and you need that to encrypt! \nplease load one then try again!",menuName)
         else:
-            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to encrypt! \nplease load or generate one then try again!")
-
-
-
-
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to encrypt! \nplease load or generate one then try again!",menuName)
 
 
 def decryptTXT():
@@ -592,14 +583,27 @@ def decryptTXT():
 
     if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
 
+        if(booleanQuestionScreen("are you sure you want to decrypt a file?",menuName)):
+            
+            source=enterFileNameScreen("please enter the name of the file to decrypt (include the file extension)",menuName)
 
 
+            output=enterFileNameScreen("please enter the name of the destination file (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            
+            
+            uiHeader(menuName)
+            print("decrypting...")
+
+            start=time.time()
+            success=backend.decryptTextFile(source,output)
+            total=time.time()-start
+
+            if(success[1]):
+                finishedScreen("file decryption successful!", total, menuName)
+            else:
+                errorScreen("file decryption failed!\n\n"+success[1], menuName)
 
 
-
-
-        
-        pass#placeholder
 
     else:
         if((not backend.isCharSetLoaded()) and (not backend.isKeyLoaded())):
@@ -607,8 +611,9 @@ def decryptTXT():
         elif(not backend.isCharSetLoaded()):
             errorScreen("uh, oh! \nthere is no character set in memory, and you need that to decrypt! \nplease load one then try again!",menuName)
         else:
-            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!")
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!",menuName)
 
+#ui stuff
 
 def helpScreen():
     menuName="help"
@@ -631,8 +636,66 @@ def exit():
 
 #TODO:
 def CLI_V2():
-    #todo: rewrite readme.md and write help.txt
-    pass
+    menuName="main menu"
+    #TODO: rewrite readme.md and write help.txt
+    run=True
+    options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an ecryption key from the terminal","(6) load an ecryption key from a file","(7) generate an ecryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file","(15) help", "(16) quit")
+    optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16")
+    while run:
+        selection=multipleChoiceScreen("welcome to cactus encrypt\n\nplease select an option:",options,optionCodes,2,menuName)
+
+        if(selection==0):
+            encryptTerminalInput()
+        
+        elif(selection==1):
+            ecryptTXT()
+
+        elif(selection==2):
+            decryptTerminalInput()
+        
+        elif(selection==3):
+            decryptTXT()
+
+        elif(selection==4):
+            loadKeyFromTerminal()
+
+        elif(selection==5):
+            loadKeyFromTXT()
+
+        elif(selection==6):
+            generateKey()
+
+        elif(selection==7):
+            exportKeyToTerminal()
+
+        elif(selection==8):
+            exportKeyToTXT()
+
+        elif(selection==9):
+            loadCharSet()
+
+        elif(selection==10):
+            loadCharSetFromTXT()
+
+        elif(selection==11):
+            scrambleCharSet()
+
+        elif(selection==12):
+            exportCharSet()
+
+        elif(selection==13):
+            exportCharSetToTXT()
+
+        elif(selection==14):
+            helpScreen()
+        
+        elif(selection==15):
+            if(exit()):
+                run=False
+                break
+    clear()
+    print("thank you for using cactus encrypt!")
+    
 
 
 
@@ -654,183 +717,4 @@ def start():
     
 
 
-
-
-    
-#who ya gunna call?
-
-#this is being depricated and will be removed on the production version if i remember 
-#CLI user interface
-def userInterface():
-    running=True
-    while running:
-        ln(40)
-        uiHeader()
-        print("please select an option:")
-        print("1: encrypt text")
-        print("2: decrypt text")
-        print("3: load a key")
-        print("4: generate a key")
-        print("5: export current key")
-        print("6: information")
-        print("7: exit")
-        selection=input("please enter selection:")
-        if(selection=="7"):
-            ln(40)
-            print("thank you for using cactus encrypt -red")
-            running=False
-            break
-        elif(selection=="1"):
-            if(backend.loadedKey==None):
-                ln(40)
-                uiHeader()
-                print("error: encryption key not found! please load or generate a key to continue.")
-                input("press enter to continue")
-            else:
-                ln(40)
-                uiHeader()
-                print("please enter text to be encrypted:")
-                text=input()
-                print("encrypting...")
-                start=time.time()
-                encryptedText=backend.encrypt(text)
-                elapsed=time.time()-start
-                ln(40)
-                if(encryptedText[0]):
-                    uiHeader()
-                    print("encryption successful")
-                    print("finished in "+str(elapsed)+" second(s)")
-                    print("here is your encrypted text:{"+encryptedText[1]+"}")
-                    ln()
-                    input("press enter to continue")
-                else:
-                    uiHeader()
-                    print("error: unsupported character {"+encryptedText[1]+"} in text! check text for the unsuported character. a complete list of supported characters can be found in the information menu.")
-                    input("press enter to continue")
-                    print("encrypting...")
-
-        elif(selection=="2"):
-            if(backend.loadedKey==None):
-                ln(40)
-                uiHeader()
-                print("error: encryption key not found! please load the corisponding key to the text to continue.")
-                input("press enter to continue")
-            else:
-                ln(40)
-                uiHeader()
-                print("please enter text to be decrypted:")
-                text=input()
-                print("decrypting...")
-                start=time.time()
-                decryptedText=backend.decrypt(text)
-                elapsed=time.time()-start
-                ln(40)
-                if(decryptedText[0]):
-                    uiHeader()
-                    print("decryption successful")
-                    print("finished in "+str(elapsed)+" second(s)")
-                    print("here is your decrypted text:{"+decryptedText[1]+"}")
-                    ln()
-                    input("press enter to continue")
-                else:
-                    uiHeader()
-                    print("error: unsupported character {"+encryptedText[1]+"} in text! check text for the unsuported character. a complete list of supported characters can be found in the information menu.")
-                    input("press enter to continue")
-        elif(selection=="3"):
-            ln(40)
-            uiHeader()
-            print("are you sure you want to load a key?")
-            print("this will replace any currently loaded key.")
-            decision=input("(y/n)")
-            if(decision=="y"):
-                ln(40)
-                uiHeader()
-                print("please enter key:")
-                try:
-                    text=input()
-                    start=time.time()
-                    backend.setKey(backend.loadKey(text))
-                    elapsed=time.time()-start
-                    print("loading key...")
-                    ln(40)
-                    uiHeader()
-                    print("key successfully loaded")
-                    print("finished in "+str(elapsed)+" second(s)")
-                    input("press enter to continue")
-                except:
-                    print("loading key...")
-                    ln(40)
-                    uiHeader()
-                    print("error: key failed to load. please check key and try again")
-                    input("press enter to continue")
-        elif(selection=="4"):
-            ln(40)
-            uiHeader()
-            print("are you sure you want to generate a new key?")
-            print("this will replace any currently loaded key.")
-            decision=input("(y/n)")
-            if(decision=="y"):
-            
-            
-                ln(40)
-                uiHeader()
-                print("please input key complexity value:")
-                complexity=input()
-                print("generating key...")
-                
-                try:
-                    complexity=int(complexity)
-                    start=time.time()
-                    backend.setKey(backend.generateKey(complexity))
-                    elapsed=time.time()-start
-                    ln(40)
-                    uiHeader()
-                    print("key successfully generated")
-                    print("finished in "+str(elapsed)+" second(s)")
-                    input("press enter to continue")
-                    
-                    
-                    
-                except:
-                    ln(40)
-                    print("error: key generation error. please make sure key complexity value is a positive integer and try again")
-                    input("press enter to continue")
-
-
-        elif(selection=="5"):
-            ln(40)
-            uiHeader()
-            if(backend.loadedKey==None):
-                
-                print("error: encryption key not found! please load or generate a key to continue.")
-                input("press enter to continue")
-            else:
-                start=time.time()
-                compiledKey=backend.exportKey(backend.loadedKey)
-                elapsed=time.time()-start
-                print("key:{"+compiledKey+"}")
-                ln()
-                print("finished in "+str(elapsed)+" second(s)")
-                input("press enter to continue")
-                
-                
-
-
-        elif(selection=="6"):
-            ln(40)
-            uiHeader()
-            print("Cactus encrypt is a felxible encryption algorithm and associted program I wrote in my free time because I was bored. Though I tried to make it easy to use, it still has some complexity, so I will try to clear that up here. Cactus encrypt is very strict with its key formatting. keys must be entered exactly the same as they are exported (all the stuff between the curly braces and no extra). Also, it uses a nonstandard character set and errors out if it detects an unsupported character. To prevent confusion I have listed out all of the supported characters here: {qwertyuiopasdfghjklzxcvbnm ;1234567890-=!#$%^&*{}()_+QWERTYUIOPASDFGHJKL:ZXCBVNM<>?.,[]'\"\\~|@}. Please note that though curly braces are supported characters they are also used to denote the start and end of output text feilds, so be careful when copying. additionally spaces are also supported characters, so keep that in mind. have fun with cactus encrypt! -redcactus5")
-            input("press enter to continue")
-            
-        else:
-            ln(40)
-            uiHeader()
-            print("error: input error, selection not found")
-            input("press enter to continue")
-
-
-
-
-#incredibly important function call
-#userInterface()
             
