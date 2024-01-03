@@ -75,14 +75,23 @@ def clear():
 
 
 #ui header function to save time
-def uiHeader(mode:str):
+def uiHeader(currentMode:str):
     clear()
     global PRGVERSION
     global HELP
     print("cactus encrypt "+PRGVERSION+" by redcacus5")
-    print(mode)
+    print(currentMode)
     ln()
-    print("system check results:")
+
+
+    #inneficent, but in the grand sceme of things, I dont care
+    if(backend.isCharSetLoaded()):
+        print("character set loaded")
+    if(backend.isKeyLoaded()):
+        print("encryption key loaded")
+    if(backend.isKeyLoaded() or backend.isCharSetLoaded()):
+        ln()
+
     if(not(backend.isKeyLoaded()) or not(backend.isCharSetLoaded()) or (HELP==None)):
         print("system not ready. detected problems:")
         if(not backend.isKeyLoaded()):
@@ -90,9 +99,10 @@ def uiHeader(mode:str):
         if(not backend.isCharSetLoaded()):
             print("warning, no character set in memory! please load a character set")
         if(HELP==None):
-            print("warning, readme file could not be loaded! the program can still run in \nthis state, but the help function will be disabled")
+            print("warning, readme file could not be loaded! encryption and decrpytion \ncan still be done in this state, but the help function will be disabled")
     else:
         print("no errors detected. system ready")
+
     ln(3)
  
 
@@ -376,7 +386,7 @@ def exportKeyToTerminal():
 
     
     else:
-        errorScreen("uh, oh!\nthere is encryption key in memory to export!\nplease load a key then try again!",menuName)
+        errorScreen("uh, oh!\nthere is encryption key in memory to export!\nplease load or generate a key then try again!",menuName)
         
 
 def generateKey():
@@ -456,21 +466,135 @@ def loadKeyFromTXT():
 def exportKeyToTXT():
     menuName="export encryption key to file"
 
+    if(backend.isKeyLoaded()):
+        if(booleanQuestionScreen("are you sure you want to export the current encryption key to a file",menuName)):
+
+            fileName=enterFileNameScreen("please enter the name of the file to export the encryption key to (include the file extension)\nWarning! if the does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            
+            uiHeader(menuName)
+            print("exporting...")
+
+            start=time.time()
+            success=backend.exportKeyToTXT(fileName)
+            total=time.time()-start
+
+            if(success[0]):
+                finishedScreen("encryption key successfully exported!", total, menuName)
+            else:
+                errorScreen("encryption key export failed!\n\n"+success[1],menuName)
+    
+    else:
+        errorScreen("uh, oh!\nthere is encryption key in memory to export!\nplease load or generate a key then try again!",menuName)
+        
+
+
+#acual encryption stuff
 
 def encryptTerminalInput():
     menuName="encrypt terminal entry"
+    if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
+        
+        if(booleanQuestionScreen("are you sure you want to encrypt data?",menuName)):
+            uiHeader(menuName)
+            print("please enter the text to decrypt")
+            ln()
+            toBeEncrypted=input("text:")
+
+            uiHeader(menuName)
+            print("encrypting...")
+
+            start=time.time()
+            encryptedText=backend.encryptText(toBeEncrypted)
+            total=time.time()-start
+
+            if(encryptedText[0]):
+                terminalExportScreen("encryption successful!",total,"please remember that curly braces are used to denote the start \nand end of the encrypted text, but can also appear in it","encrypted text:{"+encryptedText[1]+"}", menuName)
+            
+            else:
+                errorScreen("encryption failed!\n\n"+encryptedText[1], menuName)
+
+    else:
+        if((not backend.isCharSetLoaded()) and (not backend.isKeyLoaded())):
+            errorScreen("uh, oh! \nthere is no encryption key or character set in memory, and you need both to encrypt! \nplease load both of them then try again!",menuName)
+        elif(not backend.isCharSetLoaded()):
+            errorScreen("uh, oh! \nthere is no character set in memory, and you need that to encrypt! \nplease load one then try again!",menuName)
+        else:
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to encrypt! \nplease load or generate one then try again!")
+
+        
+
+
+
 
 
 def decryptTerminalInput():
     menuName="decrypt terminal entry"
 
+    if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
+        if(booleanQuestionScreen("are you sure you want to decrypt data?",menuName)):
+            uiHeader(menuName)
+            print("please enter the text to decrypt")
+            ln()
+            toBeDecrypted=input("text:")
+
+            uiHeader(menuName)
+            print("decrypting...")
+
+            start=time.time()
+            decryptedText=backend.encryptText(toBeDecrypted)
+            total=time.time()-start
+
+            if(decryptedText[0]):
+                terminalExportScreen("decryption successful!",total,"please remember that curly braces are used to denote the start \nand end of the decrypted text, but can also appear in it","decrypted text:{"+decryptedText[1]+"}", menuName)
+            
+            else:
+                errorScreen("encryption failed!\n\n"+decryptedText[1], menuName)
+
+    else:
+        if((not backend.isCharSetLoaded()) and (not backend.isKeyLoaded())):
+            errorScreen("uh, oh! \nthere is no encryption key or character set in memory, and you need both to decrypt! \nplease load both of them then try again!",menuName)
+        elif(not backend.isCharSetLoaded()):
+            errorScreen("uh, oh! \nthere is no character set in memory, and you need that to decrypt! \nplease load one then try again!",menuName)
+        else:
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!")
+
+
+
+
+
 
 def ecryptTXT():
     menuName="encrypt a text file"
 
+    if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
+        pass#placeholder
+
+    else:
+        if((not backend.isCharSetLoaded()) and (not backend.isKeyLoaded())):
+            errorScreen("uh, oh! \nthere is no encryption key or character set in memory, and you need both to encrypt! \nplease load both of them then try again!",menuName)
+        elif(not backend.isCharSetLoaded()):
+            errorScreen("uh, oh! \nthere is no character set in memory, and you need that to encrypt! \nplease load one then try again!",menuName)
+        else:
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to encrypt! \nplease load or generate one then try again!")
+
+
+
+
+
 
 def decryptTXT():
     menuName="decrypt a text file"
+
+    if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
+        pass#placeholder
+
+    else:
+        if((not backend.isCharSetLoaded()) and (not backend.isKeyLoaded())):
+            errorScreen("uh, oh! \nthere is no encryption key or character set in memory, and you need both to decrypt! \nplease load both of them then try again!",menuName)
+        elif(not backend.isCharSetLoaded()):
+            errorScreen("uh, oh! \nthere is no character set in memory, and you need that to decrypt! \nplease load one then try again!",menuName)
+        else:
+            errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!")
 
 
 def helpScreen():
