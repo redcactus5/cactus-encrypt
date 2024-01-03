@@ -8,8 +8,7 @@ from os import system, name
 
 #TODO: remember to fix the version string for final release
 
-PRGVERSION="V2.0 alpha 1: active development"
-#"V2.0 beta: debug build 1"
+PRGVERSION="V2.0 beta: debug build 1"
 #"V2.0 RC1"
 #"V2.0"
 
