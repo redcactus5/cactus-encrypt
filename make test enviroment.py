@@ -1,8 +1,7 @@
 import shutil
 import os
 #got from chat gpt
-import shutil
-import os
+
 
 def copy_files_from_subdirectories(src_subdirectory1, src_subdirectory2, dest_subdirectory):
     try:
