@@ -190,9 +190,9 @@ def advanceRotors(rotorList:list):
 #encrypts string argument. returns a tuple of success and encrypted string or failure and the problem character
 def encrypt(text:str, characterSet:tuple, encryptionKey:list):
     #check for character compatablility
-    for character in text:
+    for character in list(text):
         if(not character in characterSet):
-            return (False,character)
+            return (False,str(character))
     #initialize variables and the two static cyphers
     rotors=[]
     cyphers=(Rotor(encryptionKey[len(encryptionKey)-2],0),Rotor(encryptionKey[len(encryptionKey)-1],0))
@@ -222,11 +222,11 @@ def encrypt(text:str, characterSet:tuple, encryptionKey:list):
 
 
 #decrypts string argument. returns a tuple of either success and the decrypted string or failure and the problem character
-def decrypt(text, characterSet:tuple, encryptionKey:list):
+def decrypt(text:str, characterSet:tuple, encryptionKey:list):
     #check for character compatability
-    for character in text:
+    for character in list(text):
         if(not character in characterSet):
-            return (False,character)
+            return (False,str(character))
     #initialize variables and the two static cyphers
     rotors=[]
     cyphers=(Rotor(encryptionKey[len(encryptionKey)-2],0),Rotor(encryptionKey[len(encryptionKey)-1],0))

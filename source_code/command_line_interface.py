@@ -561,7 +561,7 @@ def ecryptTXT():
             success=backend.encryptTextFile(source,output)
             total=time.time()-start
 
-            if(success[1]):
+            if(success[0]):
                 finishedScreen("file encryption successful!", total, menuName)
             else:
                 errorScreen("file encryption failed!\n\n"+success[1], menuName)
@@ -597,7 +597,7 @@ def decryptTXT():
             success=backend.decryptTextFile(source,output)
             total=time.time()-start
 
-            if(success[1]):
+            if(success[0]):
                 finishedScreen("file decryption successful!", total, menuName)
             else:
                 errorScreen("file decryption failed!\n\n"+success[1], menuName)

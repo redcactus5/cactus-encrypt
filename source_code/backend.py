@@ -96,7 +96,7 @@ def getTextFromFile(fileName:str):
     file=None
     text=""
     try:
-        file=open(fileName,"r")
+        file=open(fileName,'r')
     except:
         return (False,"io error: file to read could not be opened. please check that file is present, accessible, and the name is correct, then try again")
     try:
@@ -118,7 +118,7 @@ def getTextFromFile(fileName:str):
 def writeTextToFile(fileName:str,text:str):
     file=None
     try:
-        file=open(fileName,"w")
+        file=open(fileName,'w')
     except:
         return (False,"io error: file to write could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessable, then try again")
     try:
@@ -312,7 +312,7 @@ def encryptText(text:str):
         return (False, "critical error: encryption process failed. please check the text for errors then try again")
     
     if(not encryptedText[0]):
-        return (False, "character error: the character {"+str(encryptedText[1])+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
+        return (False, "character error: the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
     
     return encryptedText
         
@@ -334,12 +334,12 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
 
     encryptedText=""
     try:
-        encryptedText=crypto_engine.encrypt(fileData, characterSet, loadedKey)
+        encryptedText=crypto_engine.encrypt(fileData[1], characterSet, loadedKey)
     except:
         return (False, "critical error: encryption process failed. please check the file for errors then try again")
     
     if(not encryptedText[0]):
-        return (False, "character error: the character {"+str(encryptedText[1])+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
+        return (False, "character error: the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
     
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -365,7 +365,7 @@ def decryptText(text:str):
         return (False, "critical error: decryption process failed. please check the text for errors then try again")
     
     if(not decryptedText[0]):
-        return (False, "character error: the character {"+str(decryptedText[1])+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
+        return (False, "character error: the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
     
     return decryptedText
 
@@ -386,12 +386,12 @@ def decryptTextFile(sourceFileName:str,destinationFileName:str):
 
     decryptedText=""
     try:
-        decryptedText=crypto_engine.decrypt(fileData, characterSet, loadedKey)
+        decryptedText=crypto_engine.decrypt(fileData[1], characterSet, loadedKey)
     except:
         return (False, "critical error: encryption process failed. please check the file for errors then try again")
     
     if(not decryptedText[0]):
-        return (False, "character error: the character {"+str(decryptedText[1])+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
+        return (False, "character error: the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
     
     error=writeTextToFile(destinationFileName,decryptedText[1])
     
