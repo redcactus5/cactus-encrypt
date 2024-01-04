@@ -312,7 +312,7 @@ def encryptText(text:str):
         return (False, "critical error: encryption process failed. please check the text for errors then try again")
     
     if(not encryptedText[0]):
-        return (False, "character error: the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
+        return (False, "character error: the character {"+str(encryptedText[1])+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
     
     return encryptedText
         
@@ -339,7 +339,7 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
         return (False, "critical error: encryption process failed. please check the file for errors then try again")
     
     if(not encryptedText[0]):
-        return (False, "character error: the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
+        return (False, "character error: the character {"+str(encryptedText[1])+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
     
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -365,7 +365,7 @@ def decryptText(text:str):
         return (False, "critical error: decryption process failed. please check the text for errors then try again")
     
     if(not decryptedText[0]):
-        return (False, "character error: the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
+        return (False, "character error: the character {"+str(decryptedText[1])+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
     
     return decryptedText
 
@@ -391,7 +391,7 @@ def decryptTextFile(sourceFileName:str,destinationFileName:str):
         return (False, "critical error: encryption process failed. please check the file for errors then try again")
     
     if(not decryptedText[0]):
-        return (False, "character error: the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
+        return (False, "character error: the character {"+str(decryptedText[1])+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
     
     error=writeTextToFile(destinationFileName,decryptedText[1])
     

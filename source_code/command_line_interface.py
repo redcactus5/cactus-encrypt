@@ -522,7 +522,7 @@ def decryptTerminalInput():
             print("decrypting...")
 
             start=time.time()
-            decryptedText=backend.encryptText(toBeDecrypted)
+            decryptedText=backend.decryptText(toBeDecrypted)
             total=time.time()-start
 
             if(decryptedText[0]):
