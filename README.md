@@ -1,2 +1,2 @@
 # cactus-encrypt
-
+cactus encrypt is a simple command line encryption program I wrote in my free time because I was bored. it implements a flexable rotor based encryption algorithm with interchangeable character sets and rotors. rotors can be generated on the fly, and encrpytion keys can use any number of rotors. It is written entirely in python 3 and is compiled using the excellent nuitka compiler. it is very posible to make a gui wrapper for the program, but I probable won't make one because i'm lazy. 
