@@ -119,7 +119,7 @@ def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accur
             if(accuracy>len(selection)):
                 accuracy=len(selection)
             for i in range(len(options)):
-                if(selection[:accuracy]==options[i]):
+                if(selection[:accuracy]==str(options[i])[:accuracy]):
                     return i
         uiHeader(currentMode)
         print("syntax error: bad input. please enter one of the provided options")
