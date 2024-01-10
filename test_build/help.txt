@@ -1,7 +1,0 @@
-Welcome to cactus encrypt version 2.0!
-
-
-
-cactus encrpyt is a flexable encrpytion program written entirely in python 3! version 2.0 bring many new features to the table, including support for encrypting text files and interchangeable character sets. since this program can get a bit cryptic, this guide is here to give you a hand. 
-
-placeholder for when i think of what to write here
