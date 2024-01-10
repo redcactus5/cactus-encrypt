@@ -639,7 +639,7 @@ def CLI_V2():
     #TODO: rewrite readme.md and write help.txt
     run=True
     options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an ecryption key from the terminal","(6) load an ecryption key from a file","(7) generate an ecryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file","(15) help", "(16) quit")
-    optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16")
+    optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","qu")
     while run:
         selection=multipleChoiceScreen("welcome to cactus encrypt\n\nplease select an option:",options,optionCodes,2,menuName)
 
@@ -688,7 +688,7 @@ def CLI_V2():
         elif(selection==14):
             helpScreen()
         
-        elif(selection==15):
+        elif(selection==15 or selection==16):
             if(exit()):
                 run=False
                 break
