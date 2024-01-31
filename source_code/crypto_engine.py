@@ -46,28 +46,36 @@ def convertToText(numlist:list, characterSet:tuple):
 class Rotor:
     def __init__(self, wiring:list, pos:int):
         self.pos=pos
-        self.wiring=wiring
+        #the wiring list used for encryption
+        self.encodingWiring=wiring
+        #the wiring list used for decryption. it stores the index where a number in encoding wiring is found at the index of the number itself.
+        self.decodingWiring = [0] * len(wiring)
+
+        #precompute the index values and populate decodeingwiring with them
+        for i in range(len(wiring)):
+            self.decodingWiring[wiring[i]] = i
+
+
     #advance the rotor fowards by 1
     def advance(self):#self explanitory logic
         self.pos+=1
-        if(self.pos>len(self.wiring)-1):
-            self.pos-=len(self.wiring)
+        if(self.pos>len(self.encodingWiring)-1):
+            self.pos-=len(self.encodingWiring)
             return True
         return False
     
     #self explanitory name
     def encodeValue(self,number:int):
         searchNumber=number+self.pos#calculate number to get
-        while(searchNumber>len(self.wiring)-1):#logic to prevent index errors and enforce rollover
-            searchNumber-=len(self.wiring)
-        return self.wiring[searchNumber]#return final number
+        while(searchNumber>len(self.encodingWiring)-1):#logic to prevent index errors and enforce rollover
+            searchNumber-=len(self.encodingWiring)
+        return self.encodingWiring[searchNumber]#return final number
     
-        #self explanitory name
-    def decodeValue(self, number:int):#logic of encode value in reverse
-        numIndex=self.wiring.index(number)-self.pos
-        while(numIndex<0):
-            numIndex+=len(self.wiring)
-        
+     #self explanitory name
+    def decodeValue(self, number: int):
+        numIndex = self.decodingWiring[number] - self.pos
+        while numIndex < 0:
+            numIndex += len(self.decodingWiring)
         return numIndex
     
 

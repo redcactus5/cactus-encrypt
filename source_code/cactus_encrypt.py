@@ -4,5 +4,5 @@ import command_line_interface
 command_line_interface.start()
 #except:
 #    print("\n")*50
-#    print("a serious error occured. the program has been closed for safety reasons.")
+#    print("a serious error occured. the program has quit to prevent damage")
 #    input("press enter to finish")
