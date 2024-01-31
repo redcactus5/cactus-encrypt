@@ -150,7 +150,7 @@ def generateKey(rotorCount:int):
     try:
         setKey(newKey)
     except:
-        return (False, "critical error: new key could not be loaded. please check for errors then try again")
+        return (False, "critical error: the newly generated key could not be loaded. please check for errors then try again")
 
     return (True, "successful")
 
@@ -195,11 +195,15 @@ def exportKeyToTXT(fileName:str):
 
 def loadKey(keyString:str):
     key=None
-
+    global characterSet
     try:
         key=crypto_engine.loadKey(keyString)
     except:
-        return (False, "critical error: key could not be parsed. please check the key for errors then try again")
+        return (False, "input error: key could not be parsed. please check the key for errors then try again")
+    
+    if(len(key[len(key)-1])!=len(characterSet)):
+        return (False, "input error: key character set missmatch, character set and key do not have the same number of characters. please load the correct character set then try again")
+    
     try:
         setKey(key)
     except:
