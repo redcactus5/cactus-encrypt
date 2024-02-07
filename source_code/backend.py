@@ -236,11 +236,15 @@ def loadCharSet(charSetString:str):
         charSetTuple=tuple(charSetString)
     except:
         return (False, "critical error: character set could not be parsed. please check it for errors then try again")
-    
+        
     try:
         setCharSet(charSetTuple)
     except:
         return (False, "critical error: character set could not be parsed. please check it for errors then try again")
+    try:
+        setKey(None)
+    except:
+        return (False, "critical error: key could not be cleared. please check it for errors then try again")
     return (True,"successful")
         
 

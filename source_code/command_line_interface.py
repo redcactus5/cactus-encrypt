@@ -8,7 +8,7 @@ from os import system, name
 
 #TODO: remember to fix the version string for final release
 
-PRGVERSION="V2.0 beta: debug build 2"
+PRGVERSION="V2.0 beta: debug build 3"
 #"V2.0 RC1"
 #"V2.0"
 
@@ -235,7 +235,7 @@ you still need to rewrite everything from scratch or at least near scratch.
 def loadCharSet():
     menuName="load character set from terminal"
 
-    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written", menuName)):
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written, and any currently loaded key will be cleared", menuName)):
         uiHeader(menuName)
         print("please enter the new character set")
         ln()
@@ -256,7 +256,7 @@ def loadCharSet():
 def loadCharSetFromTXT():
     menuName="load character set from file"
 
-    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written",menuName)):
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written and any currently loaded key will be cleared",menuName)):
         uiHeader(menuName)
         sourceFile=enterFileNameScreen("please enter the name of the file to load the character set from (include the file extension)",menuName)
         uiHeader(menuName)
