@@ -76,11 +76,11 @@ this issue is simple. cactus encrypt isnt magic, no matter how much i wish it wa
 this error means that the file you are reading right now could not be found or loaded by the program. this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again.  if all else fails, restarting the program and/or your computer may help.
 
 
-"warning, no key in memory!"
-this error means that the default key could not be loaded on startup. this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again.  if all else fails, restarting the program and/or your computer may help.
+"notice: no encryption key loaded"
+this error can have two causes: you have loaded a new character set and the key was cleared for safety, or the program could not find the default key on startup. this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again. you can also just load a key. if all else fails, restarting the program and/or your computer may help.
 
 
-"warning, no character set in memory!"
+"notice: no character set loaded"
 this error means that the default character set could not be loaded on startup.  this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again.  if all else fails, restarting the program and/or your computer may help.
 
 

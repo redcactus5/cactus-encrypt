@@ -88,19 +88,20 @@ def uiHeader(currentMode:str):
         print("character set loaded")
     if(backend.isKeyLoaded()):
         print("encryption key loaded")
-    if(backend.isKeyLoaded() or backend.isCharSetLoaded()):
-        ln()
 
     if(not(backend.isKeyLoaded()) or not(backend.isCharSetLoaded()) or (HELP==None)):
-        print("system not ready. detected problems:")
+        
         if(not backend.isKeyLoaded()):
-            print("warning, no key in memory! please generate or load a key")
+            print("notice: no encryption key loaded")
         if(not backend.isCharSetLoaded()):
-            print("warning, no character set in memory! please load a character set")
+            print("notice: no character set loaded")
         if(HELP==None):
             print("warning, readme file could not be loaded! encryption and decrpytion \ncan still be done in this state, but the help function will be disabled")
+        ln()
+        print("system not ready")
     else:
-        print("no errors detected. system ready")
+        ln()
+        print("system ready")
 
     ln(3)
  
