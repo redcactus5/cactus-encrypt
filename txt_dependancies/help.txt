@@ -77,7 +77,7 @@ this error means that the file you are reading right now could not be found or l
 
 
 "notice: no encryption key loaded"
-this error can have two causes: you have loaded a new character set and the key was cleared for safety, or the program could not find the default key on startup. this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again. you can also just load a key. if all else fails, restarting the program and/or your computer may help.
+this error has two possible causes. the first is an intended side effect of loading a new character set, where the key is cleared for safety. the second is caused by the program not being able to load the defualt key on startup.  this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again. you can also just load or generate a new key. if all else fails, restarting the program and/or your computer may help.
 
 
 "notice: no character set loaded"
