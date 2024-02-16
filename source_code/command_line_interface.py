@@ -12,27 +12,8 @@ PRGVERSION="V2.0 beta: debug build 3"
 #"V2.0 RC1"
 #"V2.0"
 
-HELP=None
+help=None
 
-
-
-'''
-TO DO:
-1.write readme/help file
-3. add features in update manifest:
- a. add ability to load and store keys in a txt file
- b. add ability to encrypt and decrpyt text files
- c. add ability to load character sets from text files
- d. add ability to export character sets to text files
- e. have you you enter the name of the file to use in the above additional options
- f. overhaul ui function
- g. completely rewrite information text
- h. add a note saying that text feilds are encapsolated by curly braces
- i. add ability to scramble the current character set
- j. add ability to import and export character sets through the terminal
- k. it is recomended to try and make one set of functions for all the txt file stuff and then link those together with existing work
- l. make it attempt to load a default character set and key at startup
-'''
 
 
     
@@ -77,7 +58,7 @@ def clear():
 def uiHeader(currentMode:str):
     clear()
     global PRGVERSION
-    global HELP
+    global help
     print("cactus encrypt "+PRGVERSION+" by redcacus5")
     print(currentMode)
     ln()
@@ -89,14 +70,14 @@ def uiHeader(currentMode:str):
     if(backend.isKeyLoaded()):
         print("encryption key loaded")
 
-    if(not(backend.isKeyLoaded()) or not(backend.isCharSetLoaded()) or (HELP==None)):
+    if(not(backend.isKeyLoaded()) or not(backend.isCharSetLoaded()) or (help==None)):
         
         if(not backend.isKeyLoaded()):
             print("notice: no encryption key loaded")
         if(not backend.isCharSetLoaded()):
             print("notice: no character set loaded")
-        if(HELP==None):
-            print("warning, readme file could not be loaded! encryption and decrpytion \ncan still be done in this state, but the help function will be disabled")
+        if(help==None):
+            print("warning, help file could not be loaded! encryption and decryption \ncan still be done in this state, but the help function will be disabled")
         ln()
         print("system not ready")
     else:
@@ -617,12 +598,12 @@ def decryptTXT():
 
 def helpScreen():
     menuName="help"
-    if(HELP==None):
+    if(help==None):
         uiHeader(menuName)
         errorScreen("uh, oh!\nthe help file couldn't be loaded!\nplease check it for errors, and if it has been moved, please put it back. \nafter that, please restart the program then try again",menuName)
     else:
         uiHeader(menuName)
-        print(HELP)
+        print(help)
         ln(3)
         input("press enter to return to the main menu")
 
@@ -688,7 +669,7 @@ def CLI_V2():
         elif(selection==14):
             helpScreen()
         
-        elif(selection==15 or selection==16):
+        elif(selection==15 or selection==16 or selection==17):
             if(exit()):
                 run=False
                 break
@@ -705,11 +686,12 @@ def start():
 
     try:
         helpFile = open("help.txt","r")
-        global HELP
-        HELP=helpFile.read()
+        global help
+        help=helpFile.read()
         helpFile.close()
     except:
         pass
+
 
     CLI_V2()
     

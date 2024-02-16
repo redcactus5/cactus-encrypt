@@ -202,7 +202,7 @@ def loadKey(keyString:str):
         return (False, "input error: key could not be parsed. please check the key for errors then try again")
     
     if(len(key[len(key)-1])!=len(characterSet)):
-        return (False, "input error: key character set missmatch, character set and key do not have the same number of characters. please load the correct character set then try again")
+        return (False, "input error: character set key missmatch, character set and key do not have the same number of characters. please load the correct character set then try again")
     
     try:
         setKey(key)

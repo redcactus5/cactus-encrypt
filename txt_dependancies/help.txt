@@ -15,7 +15,7 @@ cactus encrpyt is a flexable encrpytion program written entirely in python 3. ve
 
 
 general warnings:
-keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encrpytion and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. the program actually runs a few checks and perofrms a few actions to attempt to prevent this.
+keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encrpytion and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. 
 
 
 
@@ -64,7 +64,7 @@ this error occurs when the program fails to proccess a character set given to it
 this issue is simple. cactus encrypt isnt magic, no matter how much i wish it was. in order to encrpyt text, all the characters in the text must also be in the currently loaded character set. if it finds one that isnt, it gives this error. fixing this is pretty easy. either remove all instances of that character from your text, or add it to the character set and generate a new encryption key. if all else fails, restarting the program and/or your computer may help.
 
 
-"input error: key character set missmatch, character set and key do not have the same number of characters."
+"input error: character set key missmatch, character set and key do not have the same number of characters."
 this error is simple. with cactus encrypt, encryption keys and character sets are closely tied together. if you mismatch them, neither will work corrrectly. in this case, the encryption key you are attempting to load was designed for a character set with a different number of characters. to fix this, just us a properly matched character set and encryption key pair. if all else fails, restarting the program and/or your computer may help.
 
 
@@ -72,8 +72,8 @@ this error is simple. with cactus encrypt, encryption keys and character sets ar
 this issue is simple. cactus encrypt isnt magic, no matter how much i wish it was. in order to encrypt a file, all the characters in the file must also be in the currently loaded character set. if it finds one that isnt, it gives this error. fixing this is pretty easy. either remove all instances of that character from your file, or add it to the character set and generate a new encryption key. if all else fails, restarting the program and/or your computer may help.
 
 
-"warning, readme file could not be loaded!"
-this error means that the file you are reading right now could not be found or loaded by the program. this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again.  if all else fails, restarting the program and/or your computer may help.
+"warning, help file could not be loaded!" and "uh, oh! the help file couldn't be loaded!"
+these errors mean that the file you are reading right now could not be found or loaded by the program. this usally happens if it is open in another program, has had its name changed, cactus encrypt doesnt have the right file permisions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are recified the try again.  if all else fails, restarting the program and/or your computer may help.
 
 
 "notice: no encryption key loaded"
