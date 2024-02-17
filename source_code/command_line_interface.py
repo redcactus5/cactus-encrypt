@@ -188,38 +188,15 @@ def sanitizeInput(text:str):
 
 
 
-'''
-options to implement (as functions this time):
-load char set from text file
-load char set from terminal
-scramble char set
-export char set to text file
-export char set to terminal
-encrypt text file
-decrypt text file
-load key from text file
-export key to text file
-encrypt text input
-decrypt text input
-load a key via text input
-export key to terminal
-generate new key
-print readme.txt
-exit
 
-help is being farmed out to the readme file
 
-you still need to rewrite everything from scratch or at least near scratch.
-'''
-
-#remember to check for presence of the things you need
 
 def loadCharSet():
     menuName="load character set from terminal"
 
-    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written, and any currently loaded key will be cleared", menuName)):
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written, and any currently loaded key will be cleared.", menuName)):
         uiHeader(menuName)
-        print("please enter the new character set")
+        print("please enter the new character set.")
         ln()
         newSet=input("character set:")
         uiHeader(menuName)
@@ -257,7 +234,7 @@ def loadCharSetFromTXT():
 def scrambleCharSet():
     menuName="scramble character set"
     if(backend.isCharSetLoaded()):
-        if(booleanQuestionScreen("are you sure you want to scramble the currently loaded character set?\n this will overwrite the currently loaded character set, \nand break compatibility with anything encrypted with it",menuName)):
+        if(booleanQuestionScreen("are you sure you want to scramble the currently loaded character set?\n this will replace the currently loaded character set, \nand break compatibility with anything encrypted with it.",menuName)):
             
             uiHeader(menuName)
             print("now scrambling...")
@@ -279,7 +256,7 @@ def exportCharSetToTXT():
     menuName="export character set to file"
     if(backend.isCharSetLoaded()):
         if(booleanQuestionScreen("are you sure you want to export the current character set to a file?",menuName)):
-            sourceFile=enterFileNameScreen("please enter the name of the file to export the character set to (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            sourceFile=enterFileNameScreen("please enter the name of the file to export the character set to (include the file extension).\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten.",menuName)
             
             uiHeader(menuName)
             print("exporting...")
@@ -310,7 +287,7 @@ def exportCharSet():
             total=time.time()-start
 
             if(charSetString[0]):
-                terminalExportScreen("character set export successful!",total,"please remember that curly braces are used to denote the start and end \nof the character set, but can also appear in it","character set:{"+charSetString[1]+"}", menuName)
+                terminalExportScreen("character set export successful!",total,"please remember that curly braces are used to denote the start and end \nof the character set, but can also appear in it.","character set:{"+charSetString[1]+"}", menuName)
             else:
                 errorScreen("character set export failed!\n\n"+charSetString[1],menuName)
  
@@ -321,9 +298,9 @@ def exportCharSet():
 
 def loadKeyFromTerminal():
     menuName="load encryption key from terminal entry"
-    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten",menuName)):
+    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten.",menuName)):
         uiHeader(menuName)
-        print("please enter the new encryption key")
+        print("please enter the new encryption key.")
         ln()
         newKeyString=input("key:")
 
@@ -352,7 +329,7 @@ def exportKeyToTerminal():
             total=time.time()-start
 
             if(keyString[0]):
-                terminalExportScreen("encryption key export successful!",total,"please remember that curly braces are used to denote the start \nand end of the key, and are not part of it","encryption key:{"+keyString[1]+"}", menuName)
+                terminalExportScreen("encryption key export successful!",total,"please remember that curly braces are used to denote the start \nand end of the key, and are not part of it.","encryption key:{"+keyString[1]+"}", menuName)
             else:
                 errorScreen("encryption key export failed!\n\n"+keyString[1],menuName)
 
@@ -365,14 +342,14 @@ def generateKey():
     menuName="generate key"
 
     if(backend.isCharSetLoaded()):
-        if(booleanQuestionScreen("are you sure you want to generate a new encryption key?\n any currently loaded key will be overwritten",menuName)):
+        if(booleanQuestionScreen("are you sure you want to generate a new encryption key?\n any currently loaded key will be overwritten.",menuName)):
 
 
             complexity=0
 
             while True:
                 uiHeader(menuName)
-                print("please enter a complexity value for the new key (complexity value must be a positive integer):")
+                print("please enter a complexity value for the new key (complexity value must be a positive integer).")
                 ln()
                 userInput=input("complexity value:")
 
@@ -391,7 +368,7 @@ def generateKey():
 
                 if(inputError):
                     uiHeader(menuName)
-                    print("input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again")
+                    print("input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
                     ln(2)
                     input("press enter to continue")
                 
@@ -416,9 +393,9 @@ def generateKey():
 
 def loadKeyFromTXT():
     menuName="load encryption key from file"
-    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten",menuName)):
+    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten.",menuName)):
         
-        fileName=enterFileNameScreen("please enter the name of the file to load the encryption key from (include the file extension)",menuName)
+        fileName=enterFileNameScreen("please enter the name of the file to load the encryption key from (include the file extension).",menuName)
 
         uiHeader(menuName)
         print("now loading...")
@@ -437,9 +414,9 @@ def exportKeyToTXT():
     menuName="export encryption key to file"
 
     if(backend.isKeyLoaded()):
-        if(booleanQuestionScreen("are you sure you want to export the current encryption key to a file",menuName)):
+        if(booleanQuestionScreen("are you sure you want to export the current encryption key to a file?",menuName)):
 
-            fileName=enterFileNameScreen("please enter the name of the file to export the encryption key to (include the file extension)\nWarning! if the does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            fileName=enterFileNameScreen("please enter the name of the file to export the encryption key to (include the file extension).\nWarning! if the does not exist, it will be created. if the file does exist, its contents will be overwritten.",menuName)
             
             uiHeader(menuName)
             print("exporting...")
@@ -464,7 +441,7 @@ def encryptTerminalInput():
         
         if(booleanQuestionScreen("are you sure you want to encrypt data?",menuName)):
             uiHeader(menuName)
-            print("please enter the text to encrypt")
+            print("please enter the text to encrypt.")
             ln()
             toBeEncrypted=input("text:")
 
@@ -476,7 +453,7 @@ def encryptTerminalInput():
             total=time.time()-start
 
             if(encryptedText[0]):
-                terminalExportScreen("encryption successful!",total,"please remember that curly braces are used to denote the start \nand end of the encrypted text, but can also appear in it","encrypted text:{"+encryptedText[1]+"}", menuName)
+                terminalExportScreen("encryption successful!",total,"please remember that curly braces are used to denote the start \nand end of the encrypted text, but can also appear in it.","encrypted text:{"+encryptedText[1]+"}", menuName)
             
             else:
                 errorScreen("encryption failed!\n\n"+encryptedText[1], menuName)
@@ -496,7 +473,7 @@ def decryptTerminalInput():
     if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
         if(booleanQuestionScreen("are you sure you want to decrypt data?",menuName)):
             uiHeader(menuName)
-            print("please enter the text to decrypt")
+            print("please enter the text to decrypt.")
             ln()
             toBeDecrypted=input("text:")
 
@@ -508,7 +485,7 @@ def decryptTerminalInput():
             total=time.time()-start
 
             if(decryptedText[0]):
-                terminalExportScreen("decryption successful!",total,"please remember that curly braces are used to denote the start \nand end of the decrypted text, but can also appear in it","decrypted text:{"+decryptedText[1]+"}", menuName)
+                terminalExportScreen("decryption successful!",total,"please remember that curly braces are used to denote the start \nand end of the decrypted text, but can also appear in it.","decrypted text:{"+decryptedText[1]+"}", menuName)
             
             else:
                 errorScreen("encryption failed!\n\n"+decryptedText[1], menuName)
@@ -530,10 +507,10 @@ def ecryptTXT():
         
         if(booleanQuestionScreen("are you sure you want to encrypt a file?",menuName)):
             
-            source=enterFileNameScreen("please enter the name of the file to encrypt (include the file extension)",menuName)
+            source=enterFileNameScreen("please enter the name of the file to encrypt (include the file extension).",menuName)
 
 
-            output=enterFileNameScreen("please enter the name of the destination file (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            output=enterFileNameScreen("please enter the name of the destination file (include the file extension).\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten.",menuName)
             
             
             uiHeader(menuName)
@@ -566,10 +543,10 @@ def decryptTXT():
 
         if(booleanQuestionScreen("are you sure you want to decrypt a file?",menuName)):
             
-            source=enterFileNameScreen("please enter the name of the file to decrypt (include the file extension)",menuName)
+            source=enterFileNameScreen("please enter the name of the file to decrypt (include the file extension).",menuName)
 
 
-            output=enterFileNameScreen("please enter the name of the destination file (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten",menuName)
+            output=enterFileNameScreen("please enter the name of the destination file (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten.",menuName)
             
             
             uiHeader(menuName)
@@ -600,7 +577,7 @@ def helpScreen():
     menuName="help"
     if(help==None):
         uiHeader(menuName)
-        errorScreen("uh, oh!\nthe help file couldn't be loaded!\nplease check it for errors, and if it has been moved, please put it back. \nafter that, please restart the program then try again",menuName)
+        errorScreen("uh, oh!\nthe help file couldn't be loaded!\nplease check it for errors, and if it has been moved, please put it back. \nafter that, please restart the program then try again.",menuName)
     else:
         uiHeader(menuName)
         print(help)
