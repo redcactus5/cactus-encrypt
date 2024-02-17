@@ -8,8 +8,8 @@ from os import system, name
 
 #TODO: remember to fix the version string for final release
 
-PRGVERSION="V2.0 beta: debug build 3"
-#"V2.0 RC1"
+PRGVERSION="V2.0 RC1"
+#"V2.0 beta: debug build 3"
 #"V2.0"
 
 help=None
@@ -36,7 +36,7 @@ def ln(*number:int):
     elif(number[0]>=1):
         print("\n"*(number[0]-1))
 
-
+#self explanitory, it clears the terminal
 def clear():
 
     try:
@@ -215,9 +215,9 @@ def loadCharSet():
 def loadCharSetFromTXT():
     menuName="load character set from file"
 
-    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written and any currently loaded key will be cleared",menuName)):
+    if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written and any currently loaded key will be cleared.",menuName)):
         uiHeader(menuName)
-        sourceFile=enterFileNameScreen("please enter the name of the file to load the character set from (include the file extension)",menuName)
+        sourceFile=enterFileNameScreen("please enter the name of the file to load the character set from (include the file extension).",menuName)
         uiHeader(menuName)
         print("now loading...")
 

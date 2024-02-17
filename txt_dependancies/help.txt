@@ -99,3 +99,10 @@ if you encounter any errors not listed here or have questions, don't hesitate to
 
 have fun with cactus encrypt!
 -redcactus5 
+
+
+
+powered by Python https://www.python.org/
+powered by Nuitka https://nuitka.net/
+
+2023-2024 redcactus5
