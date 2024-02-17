@@ -4,34 +4,6 @@ from random import randint
 
 
 
-'''
-guide for adding file support:
-https://www.geeksforgeeks.org/reading-writing-text-files-python/
-
-using File_object.read() should work for loading
-File_object.write(str1) should work for writing
-
-use try catch to detect file not found errors
-
-
-remember to add warnings to the prompts
-
-remember to close the file when done
-
-# Opening and Closing a file "MyFile.txt"
-# for object name file1.
-file1 = open("MyFile.txt","a")
-file1.close()
-
-use "w" open mode for writing, and "r" open mode for reading
-
-
-when loading remember to replace all "\n" with " "
-there is a built in function that can do this
-
-
-'''
-
 
 
 
@@ -98,15 +70,15 @@ def getTextFromFile(fileName:str):
     try:
         file=open(fileName,'r')
     except:
-        return (False,"io error: file to read could not be opened. please check that file is present, accessible, and the name is correct, then try again")
+        return (False,"io error: file to read could not be opened. please check that file is present, accessible, and the name is correct, then try again.")
     try:
         text=file.read()
     except:
-        return (False,"io error: file could not be read. please check the file for errors then try again")
+        return (False,"io error: file could not be read. please check the file for errors then try again.")
     try:
         file.close()
     except:
-        return (False,"io error: read file could not be closed. please check file for errors then try again")
+        return (False,"io error: read file could not be closed. please check file for errors then try again.")
     return (True,text)
 
 
@@ -120,15 +92,15 @@ def writeTextToFile(fileName:str,text:str):
     try:
         file=open(fileName,'w')
     except:
-        return (False,"io error: file to write could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessable, then try again")
+        return (False,"io error: file to write could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessable, then try again.")
     try:
         file.write(text)
     except:
-        return (False, "io error: file could not be written to. please check that the file is not write protected then try again")
+        return (False, "io error: file could not be written to. please check that the file is not write protected then try again.")
     try:
         file.close()
     except:
-        return (False,"io error: written file could not be closed. please check file for errors then try again")
+        return (False,"io error: written file could not be closed. please check file for errors then try again.")
     return (True,"successful")
 
 
@@ -141,16 +113,16 @@ def generateKey(rotorCount:int):
     global characterSet
     global loadedKey
     if(type(rotorCount) is not int or rotorCount<1):
-        return (False, "input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again")
+        return (False, "input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
     try:
         newKey=crypto_engine.generateKey(rotorCount, characterSet)
     except:
-        return (False, "critical error: new key could not be generated. please check input for errors then try again")
+        return (False, "critical error: new key could not be generated. please check input for errors then try again.")
 
     try:
         setKey(newKey)
     except:
-        return (False, "critical error: the newly generated key could not be loaded. please check for errors then try again")
+        return (False, "critical error: the newly generated key could not be loaded. please check for errors then try again.")
 
     return (True, "successful")
 
@@ -165,7 +137,7 @@ def exportKey():
     try:
         keyString=crypto_engine.exportKey(loadedKey)
     except:
-        return (False, "critical error: key could not be compiled to a string. please check it for errors then try again")
+        return (False, "critical error: key could not be compiled to a string. please check it for errors then try again.")
     return (True,keyString)
 
 
@@ -199,15 +171,15 @@ def loadKey(keyString:str):
     try:
         key=crypto_engine.loadKey(keyString)
     except:
-        return (False, "input error: key could not be parsed. please check the key for errors then try again")
+        return (False, "input error: key could not be parsed. please check the key for errors then try again.")
     
     if(len(key[len(key)-1])!=len(characterSet)):
-        return (False, "input error: character set key missmatch, character set and key do not have the same number of characters. please load the correct character set then try again")
+        return (False, "input error: character set key missmatch, character set and key do not have the same number of characters. please load the correct character set then try again.")
     
     try:
         setKey(key)
     except:
-        return (False, "critical error: key could not be loaded. please check the key for errors then try again")
+        return (False, "critical error: key could not be loaded. please check the key for errors then try again.")
     return (True, "successful")
 
 
@@ -235,16 +207,16 @@ def loadCharSet(charSetString:str):
     try:
         charSetTuple=tuple(charSetString)
     except:
-        return (False, "critical error: character set could not be parsed. please check it for errors then try again")
+        return (False, "critical error: character set could not be parsed. please check it for errors then try again.")
         
     try:
         setCharSet(charSetTuple)
     except:
-        return (False, "critical error: character set could not be parsed. please check it for errors then try again")
+        return (False, "critical error: character set could not be parsed. please check it for errors then try again.")
     try:
         setKey(None)
     except:
-        return (False, "critical error: key could not be cleared. please check it for errors then try again")
+        return (False, "critical error: key could not be cleared. please check it for errors then try again.")
     return (True,"successful")
         
 
@@ -270,7 +242,7 @@ def exportCharSet():
     try:
         charSetString="".join(characterSet)
     except:
-        return (False, "critical error: character set could not be processed. please check it for errors then try again")
+        return (False, "critical error: character set could not be processed. please check it for errors then try again.")
     return (True, charSetString)
 
 
@@ -301,7 +273,7 @@ def scrambleCharSet():
             scrambled.append(oldSet.pop(randint(0,len(oldSet)-1)))
         characterSet = tuple(scrambled)
     except:
-        return (False, "critical error: character set could not be scrambled. please check it for errors then try again")
+        return (False, "critical error: character set could not be scrambled. please check it for errors then try again.")
     return (True,"successful")
 
 
@@ -317,10 +289,10 @@ def encryptText(text:str):
     try:
         encryptedText=crypto_engine.encrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: encryption process failed. please check the text for errors then try again")
+        return (False, "critical error: encryption process failed. please check the text for errors then try again.")
     
     if(not encryptedText[0]):
-        return (False, "character error: the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
+        return (False, "character error: the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.")
     
     return encryptedText
         
@@ -344,10 +316,10 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
     try:
         encryptedText=crypto_engine.encrypt(fileData[1], characterSet, loadedKey)
     except:
-        return (False, "critical error: encryption process failed. please check the file for errors then try again")
+        return (False, "critical error: encryption process failed. please check the file for errors then try again.")
     
     if(not encryptedText[0]):
-        return (False, "character error: the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
+        return (False, "character error: the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -370,10 +342,10 @@ def decryptText(text:str):
     try:
         decryptedText=crypto_engine.decrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: decryption process failed. please check the text for errors then try again")
+        return (False, "critical error: decryption process failed. please check the text for errors then try again.")
     
     if(not decryptedText[0]):
-        return (False, "character error: the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again")
+        return (False, "character error: the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.")
     
     return decryptedText
 
@@ -396,10 +368,10 @@ def decryptTextFile(sourceFileName:str,destinationFileName:str):
     try:
         decryptedText=crypto_engine.decrypt(fileData[1], characterSet, loadedKey)
     except:
-        return (False, "critical error: encryption process failed. please check the file for errors then try again")
+        return (False, "critical error: encryption process failed. please check the file for errors then try again.")
     
     if(not decryptedText[0]):
-        return (False, "character error: the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again")
+        return (False, "character error: the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
     error=writeTextToFile(destinationFileName,decryptedText[1])
     

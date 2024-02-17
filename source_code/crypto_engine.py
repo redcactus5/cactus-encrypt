@@ -5,7 +5,8 @@ from random import randint
 #special thank you to the devs of Nuikita for making this project possible
 
 
-
+#i completely forget how must of the logic and math here work, so abandon all hope ye who enter here
+#cut me some slack, this started off as a simple small personal project i made in highschool. i never expected for it to get this big
 
 
 
