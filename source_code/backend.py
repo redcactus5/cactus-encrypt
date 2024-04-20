@@ -176,6 +176,10 @@ def loadKey(keyString:str):
     if(len(key[len(key)-1])!=len(characterSet)):
         return (False, "input error: character set key missmatch, character set and key do not have the same number of characters. please load the correct character set then try again.")
     
+    
+
+
+    
     try:
         setKey(key)
     except:
@@ -206,6 +210,11 @@ def loadCharSet(charSetString:str):
     charSetTuple=None
     try:
         charSetTuple=tuple(charSetString)
+        charLog=[]
+        for char in charSetTuple:
+            if(char in charLog):
+                return (False, "input error: multiple occurences of the character {"+str(char)+"} were found in the character set. please all but one then try again.")
+            charLog.append(char)
     except:
         return (False, "critical error: character set could not be parsed. please check it for errors then try again.")
         
