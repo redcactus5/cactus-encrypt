@@ -92,7 +92,7 @@ def writeTextToFile(fileName:str,text:str):
     try:
         file=open(fileName,'w')
     except:
-        return (False,"io error: file to write could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessable, then try again.")
+        return (False,"io error: file to write could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessible, then try again.")
     try:
         file.write(text)
     except:
@@ -168,17 +168,19 @@ def exportKeyToTXT(fileName:str):
 def loadKey(keyString:str):
     key=None
     global characterSet
+
+
     try:
         key=crypto_engine.loadKey(keyString)
     except:
         return (False, "input error: key could not be parsed. please check the key for errors then try again.")
     
+    if(characterSet==None):
+        return (False, "input error: character set key mismatch, character set and key do not have the same number of characters. please load the correct character set then try again.")
+
     if(len(key[len(key)-1])!=len(characterSet)):
-        return (False, "input error: character set key missmatch, character set and key do not have the same number of characters. please load the correct character set then try again.")
+        return (False, "input error: character set key mismatch, character set and key do not have the same number of characters. please load the correct character set then try again.")
     
-    
-
-
     
     try:
         setKey(key)
@@ -213,7 +215,7 @@ def loadCharSet(charSetString:str):
         charLog=[]
         for char in charSetTuple:
             if(char in charLog):
-                return (False, "input error: multiple occurences of the character {"+str(char)+"} were found in the character set. please all but one then try again.")
+                return (False, "input error: multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please all but one then try again.")
             charLog.append(char)
     except:
         return (False, "critical error: character set could not be parsed. please check it for errors then try again.")
