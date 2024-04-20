@@ -15,7 +15,7 @@ cactus encrypt is a flexible encryption program written entirely in python 3. ve
 
 
 general warnings:
-keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. additionally, due to complex internal encoding reasons, character sets can only have ONE occurrence of the same character in them due to complex internal encoding reasons. this will always cause decryption to fail, and as such the program is specifically written to check for this.
+keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this.
 
 
 
@@ -64,7 +64,7 @@ this error occurs when the program fails to process a character set given to it 
 this issue is simple. cactus encrypt isn't magic, no matter how much i wish it was. in order to encrypt text, all the characters in the text must also be in the currently loaded character set. if it finds one that isn't, it gives this error. fixing this is pretty easy. either remove all instances of that character from your text, or add it to the character set and generate a new encryption key. if all else fails, restarting the program and/or your computer may help.
 
 
-"input error: multiple occurrences of the character {example} were found in the character set. please all but one then try again." this is a simple issue with a simple fix. unfortunately, due to the nature of the cactus encrypt algorithm, character sets can only have one instance of a character per set. to prevent the problems this causes, the program checks for this and produces this error if detected. the fix is simple. follow the instructions in the error and remove any extra instances of the character set then try again. if all else fails, restarting the program and/or your computer may help.
+"input error: multiple occurrences of the character {example} were found in the character set. please remove all duplicates of the character then try again." this is a simple issue with a simple fix. unfortunately, due to the nature of the cactus encrypt algorithm, character sets can only have one instance of a character per set. to prevent the problems this causes, the program checks for this and produces this error if detected. the fix is simple. follow the instructions in the error and remove any extra instances of the character in the set then try again. if all else fails, restarting the program and/or your computer may help.
 
 
 "input error: character set key mismatch, character set and key do not have the same number of characters."
@@ -88,7 +88,7 @@ this error means that the default character set could not be loaded on startup. 
 
 
 help! my output is nothing but garble!:
-if this occurs with no other errors, that means the the problem is a PEBKAC error. this can have a myriad of causes, but usually boils down to a single or combination of these errors: 1. the text to encrypt or decrypt was incorrectly entered. 2. the character set was incorrectly entered. 3. the wrong encryption key is being used. 4. the wrong character set is being used. 5. you didn't listen to the warning about character sets not being able to have multiple of the same character in them, and somehow got around the software protections for this. addressing these usually fixes things. 
+if this occurs with no other errors, that means the the problem is a PEBKAC error. this can have a myriad of causes, but usually boils down to a single or combination of these errors: 1. the text to encrypt or decrypt was incorrectly entered. 2. the character set was incorrectly entered. 3. the wrong encryption key is being used. 4. the wrong character set is being used. 5. you didn't listen to the warning about character sets not being able to have multiples of the same character in them, and somehow got around the software protections for this. addressing these usually fixes things. 
 
 
 

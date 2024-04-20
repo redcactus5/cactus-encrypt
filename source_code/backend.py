@@ -215,7 +215,7 @@ def loadCharSet(charSetString:str):
         charLog=[]
         for char in charSetTuple:
             if(char in charLog):
-                return (False, "input error: multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please all but one then try again.")
+                return (False, "input error: multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set.  please remove all duplicates of the character then try again.")
             charLog.append(char)
     except:
         return (False, "critical error: character set could not be parsed. please check it for errors then try again.")
