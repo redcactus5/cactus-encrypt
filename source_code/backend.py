@@ -1,7 +1,7 @@
 
 import crypto_engine
 from random import randint
-
+#from typing import List        #handy standard lib i recently found out about that adds more type hinting features like hinting list contents
 
 
 
