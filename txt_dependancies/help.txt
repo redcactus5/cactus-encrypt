@@ -5,6 +5,7 @@ Welcome to cactus encrypt version 2.0!
 
 as its creator and sole dev, I thank you for using my little passion project.
 cactus encrypt is entirely free, so if you payed for it, you have been scammed and should demand your money back.
+cactus encrypt has no warranties and anyone using the program does so at their own risk.
 
 
 
@@ -15,7 +16,7 @@ cactus encrypt is a flexible encryption program written entirely in python 3. ve
 
 
 general warnings:
-keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this.
+keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this. the sanitization features that remove characters not found in the currently loaded key from text and text file are very basic features and while they try their best, they are not guaranteed to work perfectly and will often cause text formatting problems and occasionally make text unreadable, depending on the key and text combination.
 
 
 
@@ -25,7 +26,7 @@ the program is distributed as a zip file containing a folder. in this folder you
 
 
 features:
-cactus encrypt can perform 15 operations. it can decrypt and encrypt text entered through the terminal, it can encrypt and decrypt text files, it can generate, new encryption keys, it can save and load these keys to text files and the terminal, and it can load, save, and scramble character sets.
+cactus encrypt can perform 17 operations. it can decrypt and encrypt text entered through the terminal, it can encrypt and decrypt text files, it can generate, new encryption keys, it can save and load these keys to text files and the terminal, it can sanitize both text and text files, and it can load, save, and scramble character sets.
 
 
 

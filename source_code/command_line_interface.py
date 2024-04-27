@@ -571,6 +571,100 @@ def decryptTXT():
         else:
             errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!",menuName)
 
+
+
+def sanitizeText():
+    menuName="sanitize text"
+
+    if(backend.isCharSetLoaded()):
+        if(booleanQuestionScreen("are you sure you want to sanitize text?",menuName)):
+            uiHeader(menuName)
+
+            print("warning: this feature works by removing all instances of character not present in the currently\nloaded key from the text. using this feature can make text unreadable and often breaks formatting.")
+
+            ln(2)
+
+            print("please enter the text to sanitize.")
+            ln()
+            toBeSanitized=input("text:")
+
+            uiHeader(menuName)
+            print("cleaning text...")
+
+            start=time.time()
+            cleanText=backend.sanitizeText(toBeSanitized)
+            total=time.time()-start
+
+            if(cleanText[0]):
+                terminalExportScreen("sanitization successful!",total,"please remember that curly braces are used to denote the start \nand end of the text, but can also appear in it.","sanitized text:{"+cleanText[1]+"}", menuName)
+            
+            else:
+                errorScreen("sanitization failed!\n\n"+cleanText[1], menuName)
+
+    else:
+        errorScreen("uh, oh! \nthere is no character set in memory, and you need that to sanitize text! \nplease load or generate one then try again!",menuName)
+
+
+
+
+
+
+
+
+def sanitizeTXT():
+    menuName="sanitize a text file"
+
+    if(backend.isCharSetLoaded()):
+
+        if(booleanQuestionScreen("are you sure you want to sanitize a text file?",menuName)):
+
+            uiHeader(menuName)
+
+            print("warning: this feature works by removing all instances of character not present in the currently\nloaded key from the text. using this feature can make text unreadable and often breaks formatting.")
+
+            ln(3)
+            print("press enter to continue")
+            input()
+
+
+            
+            source=enterFileNameScreen("please enter the name of the file to sanitize (include the file extension).",menuName)
+
+
+            output=enterFileNameScreen("please enter the name of the destination file (include the file extension)\nWarning! if the file does not exist, it will be created. if the file does exist, its contents will be overwritten.",menuName)
+            
+            
+            uiHeader(menuName)
+            print("cleaning...")
+
+            start=time.time()
+            success=backend.sanitizeTextFile(source,output)
+            total=time.time()-start
+
+            if(success[0]):
+                finishedScreen("file sanitization successful!", total, menuName)
+            else:
+                errorScreen("file sanitization failed!\n\n"+success[1], menuName)
+
+
+
+    else:
+        errorScreen("uh, oh! \nthere is no character set in memory, and you need that to sanitize text! \nplease load or generate one then try again!",menuName)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #ui stuff
 
 def helpScreen():
@@ -596,8 +690,8 @@ def exit():
 def CLI_V2():
     menuName="main menu"
     run=True
-    options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an ecryption key from the terminal","(6) load an ecryption key from a file","(7) generate an ecryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file","(15) help", "(16) quit")
-    optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","qu","ex")
+    options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an encryption key from the terminal","(6) load an encryption key from a file","(7) generate an encryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file", "(15) sanitize text", "(16) sanitize text file","(17) help", "(18) quit")
+    optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","qu","ex")
     while run:
         selection=multipleChoiceScreen("welcome to cactus encrypt. please select an option:",options,optionCodes,2,menuName)
 
@@ -644,9 +738,15 @@ def CLI_V2():
             exportCharSetToTXT()
 
         elif(selection==14):
+            sanitizeText()
+
+        elif(selection==15):
+            sanitizeTXT()
+
+        elif(selection==16):
             helpScreen()
         
-        elif(selection==15 or selection==16 or selection==17):
+        elif(selection==17 or selection==18 or selection==19):
             if(exit()):
                 run=False
                 break
