@@ -587,13 +587,14 @@ def sanitizeText():
             print("please enter the text to sanitize.")
             ln()
             toBeSanitized=input("text:")
-
+            
             uiHeader(menuName)
             print("cleaning text...")
 
             start=time.time()
             cleanText=backend.sanitizeText(toBeSanitized)
             total=time.time()-start
+     
 
             if(cleanText[0]):
                 terminalExportScreen("sanitization successful!",total,"please remember that curly braces are used to denote the start \nand end of the text, but can also appear in it.","sanitized text:{"+cleanText[1]+"}", menuName)

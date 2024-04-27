@@ -292,6 +292,7 @@ def scrambleCharSet():
 def sanitizeText(text:str):
 
     if(text==None or text==""):
+
         return ""
     global characterSet
 
@@ -305,6 +306,8 @@ def sanitizeText(text:str):
     try:
         listedText=list(text)
 
+        
+
         for char in listedText:
             if(char in characterSet):
                 cleanTextList.append(char)
@@ -314,7 +317,7 @@ def sanitizeText(text:str):
                 elif("_" in characterSet):
                     cleanTextList.append("_")
         
-        cleanText.join(cleanTextList)
+        cleanText=cleanText.join(cleanTextList)
     except:
         return (False, "critical error: entered text could not be sanitized. please check it for problems then try again.")
     
