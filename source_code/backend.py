@@ -305,6 +305,7 @@ def sanitizeText(text:str):
 
     try:
         listedText=list(text)
+        print
 
         
 
@@ -334,7 +335,7 @@ def sanitizeTextFile(sourceFileName:str,destinationFileName:str):
     if(not dubiousText[0]):
         return dubiousText
     
-    cleanText=sanitizeText(dubiousText)
+    cleanText=sanitizeText(dubiousText[1])
 
     if(not cleanText[0]):
         return cleanText

@@ -617,15 +617,7 @@ def sanitizeTXT():
 
     if(backend.isCharSetLoaded()):
 
-        if(booleanQuestionScreen("are you sure you want to sanitize a text file?",menuName)):
-
-            uiHeader(menuName)
-
-            print("warning: this feature works by removing all instances of character not present in the currently\nloaded key from the text. using this feature can make text unreadable and often breaks formatting.")
-
-            ln(3)
-            print("press enter to continue")
-            input()
+        if(booleanQuestionScreen("warning: this feature works by removing all instances of character not present in the currently\nloaded key from the text. using this feature can make text unreadable and often breaks formatting.\n\n\nare you sure you want to sanitize a text file?",menuName)):
 
 
             
