@@ -289,7 +289,7 @@ def scrambleCharSet():
 
 
 
-def sanitizeText(text:str):
+def sanitizeText(text:str,attemptReplacement:bool):
 
     if(text==None or text==""):
 
@@ -303,18 +303,35 @@ def sanitizeText(text:str):
 
     listedText=[]
 
+    replacementCandidates=list(" _-|*+.$?Xx")
     
-   #character replacement could be attempted, but the design choice not to was made to prevent potential problems
+   #need to add option to attempt to add spacing characters
 
     try:
         listedText=list(text)
         print
 
         
+        if(attemptReplacement):
+            replacement=""
+            for rep in replacementCandidates:
+                if(rep in characterSet):
+                    replacement=rep
+                    break
 
-        for char in listedText:
-            if(char in characterSet):
-                cleanTextList.append(char)
+            for char in listedText:
+                if(char in characterSet):
+                    cleanTextList.append(char)
+                else:
+                    cleanTextList.append(replacement)
+
+
+
+        else:
+            for char in listedText:
+                if(char in characterSet):
+                    cleanTextList.append(char)
+
             
 
         
@@ -325,7 +342,7 @@ def sanitizeText(text:str):
     return (True, cleanText)
 
 
-def sanitizeTextFile(sourceFileName:str,destinationFileName:str):
+def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplacement:bool):
     
 
     
@@ -335,7 +352,7 @@ def sanitizeTextFile(sourceFileName:str,destinationFileName:str):
     if(not dubiousText[0]):
         return dubiousText
     
-    cleanText=sanitizeText(dubiousText[1])
+    cleanText=sanitizeText(dubiousText[1],attemptReplacement)
 
     if(not cleanText[0]):
         return cleanText

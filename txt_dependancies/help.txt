@@ -16,7 +16,7 @@ cactus encrypt is a flexible encryption program written entirely in python 3. ve
 
 
 general warnings:
-keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this. the sanitization features that remove characters not found in the currently loaded key from text and text file are very basic features and while they try their best, they are not guaranteed to work perfectly and will often cause text formatting problems and occasionally make text unreadable, depending on the key and text combination. 
+keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this. the sanitization features that remove characters not found in the currently loaded key from text and text file are very basic features and while they try their best, they are not guaranteed to work perfectly and will often cause text formatting problems and occasionally make text unreadable, depending on the key and text combination. additionally, when replacement mode is selected, the program will look through a list of potential characters to use for replacement (specifically this list: {" _-|*+.$?Xx"}), and pick the best replacement present, but if none are present in the key, invalid characters will only be removed, and no replacement will occur.
 
 
 
@@ -26,7 +26,7 @@ the program is distributed as a zip file containing a folder. in this folder you
 
 
 features:
-cactus encrypt can perform 17 operations. it can decrypt and encrypt text entered through the terminal, it can encrypt and decrypt text files, it can generate, new encryption keys, it can save and load these keys to text files and the terminal, it can sanitize both text and text files, and it can load, save, and scramble character sets.
+cactus encrypt can perform 17 operations. it can decrypt and encrypt text entered through the terminal, it can encrypt and decrypt text files, it can generate, new encryption keys, it can save and load these keys to text files and the terminal, it can sanitize both text and text files, either removing or replacing invalid characters, and it can load, save, and scramble character sets.
 
 
 
