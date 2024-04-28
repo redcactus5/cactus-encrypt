@@ -303,6 +303,9 @@ def sanitizeText(text:str):
 
     listedText=[]
 
+    
+   #character replacement could be attempted, but the design choice not to was made to prevent potential problems
+
     try:
         listedText=list(text)
         print
@@ -312,11 +315,8 @@ def sanitizeText(text:str):
         for char in listedText:
             if(char in characterSet):
                 cleanTextList.append(char)
-            else:
-                if(" " in characterSet):
-                    cleanTextList.append(" ")
-                elif("_" in characterSet):
-                    cleanTextList.append("_")
+            
+
         
         cleanText=cleanText.join(cleanTextList)
     except:
