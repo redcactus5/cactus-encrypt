@@ -76,8 +76,9 @@ def uiHeader(currentMode:str):
     global LICENSESHOWN
     print("cactus encrypt "+PRGVERSION+" by Redcactus5")
     print("Copyright 2023,2024 Redcactus5")
+    ln()
     if(not LICENSESHOWN):
-        ln()
+        
         print("cactus encrypt is free open source software released under")
         print("GPL-3.0-or-later. see help.txt or view the help screen for details.")
         ln()
