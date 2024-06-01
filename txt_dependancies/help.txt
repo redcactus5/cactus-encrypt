@@ -11,7 +11,7 @@ cactus encrypt has no warranties and anyone using the program does so at their o
 
 
 now on to the details:
-cactus encrypt is a flexible encryption program written entirely in python 3. version 2.0 bring many new features to the table, including support for encrypting text files and interchangeable character sets. since this program can get a bit cryptic, this guide is here to give you a hand. using the program is fairly simple, just follow the onscreen instructions, and give input when prompted. it is designed to be mostly idiot proof and to recover from potential crashes, even in the worst case scenarios, but not everything can be tested for.
+cactus encrypt is a flexible encryption program written entirely in python 3. version 2.0 bring many new features to the table, including support for encrypting text files, a built in text filter function, and interchangeable character sets. since this program can get a bit cryptic, this guide is here to give you a hand. using the program is fairly simple, just follow the onscreen instructions, and give input when prompted. it is designed to be mostly idiot proof and to recover from potential crashes, even in the worst case scenarios, but not everything can be tested for.
 
 
 
@@ -102,11 +102,21 @@ if you encounter any errors not listed here or have questions, don't hesitate to
 
 
 have fun with cactus encrypt!
--redcactus5 
+-Redcactus5 
 
 
 
 powered by Python https://www.python.org/
 powered by Nuitka https://nuitka.net/
 
-2023-2024 redcactus5
+copyright 2023,2024 Redcactus5
+
+This file is part of Cactus Encrypt.
+
+Cactus Encrypt is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Cactus Encrypt is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with Cactus Encrypt. If not, see <https://www.gnu.org/licenses/>. 
+
+this program is free, open source software released under the GNU General Public License version 3.0 or later version (GPL-3.0-or-later)

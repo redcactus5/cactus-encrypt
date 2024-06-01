@@ -1,3 +1,17 @@
+
+#cactus encrypt is a simple cli text encryption program written in python that implements the cactus cipher algorithm
+#Copyright 2023,2024 Redcactus5
+'''
+This file is part of Cactus Encrypt.
+
+Cactus Encrypt is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Cactus Encrypt is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with Cactus Encrypt. If not, see <https://www.gnu.org/licenses/>. 
+'''
+#this program is free, open source software released under the GNU General Public License version 3.0 or later version (GPL-3.0-or-later)
+
 #imports
 import time
 import backend
@@ -13,7 +27,7 @@ PRGVERSION="V2.0 RC2"
 #"V2.0"
 
 help=None
-
+LICENSESHOWN=False
 
 
     
@@ -59,7 +73,15 @@ def uiHeader(currentMode:str):
     clear()
     global PRGVERSION
     global help
-    print("cactus encrypt "+PRGVERSION+" by redcacus5")
+    global LICENSESHOWN
+    print("cactus encrypt "+PRGVERSION+" by Redcactus5")
+    print("Copyright 2023,2024 Redcactus5")
+    if(not LICENSESHOWN):
+        ln()
+        print("cactus encrypt is free open source software released under")
+        print("GPL-3.0-or-later. see help.txt or view the help screen for details.")
+        ln()
+        LICENSESHOWN=True
     print(currentMode)
     ln()
 
@@ -130,7 +152,7 @@ def enterFileNameScreen(message:str, currentMode:str):
 
         fileName=input("file name:")
 
-        if(multipleChoiceScreen("is \""+fileName+"\" correct?",("(c)onfirm","(r)eenter"),("c","r"),1,currentMode)==0):
+        if(multipleChoiceScreen("is \""+fileName+"\" correct?",("(c)onfirm","(r)e-enter"),("c","r"),1,currentMode)==0):
             return fileName
 
 
@@ -768,7 +790,7 @@ def start():
     except:
         pass
 
-
+    
     CLI_V2()
     
     
