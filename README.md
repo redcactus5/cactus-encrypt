@@ -5,6 +5,6 @@ Copyright 2023,2024 Redcactus5
 
 this program is free, open source software released under the GNU General Public License version 3.0 or later version (GPL-3.0-or-later)
 
-powered by Python 
+powered by Python
 powered by Nuitka
 
