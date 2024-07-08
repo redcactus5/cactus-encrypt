@@ -11,13 +11,27 @@ You should have received a copy of the GNU General Public License along with Cac
 '''
 #this program is free, open source software released under the GNU General Public License version 3.0 or later version (GPL-3.0-or-later)
 
+
+
 #this file is basically just a launcher for the main program
+
+
+
+
 import command_line_interface
 
-#try:
-command_line_interface.start()
-#except Exception as e:
-#    print("\n")*50
-#    print("a serious error occurred. the program has quit to prevent further problems")
-#    print("detected error: "+str(e))
-#    input("press enter to finish")
+#set to true for release builds
+RELEASEBUILD=False
+
+
+if(RELEASEBUILD):
+    try:
+        command_line_interface.start(False)
+    except Exception as e:
+        print("\n")*50
+        print("a serious error occurred. the program has quit to prevent further problems")
+        print("detected error: "+str(e))
+        input("press enter to finish")
+else:
+    command_line_interface.start(True)
+

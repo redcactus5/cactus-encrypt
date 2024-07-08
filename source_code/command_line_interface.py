@@ -18,13 +18,20 @@ import backend
 from os import system, name
 
 
+#controls wether debug text is shown
+GLOBALDEBUGFLAG=False
 
 
 #TODO: remember to fix the version string for final release
+#TODO: when setting to a release build, remember to enable the global error handler in cactus encrpyt.py
 
-PRGVERSION="V2.0 RC2"
 #"V2.0 beta: debug build 3"
+PRGVERSION="V2.0 RC2"
 #"V2.0"
+if(GLOBALDEBUGFLAG):
+    PRGVERSION+=": debug"
+
+
 
 help=None
 LICENSESHOWN=False
@@ -74,9 +81,17 @@ def uiHeader(currentMode:str):
     global PRGVERSION
     global help
     global LICENSESHOWN
+    global GLOBALDEBUGFLAG
     print("cactus encrypt "+PRGVERSION+" by Redcactus5")
     print("Copyright 2023,2024 Redcactus5")
     ln()
+    if(GLOBALDEBUGFLAG):
+        print("*debug mode*")
+        ln()
+        print("WARNING: this is a debug build.")
+        print("DO NOT SHARE IT WITH UNAUTHORIZED PARTIES.")
+        print("this build is for testing purposes ONLY.")
+        ln()
     if(not LICENSESHOWN):
         
         print("cactus encrypt is free open source software released under")
@@ -778,8 +793,10 @@ def CLI_V2():
 
 
 
-def start():
-
+def start(debugMode):
+    if(debugMode):
+        global GLOBALDEBUGFLAG
+        GLOBALDEBUGFLAG=True
     backend.loadCharSetFromTXT("default_charset.txt")
     backend.loadKeyFromTXT("default_key.txt")
 
@@ -791,7 +808,12 @@ def start():
     except:
         pass
 
-    
+    if(GLOBALDEBUGFLAG):
+        clear()
+        print("WARNING: this is a debug build. it is for closed testing purposes \nonly and is not to be shared with unauthorized parties.")
+        ln(3)
+        input("press enter to agree and continue")
+        clear()
     CLI_V2()
     
     
