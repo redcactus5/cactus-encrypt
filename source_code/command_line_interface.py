@@ -28,8 +28,7 @@ GLOBALDEBUGFLAG=False
 #"V2.0 beta: debug build 3"
 PRGVERSION="V2.0 RC2"
 #"V2.0"
-if(GLOBALDEBUGFLAG):
-    PRGVERSION+=": debug"
+
 
 
 
@@ -98,8 +97,7 @@ def uiHeader(currentMode:str):
         print("GPL-3.0-or-later. see help.txt or view the help screen for details.")
         ln()
         LICENSESHOWN=True
-    print(currentMode)
-    ln()
+    
 
 
     #inneficent, but in the grand sceme of things, I dont care
@@ -121,7 +119,9 @@ def uiHeader(currentMode:str):
     else:
         ln()
         print("system ready")
-
+    ln()
+    print("current operation: " +currentMode)
+    
     ln(3)
  
 
@@ -794,9 +794,7 @@ def CLI_V2():
 
 
 def start(debugMode):
-    if(debugMode):
-        global GLOBALDEBUGFLAG
-        GLOBALDEBUGFLAG=True
+
     backend.loadCharSetFromTXT("default_charset.txt")
     backend.loadKeyFromTXT("default_key.txt")
 
@@ -807,8 +805,13 @@ def start(debugMode):
         helpFile.close()
     except:
         pass
-
-    if(GLOBALDEBUGFLAG):
+    if(debugMode):
+        global GLOBALDEBUGFLAG
+        global PRGVERSION
+        GLOBALDEBUGFLAG=True
+    
+        
+        PRGVERSION+=": DEBUG"
         clear()
         print("WARNING: this is a debug build. it is for closed testing purposes \nonly and is not to be shared with unauthorized parties.")
         ln(3)
