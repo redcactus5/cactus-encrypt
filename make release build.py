@@ -30,18 +30,20 @@ def copy_folder_contents(source_folder, destination_folder):
         print(f"Source folder '{source_folder}' not found")
         input("press enter to exit")
         exit()
+        
+
 
 
 def createBuild():
     print("starting build creation...")
     # Create a new folder
-    new_folder = "test build"
+    new_folder = "release build"
     create_folder(new_folder)
     
     # Specify folders to be copied
     folder2 = "txt_dependancies"
     folder1 = "source_code"
-    folder3 = "build_modes/debug"
+    folder3 = "build_modes/release"
     
     # Copy contents of each folder to the new folder
     copy_folder_contents(folder1, new_folder)
