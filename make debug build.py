@@ -35,7 +35,7 @@ def copy_folder_contents(source_folder, destination_folder):
 def createBuild():
     print("starting build creation...")
     # Create a new folder
-    new_folder = "test build"
+    new_folder = "debug build"
     create_folder(new_folder)
     
     # Specify folders to be copied
