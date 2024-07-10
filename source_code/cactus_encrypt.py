@@ -17,14 +17,32 @@ You should have received a copy of the GNU General Public License along with Cac
 
 
 
+print("starting up...")
 
+#import needed files
 import command_line_interface
+#this file determines what type of build this is and what mode to run in as a result
 import build_mode
-#set to true for release builds
-mode=build_mode.getBuildMode()
-if(mode[0]=="RELEASE"):
+
+#attempt get the build mode from the file
+mode=None
+ableToStart=True
+try:
+    build_mode.getBuildMode()
+except:
+    ableToStart=False
+    print("\n")*50
+    print("a serious error occurred. the program has aborted the start operation to prevent further problems")
+    print("detected error: start configuration file could not be read")
+    input("press enter to finish")
+
+
+
+#determine if this is a release build
+if(mode[0]=="RELEASE" and ableToStart):
     if(command_line_interface.backend.bmkv(True,mode[1])):
-        try:
+        try:#if so start in release mode
+            print("done!")
             command_line_interface.start(False)
         except Exception as e:
             print("\n")*50
@@ -36,15 +54,18 @@ if(mode[0]=="RELEASE"):
         print("a serious error occurred. the program has aborted the start operation to prevent further problems")
         print("detected error: could not start due to invalid start configuration file part 2")
         input("press enter to finish")
-elif(mode[0]=="TESTING BUILD"):
+#determine if this is a debug build
+elif(mode[0]=="TESTING BUILD" and ableToStart):
     if(command_line_interface.backend.bmkv(False,mode[1])):
+        #if so start in debug mode
+        print("done!")
         command_line_interface.start(True)
     else:
         print("\n")*50
         print("a serious error occurred. the program has aborted the start operation to prevent further problems")
         print("detected error: could not start due to invalid start configuration file part 2")
         input("press enter to finish")
-else:
+elif(ableToStart):#error out if no valid 
     print("\n")*50
     print("a serious error occurred. the program has aborted the start operation to prevent further problems")
     print("detected error: could not start due to invalid start configuration file")
