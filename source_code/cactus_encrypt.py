@@ -28,7 +28,7 @@ import build_mode
 mode=None
 ableToStart=True
 try:
-    build_mode.getBuildMode()
+    mode=build_mode.getBuildMode()
 except:
     ableToStart=False
     print("\n")*50
