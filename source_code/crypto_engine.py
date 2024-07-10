@@ -66,13 +66,13 @@ class Rotor:
         #the wiring list used for decryption. it stores the index where a number in encoding wiring is found at the index of the number itself.
         self.decodingWiring = [0] * len(wiring)
 
-        #precompute the index values and populate decodeingwiring with them
+        #precompute the index values and populate decoding wiring with them
         for i in range(len(wiring)):
             self.decodingWiring[wiring[i]] = i
 
 
-    #advance the rotor fowards by 1
-    def advance(self):#self explanitory logic
+    #advance the rotor forwards by 1
+    def advance(self):#self explanatory logic
         self.pos+=1
         if(self.pos>len(self.encodingWiring)-1):
             self.pos-=len(self.encodingWiring)
@@ -87,11 +87,11 @@ class Rotor:
         return self.encodingWiring[searchNumber]#return final number
     
      #self explanitory name
-    def decodeValue(self, number: int):
-        numIndex = self.decodingWiring[number] - self.pos
-        while numIndex < 0:
+    def decodeValue(self, number: int):#basically the same type of logic as encode value
+        numIndex = self.decodingWiring[number] - self.pos #get the index of number and adjust it for the rotor position
+        while numIndex < 0:#adjust back up if we roll over
             numIndex += len(self.decodingWiring)
-        return numIndex
+        return numIndex#return final number
     
 
 
@@ -101,20 +101,27 @@ class Rotor:
 #randomly generates a new key with a user provided compelxity value (how many rotors to use)
 def generateKey(rotorCount:int, characterSet:tuple):
     #key structure [rotor keys],[rotor starts],[initial and final static cyphers]
-    key=[rotorCount]
+    key=[rotorCount]#start off key
+    #generate the requested number of rotors
     for rotor in range(rotorCount):
         #generate the wiring for one rotor
+
+        #create a list of all the indexes of the characters in the character set
         catalog=list(range(0, len(characterSet)))
+        #create a variable to store the wiring for one rotor. the decode wiring is generated in the rotor constructor
         rotorWiring=[]
+        #generate the random wiring by popping a random character index from catalog and appending it to rotor wiring
         for character in range(len(catalog)):
             rotorWiring.append(catalog.pop(randint(0,len(catalog)-1)))
+        #add the completed wiring for this rotor to the key
         key.append(rotorWiring)
     #gnerate the start positions of the rotors
-    for i in range(rotorCount):
+    for i in range(rotorCount):#generates one position for each of the rotors
+        #come up with a random starting position(0-length) for the rotor and append it to the key
         key.append(randint(0,len(characterSet)))
     
     #generate the wiring for the initial and final static cyphers
-    for cypher in range(2):
+    for cypher in range(2):#the exact same as generating the rotor wiring, as it literally is just two rotors that never advance (possibly due to their incompetence)
         
         catalog=list(range(0, len(characterSet)))
         rotorWiring=[]
@@ -128,23 +135,25 @@ def generateKey(rotorCount:int, characterSet:tuple):
     
 #compiles the string argument into a key
 def exportKey(key:list):
-    
+    #converts a key list into a string that can be loaded by the load key function
+    #pipes are used to separate key sections
     keyString=str(key[0])+" | "
     #compile the rotor wirings into importable strings
-    for rotor in range(key[0]):
+    for rotor in range(key[0]):#key 0 is the number of rotors in the key
         #compile the wiring of a rotor
-        for character in range(len(key[rotor+1])):
+        for character in range(len(key[rotor+1])):#rotors are all same length so this works
+            #add the character to the key string
             keyString+=str(key[rotor+1][character])
-            #add a comma unless it is the final character
+            #add a comma too unless it is the final character
             if(character<len(key[rotor+1])-1):
                 keyString+=","
-        #add terminator
+        #add terminator pipe
         keyString+=" | "
     #compile the rotor start positions
-    for rotor in range((key[0])):
-        keyString+=str(key[rotor+1+key[0]])+" | "
+    for rotor in range((key[0])):#rotor count is stored in key 0
+        keyString+=str(key[rotor+1+key[0]])+" | "#add the position plus a terminating pipe
     #compile the starting and ending static cyphers 
-    for cypher in range(2):
+    for cypher in range(2):#same as the normal rotors
         #compile the wiring of a cypher
         for character in range(len(key[cypher+1+(key[0]*2)])):
             keyString+=str(key[cypher+1+(key[0]*2)][character])
@@ -167,24 +176,28 @@ def exportKey(key:list):
 def loadKey(keyString:str):
     #seperate the keystring into a list at the terminator strings
     keyList=keyString.split(" | ")
-    #convert the rotor count into a string at put it in its place in the decoded list
+    #convert the rotor count into a int and put it in its place in the decoded list
     key=[int(keyList[0])]
     #decode the rotors
-    for rotor in range(key[0]):
+    for rotor in range(key[0]):#key 0 is the number of rotors
         #decode the wiring of a rotor
-        #split the string into list at the commas
+        #split the string into list at the commas and put it in key
         key.append(keyList[rotor+1].split(","))
-        #integerize keys
+        #integerize rotor wiring in key
         for character in range(len(key[rotor+1])):
             
             key[rotor+1][character]=int(key[rotor+1][character])
-            
+
+
     
-    #append the rotor wirings to the key
+    #append the rotor starting positions to the key
     for rotor in range(key[0]):
         key.append(int(keyList[rotor+1+key[0]]))
+
+
+    
         
-    for cypher in range(2):
+    for cypher in range(2):#same as rotor compilation
         #compile the wiring of a cypher
         key.append(keyList[cypher+1+(key[0]*2)].split(","))
         for character in range(len(key[cypher+1+(key[0]*2)])):
@@ -212,7 +225,7 @@ def advanceRotors(rotorList:list):
 
 #encrypts string argument. returns a tuple of success and encrypted string or failure and the problem character
 def encrypt(text:str, characterSet:tuple, encryptionKey:list):
-    #check for character compatablility
+    #check for character compatibility's
     for character in list(text):
         if(not character in characterSet):
             return (False,str(character))
@@ -241,12 +254,12 @@ def encrypt(text:str, characterSet:tuple, encryptionKey:list):
     
 
 
-#I hate documenting but I want this code to be maintainable so its a neccesary evil
+#I hate documenting but I want this code to be maintainable so its a necessary evil
 
 
 #decrypts string argument. returns a tuple of either success and the decrypted string or failure and the problem character
 def decrypt(text:str, characterSet:tuple, encryptionKey:list):
-    #check for character compatability
+    #check for character compatibility
     for character in list(text):
         if(not character in characterSet):
             return (False,str(character))
