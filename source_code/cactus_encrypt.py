@@ -19,19 +19,40 @@ You should have received a copy of the GNU General Public License along with Cac
 
 
 import command_line_interface
-
+import build_mode
 #set to true for release builds
-RELEASEBUILD=False
-
-
-if(RELEASEBUILD):
-    try:
-        command_line_interface.start(False)
-    except Exception as e:
+mode=build_mode.getBuildMode()
+if(mode[0]=="RELEASE"):
+    if(command_line_interface.backend.bmkv(True,mode[1])):
+        try:
+            command_line_interface.start(False)
+        except Exception as e:
+            print("\n")*50
+            print("a serious error occurred. the program has quit to prevent further problems")
+            print("detected error: "+str(e))
+            input("press enter to finish")
+    else:
         print("\n")*50
-        print("a serious error occurred. the program has quit to prevent further problems")
-        print("detected error: "+str(e))
+        print("a serious error occurred. the program has aborted the start operation to prevent further problems")
+        print("detected error: could not start due to invalid start configuration file part 2")
+        input("press enter to finish")
+elif(mode[0]=="TESTING BUILD"):
+    if(command_line_interface.backend.bmkv(False,mode[1])):
+        command_line_interface.start(True)
+    else:
+        print("\n")*50
+        print("a serious error occurred. the program has aborted the start operation to prevent further problems")
+        print("detected error: could not start due to invalid start configuration file part 2")
         input("press enter to finish")
 else:
-    command_line_interface.start(True)
+    print("\n")*50
+    print("a serious error occurred. the program has aborted the start operation to prevent further problems")
+    print("detected error: could not start due to invalid start configuration file")
+    input("press enter to finish")
+
+
+
+
+
+
 
