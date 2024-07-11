@@ -4,7 +4,7 @@ Welcome to cactus encrypt version 2.0!
 
 
 as its creator and sole dev, I thank you for using my little passion project.
-cactus encrypt is entirely free, so if you payed for it, you have been scammed and should demand your money back.
+cactus encrypt is entirely free, so if you paid for it, you have been scammed and should demand your money back.
 cactus encrypt has no warranties and anyone using the program does so at their own risk.
 
 
