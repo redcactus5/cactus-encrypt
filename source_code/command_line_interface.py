@@ -701,7 +701,6 @@ def sanitizeTXT():
 
 
 
-
 #ui stuff
 
 def helpScreen():
@@ -723,14 +722,36 @@ def exit():
     return booleanQuestionScreen("are you sure you want to quit?",menuName)
 
 
+
+def debugAction():
+    global GLOBALDEBUGFLAG
+    if(GLOBALDEBUGFLAG):
+        #put debugging code here
+        print("placeholder action")
+        input("press enter to continue")
+
+
+
+
+
 #TODO:
 def CLI_V2():
     menuName="main menu"
     run=True
+    global GLOBALDEBUGFLAG
+    selectionAccuracy=2
+
     options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an encryption key from the terminal","(6) load an encryption key from a file","(7) generate an encryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file", "(15) sanitize text", "(16) sanitize text file","(17) help", "(18) quit")
     optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","qu","ex")
+    
+    
+    if(GLOBALDEBUGFLAG):
+        options=options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an encryption key from the terminal","(6) load an encryption key from a file","(7) generate an encryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file", "(15) sanitize text", "(16) sanitize text file","(17) help", "(18) quit","(dbg) debug action")
+        optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","qu","ex","dbg")
+        selectionAccuracy=3
+
     while run:
-        selection=multipleChoiceScreen("welcome to cactus encrypt. please select an option:",options,optionCodes,2,menuName)
+        selection=multipleChoiceScreen("welcome to cactus encrypt. please select an option:",options,optionCodes,selectionAccuracy,menuName)
 
         if(selection==0):
             encryptTerminalInput()
@@ -787,6 +808,11 @@ def CLI_V2():
             if(exit()):
                 run=False
                 break
+        
+        elif(GLOBALDEBUGFLAG and selection==20):
+            debugAction()
+
+
     clear()
     print("thank you for using cactus encrypt!")
     
