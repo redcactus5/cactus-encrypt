@@ -89,7 +89,7 @@ this error means that the default character set could not be loaded on startup. 
 
 
 help! my output is nothing but garble!:
-if this occurs with no other errors, that means the the problem is a PEBKAC error. this can have a myriad of causes, but usually boils down to a single or combination of these errors: 1. the text to encrypt or decrypt was incorrectly entered. 2. the character set was incorrectly entered. 3. the wrong encryption key is being used. 4. the wrong character set is being used. 5. you didn't listen to the warning about character sets not being able to have multiples of the same character in them, and somehow got around the software protections for this. addressing these usually fixes things. 
+if this occurs with no other errors, that usually means the problem is a PEBKAC error. this can have a myriad of causes, but usually boils down to a single or combination of these errors: 1. the text to encrypt or decrypt was incorrectly entered. 2. the character set was incorrectly entered. 3. the wrong encryption key is being used. 4. the wrong character set is being used. 5. you didn't listen to the warning about character sets not being able to have multiples of the same character in them, and somehow got around the software protections for this. addressing these usually fixes things. 
 
 
 

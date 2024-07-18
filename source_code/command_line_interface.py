@@ -471,7 +471,7 @@ def exportKeyToTXT():
     else:
         errorScreen("uh, oh!\nthere is encryption key in memory to export!\nplease load or generate a key then try again!",menuName)
 
-#acual encryption stuff
+#actual encryption stuff
 
 def encryptTerminalInput():
     menuName="encrypt terminal entry"

@@ -24,6 +24,12 @@ from random import randint
 
 
 
+#more safety mechanisms should be added here. we also should consider numbering our error codes, just for fun
+
+
+
+
+#validation of character being included should be here maybe, return true for is, false for isnt 
 '''
 #converts of string of characters into a list of their corisponding number values as 
 defined in the characters tuple (the index of the character is its number)
@@ -38,6 +44,8 @@ def convertToNum(text:str, characterSet:tuple):
     return numList
 
 
+
+#validation of index being valid should be here maybe, return true for is, false for isnt 
 '''
 converts a list of number into their corisponding text characters in the characterSet tuple 
 (what character is at that index). returns them all as a concatinated string
@@ -132,7 +140,8 @@ def generateKey(rotorCount:int, characterSet:tuple):
 
 
 
-    
+#possibly should add check to make sure that the length of the cypher list and starting positions is equal and matches the key length
+#we should also add a check to make sure the starting positions are within the cypher index range  
 #compiles the string argument into a key
 def exportKey(key:list):
     #converts a key list into a string that can be loaded by the load key function
@@ -171,7 +180,8 @@ def exportKey(key:list):
 
 #red was here
 
-
+#should add checks here to verify that the starting position count matches number of cyphers and uses valid values
+#also should add check to make sure the denoted complexity value matches the number of cyphers in the key
 #loads the encyption key from the string argument and returns the key
 def loadKey(keyString:str):
     #seperate the keystring into a list at the terminator strings
@@ -222,7 +232,7 @@ def advanceRotors(rotorList:list):
             break
         
     
-
+#might need to change the error system to also denote the error type
 #encrypts string argument. returns a tuple of success and encrypted string or failure and the problem character
 def encrypt(text:str, characterSet:tuple, encryptionKey:list):
     #check for character compatibility's
@@ -256,7 +266,7 @@ def encrypt(text:str, characterSet:tuple, encryptionKey:list):
 
 #I hate documenting but I want this code to be maintainable so its a necessary evil
 
-
+#need to add additional safety checks maybe
 #decrypts string argument. returns a tuple of either success and the decrypted string or failure and the problem character
 def decrypt(text:str, characterSet:tuple, encryptionKey:list):
     #check for character compatibility
