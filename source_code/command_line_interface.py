@@ -724,11 +724,15 @@ def exit():
 
 
 def debugAction():
+    uiHeader="debug action"
     global GLOBALDEBUGFLAG
     if(GLOBALDEBUGFLAG):
+        
+        uiHeader(uiHeader)
         #put debugging code here
         print("placeholder action")
         input("press enter to continue")
+        clear()
 
 
 
