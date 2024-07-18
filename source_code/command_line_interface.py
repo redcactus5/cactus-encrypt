@@ -31,8 +31,10 @@ PRGVERSION="V2.0 RC2"
 
 
 
-
+#the help screen text
 help=None
+
+#just here so that we only show the license warning once on startup
 LICENSESHOWN=False
 
 
@@ -724,15 +726,15 @@ def exit():
 
 
 def debugAction():
-    uiHeader="debug action"
+    
     global GLOBALDEBUGFLAG
     if(GLOBALDEBUGFLAG):
-        
+        uiHeader="debug action"
         uiHeader(uiHeader)
         #put debugging code here
         print("placeholder action")
         input("press enter to continue")
-        clear()
+    clear()
 
 
 
