@@ -26,7 +26,7 @@ GLOBALDEBUGFLAG=False
 #TODO: when setting to a release build, remember to enable the global error handler in cactus encrpyt.py
 
 #"V2.0 beta: debug build 3"
-PRGVERSION="V2.0 RC2"
+PRGVERSION="V2.0 RC3"
 #"V2.0"
 
 
@@ -128,21 +128,37 @@ def uiHeader(currentMode:str):
  
 
 
-def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accuracy:int, currentMode:str):
+def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accuracy:int, currentMode:str, accuracyMode:int):
+    #this function has multiple accuracy modes, so accuracy mode is used to select the one you want
+    #0 is exact mode, it ignores the accuracy argument and compares input to option exactly
+    #1 is trim mode, it trims the user input to the length of the accuracy variable, then compares that to the options list
+    #2 is adaptive mode, it dynamically adjusts the accuracy value to the length of the input if it is lower than accuracy, and trims both the input and the option strings to the same length, then compares those. this can result in incorrect selections being made, so use with caution
+    if(accuracyMode<0 or accuracyMode>2):
+        #put error throwing code here
     while True:
         uiHeader(currentMode)
         print(message)
+
         ln()
         for m in optionsMessage:
             print(m)
         ln()
+
         selection=input("please enter selection:")
+
         if(len(selection)>=1):
-            if(accuracy>len(selection)):
-                accuracy=len(selection)
-            for i in range(len(options)):
-                if(selection[:accuracy]==str(options[i])[:accuracy]):
-                    return i
+
+            #put if tree here to select the different mode here
+
+                if(accuracy>len(selection)):
+                    accuracy=len(selection)
+                for i in range(len(options)):
+                    if(selection[:accuracy]==str(options[i])[:accuracy]):
+                        return i
+
+
+
+
         uiHeader(currentMode)
         print("syntax error: bad input. please enter one of the provided options")
         ln(2)
