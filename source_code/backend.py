@@ -192,7 +192,7 @@ def loadKey(keyString:str):
         return (False, "input error: (error 15) key could not be parsed. please check the key for errors then try again.")
     
     if(key[0]):
-        key=key[0]
+        key=key[1]
     else:
         return (False, key[1])
 
