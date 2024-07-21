@@ -369,26 +369,29 @@ def exportCharSet():
     else:
         errorScreen("uh, oh!\nthere is no character set in memory to export!\nplease load a character set then try again!",menuName)
 
-
+#remember to make this not work until a character set is loaded
 def loadKeyFromTerminal():
     menuName="load encryption key from terminal entry"
-    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten.",menuName)):
-        uiHeader(menuName)
-        print("please enter the new encryption key.")
-        ln()
-        newKeyString=input("key:")
+    if(backend.isCharSetLoaded()):
+        if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten.",menuName)):
+            uiHeader(menuName)
+            print("please enter the new encryption key.")
+            ln()
+            newKeyString=input("key:")
 
-        uiHeader(menuName)
-        print("now loading...")
+            uiHeader(menuName)
+            print("now loading...")
 
-        start=time.time()
-        success=backend.loadKey(newKeyString)
-        total=time.time()-start
+            start=time.time()
+            success=backend.loadKey(newKeyString)
+            total=time.time()-start
 
-        if(success[0]):
-            finishedScreen("encryption key load successful!",total,menuName)
-        else:
-            errorScreen("encryption key load failed!\n\n"+success[1],menuName)  
+            if(success[0]):
+                finishedScreen("encryption key load successful!",total,menuName)
+            else:
+                errorScreen("encryption key load failed!\n\n"+success[1],menuName)  
+    else:
+        errorScreen("uh, oh!\nyou need a character set in memory in order to load a key!\nplease load the character set associated with your key then try again!",menuName)
 
 
 def exportKeyToTerminal():
@@ -442,7 +445,7 @@ def generateKey():
 
                 if(inputError):
                     uiHeader(menuName)
-                    print("input error: given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
+                    print("input error: (error 38) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
                     ln(2)
                     input("press enter to continue")
                 
@@ -464,24 +467,28 @@ def generateKey():
     else:
         errorScreen("uh, oh!\nthere is no character set in memory, a requirement to generate a key!\nplease load a character set then try again!",menuName)
 
-
+#remember to make this not work until a character set is loaded
 def loadKeyFromTXT():
     menuName="load encryption key from file"
-    if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten.",menuName)):
-        
-        fileName=enterFileNameScreen("please enter the name of the file to load the encryption key from (include the file extension).",menuName)
+    if(backend.isCharSetLoaded()):
+        if(booleanQuestionScreen("are you sure you want to load a new encryption key? any currently loaded key will be overwritten.",menuName)):
+            
+            fileName=enterFileNameScreen("please enter the name of the file to load the encryption key from (include the file extension).",menuName)
 
-        uiHeader(menuName)
-        print("now loading...")
+            uiHeader(menuName)
+            print("now loading...")
 
-        start=time.time()
-        success=backend.loadKeyFromTXT(fileName)
-        total=time.time()-start
+            start=time.time()
+            success=backend.loadKeyFromTXT(fileName)
+            total=time.time()-start
 
-        if(success[0]):
-            finishedScreen("encryption key load successful!",total,menuName)
-        else:
-            errorScreen("encryption key load failed!\n\n"+success[1],menuName)
+            if(success[0]):
+                finishedScreen("encryption key load successful!",total,menuName)
+            else:
+                errorScreen("encryption key load failed!\n\n"+success[1],menuName)
+    else:
+        errorScreen("uh, oh!\nyou need a character set in memory in order to load a key!\nplease load the character set associated with your key then try again!",menuName)
+
 
 
 def exportKeyToTXT():

@@ -24,7 +24,7 @@ from random import randint
 
 
 
-
+#next error is error 39
 
 
 
@@ -182,50 +182,155 @@ def exportKey(key:list):
 
 
 #loads the encryption key from the string argument and returns the key
-def loadKey(keyString:str):
+def loadKey(keyString:str,characterSet:tuple):
 
+    #the key goes through a series of checks as it is loaded to make sure it is readable
+
+    characterSetLen=len(characterSet)
+
+    #integrity check 0 (has part separation characters)
+    if(not (" | " in keyString)):
+        return (False, "input error: (error 39) integrity check 0 failed; could not find separator. \ngiven key data is invalid and possibly corrupted. please \ncheck the key for errors then try again.")
     
+
     #separate the keystring into a list at the terminator strings
     keyList=keyString.split(" | ")
+
+
+    #integrity check 1 (has at least the minimum number of parts)
+    if(len(keyList)<5):
+        return (False, "input error: (error 40) integrity check 1 failed; key data is incomplete. \ngiven key data is invalid and possibly corrupted. please \ncheck the key for errors then try again.")
+
+
+    #integrity check 2 (has a numeric part count)
+    if(not keyList[0].isnumeric()):
+        return (False, "input error: (error 41) integrity check 2 failed; invalid complexity value. \ngiven key data is invalid and possibly corrupted. please \ncheck the key for errors then try again.")
 
 
     #convert the rotor count into a int and put it in its place in the decoded list
     key=[int(keyList[0])]
 
+    #integrity check 3 (the part count is greater than zero)
+    if(key[0]<1):
+        return (False, "placeholder")
    
     
+    #integrity check 4 (the length of the key is 3 plus the part count times 2 or 3+(C*2) )
+    if(len(keyList)!=(key[0]*2)+3):
+        #(1 part count + C wiring lists + C start positions+ 1 initial cypher + 1 final cypher))
+        return (False, "placeholder")
+
+
     #decode the rotors
     for rotor in range(key[0]):#key 0 is the number of rotors
         #decode the wiring of a rotor
 
 
+        #integrity check 5 (wiring is a properly formatted list)
+        if(not ("," in keyList[rotor+1])):
+            return (False, "placeholder")
+
+
         #split the string into list at the commas and put it in key
         key.append(keyList[rotor+1].split(","))
+
+
+        #integrity check 6 (wiring has the same number of characters as the current character set)
+        if(not(len(key[rotor+1])==characterSetLen)):
+            return (False, "placeholder")
+
+
         #integerize rotor wiring in key
         for character in range(len(key[rotor+1])):
+
+            #integrity check 7 (all indexes are numeric)
+            if(not (key[rotor+1][character].isnumeric())):
+                return (False, "placeholder")
             
+
             key[rotor+1][character]=int(key[rotor+1][character])
 
+            #integrity check 8 (all indexes are within bounds)
+            if(not(key[rotor+1][character]>=0 and key[rotor+1][character]<characterSetLen)):
+                return (False, "placeholder")
 
-    
+
+
     #append the rotor starting positions to the key
     for rotor in range(key[0]):
+
+        #integrity check 9 (starting positions are numeric)
+        if(not (keyList[rotor+1+key[0]].isnumeric())):
+            return (False, "placeholder")
+        
         key.append(int(keyList[rotor+1+key[0]]))
+
+        #integrity check 10 (starting positions are within bounds)
+        if(not ((key[rotor+1+key[0]]>=0) and (key[rotor+1+key[0]]<characterSetLen))):
+            return (False, "placeholder")
+        
 
 
     
     #for both the input and output static cypher
     for cypher in range(2):#same as rotor compilation
         #compile the wiring of a cypher
+   
+        #integrity check 11 (cypher is a properly formatted list)
+        if(not ("," in keyList[cypher+1+(key[0]*2)])):
+            return (False, "placeholder")
+        
         #take the string of the cypher wiring and split it into a list of strings, then add it to the end of the key
         key.append(keyList[cypher+1+(key[0]*2)].split(","))
+
+        #integrity check 12 (cypher has the same number of characters as the current character set)
+        if(not(len(key[cypher+1+(key[0]*2)])==characterSetLen)):
+            return (False, "placeholder")
+
         #convert these strings into integers
         for character in range(len(key[cypher+1+(key[0]*2)])):
+
+            #integrity check 13 (all indexes are numeric)
+            if(not (key[cypher+1+(key[0]*2)][character].isnumeric())):
+                return (False, "placeholder")
+
             key[cypher+1+(key[0]*2)][character]=int(key[cypher+1+(key[0]*2)][character])
+
+            #integrity check 14 (all indexes are within bounds)
+            if(not(key[cypher+1+(key[0]*2)][character]>=0 and key[cypher+1+(key[0]*2)][character]<characterSetLen)):
+                return (False, "placeholder")
     
    
+    #integrity check 15 (check to make sure what should be a rotor is in the right spot and a list)
+    verificationRotorCount=0
+    for check in range(key[0]):
+        if(type(key[check+1]!=list)):
+            return (False, "placeholder")
+        verificationRotorCount+=1
+    
 
-    return key
+    
+    #integrity check 16 (check to make sure what should be a start position is in the right spot and a list)
+    verificationStartPosCount=0
+    for check in range(key[0]):
+        if(type(key[key[0]+check+1])!=int):
+            return (False, "placeholder")
+        verificationStartPosCount+=1
+
+
+    #integrity check 17 (check to make sure what should be a cypher is in the right spot and a list)
+    verificationCypherCount=0
+    for check in range(2):
+        if(type((key[0]*2)+check+1)!=list):
+            return (False, "placeholder")
+        verificationCypherCount+=1
+    
+    #integrity check 18 (check to make sure what we counted adds up to the whole key length)
+    if(1+verificationRotorCount+verificationStartPosCount+verificationCypherCount!=len(key)):
+        (False, "placeholder")
+
+
+    return (True, key)
     
 
 
