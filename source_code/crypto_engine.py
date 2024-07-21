@@ -321,7 +321,7 @@ def loadKey(keyString:str,characterSet:tuple):
     #integrity check 17 (check to make sure what should be a cypher is in the right spot and a list)
     verificationCypherCount=0
     for check in range(2):
-        if(type((key[0]*2)+check+1)!=list):
+        if(type(key[(key[0]*2)+check+1])!=list):
             return (False, "input error: (error 56) integrity check 17 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
         verificationCypherCount+=1
     
