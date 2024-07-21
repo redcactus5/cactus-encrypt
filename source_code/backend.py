@@ -507,7 +507,7 @@ def decryptText(text:str):
 
 
 
-def decryptTextFile(sourceFileName:str,destinationFileName:str):
+def decryptTextFile(sourceFileName:str, destinationFileName:str):
     
     fileData=getTextFromFile(sourceFileName)
 
