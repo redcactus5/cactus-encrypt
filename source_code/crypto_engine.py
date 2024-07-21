@@ -304,7 +304,7 @@ def loadKey(keyString:str,characterSet:tuple):
     #integrity check 15 (check to make sure what should be a rotor is in the right spot and a list)
     verificationRotorCount=0
     for check in range(key[0]):
-        if(type(key[check+1]!=list)):
+        if(type(key[check+1])!=list):
             return (False, "input error: (error 54) integrity check 15 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
         verificationRotorCount+=1
     
