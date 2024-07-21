@@ -24,38 +24,38 @@ from random import randint
 
 
 
-#more safety mechanisms should be added here. we also should consider numbering our error codes, just for fun
 
 
 
 
-#validation of character being included should be here maybe, return true for is, false for isnt 
+
 '''
-#converts of string of characters into a list of their corisponding number values as 
+#converts of string of characters into a list of their corresponding number values as 
 defined in the characters tuple (the index of the character is its number)
 '''
 def convertToNum(text:str, characterSet:tuple):
 
     textList=list(text)
-
     numList=[]
+
     for character in textList:
         numList.append(characterSet.index(character))
+
     return numList
 
 
 
-#validation of index being valid should be here maybe, return true for is, false for isnt 
 '''
-converts a list of number into their corisponding text characters in the characterSet tuple 
-(what character is at that index). returns them all as a concatinated string
+converts a list of number into their corresponding text characters in the characterSet tuple 
+(what character is at that index). returns them all as a concatenated string
 '''
 def convertToText(numlist:list, characterSet:tuple):
 
     text=""
-    
+
     for num in numlist:
         text+=characterSet[num]
+    
     return text
 
 
@@ -106,7 +106,9 @@ class Rotor:
 
 
 
-#randomly generates a new key with a user provided compelxity value (how many rotors to use)
+
+
+#randomly generates a new key with a user provided complexity value (how many rotors to use)
 def generateKey(rotorCount:int, characterSet:tuple):
     #key structure [rotor keys],[rotor starts],[initial and final static cyphers]
     key=[rotorCount]#start off key
@@ -123,7 +125,7 @@ def generateKey(rotorCount:int, characterSet:tuple):
             rotorWiring.append(catalog.pop(randint(0,len(catalog)-1)))
         #add the completed wiring for this rotor to the key
         key.append(rotorWiring)
-    #gnerate the start positions of the rotors
+    #generate the start positions of the rotors
     for i in range(rotorCount):#generates one position for each of the rotors
         #come up with a random starting position(0-length) for the rotor and append it to the key
         key.append(randint(0,len(characterSet)))
@@ -140,8 +142,6 @@ def generateKey(rotorCount:int, characterSet:tuple):
 
 
 
-#possibly should add check to make sure that the length of the cypher list and starting positions is equal and matches the key length
-#we should also add a check to make sure the starting positions are within the cypher index range  
 #compiles the string argument into a key
 def exportKey(key:list):
     #converts a key list into a string that can be loaded by the load key function
@@ -180,17 +180,25 @@ def exportKey(key:list):
 
 #red was here
 
-#should add checks here to verify that the starting position count matches number of cyphers and uses valid values
-#also should add check to make sure the denoted complexity value matches the number of cyphers in the key
-#loads the encyption key from the string argument and returns the key
+
+#loads the encryption key from the string argument and returns the key
 def loadKey(keyString:str):
-    #seperate the keystring into a list at the terminator strings
+
+    
+    #separate the keystring into a list at the terminator strings
     keyList=keyString.split(" | ")
+
+
     #convert the rotor count into a int and put it in its place in the decoded list
     key=[int(keyList[0])]
+
+   
+    
     #decode the rotors
     for rotor in range(key[0]):#key 0 is the number of rotors
         #decode the wiring of a rotor
+
+
         #split the string into list at the commas and put it in key
         key.append(keyList[rotor+1].split(","))
         #integerize rotor wiring in key
@@ -206,10 +214,12 @@ def loadKey(keyString:str):
 
 
     
-        
+    #for both the input and output static cypher
     for cypher in range(2):#same as rotor compilation
         #compile the wiring of a cypher
+        #take the string of the cypher wiring and split it into a list of strings, then add it to the end of the key
         key.append(keyList[cypher+1+(key[0]*2)].split(","))
+        #convert these strings into integers
         for character in range(len(key[cypher+1+(key[0]*2)])):
             key[cypher+1+(key[0]*2)][character]=int(key[cypher+1+(key[0]*2)][character])
     
@@ -232,7 +242,10 @@ def advanceRotors(rotorList:list):
             break
         
     
-#might need to change the error system to also denote the error type
+
+
+
+
 #encrypts string argument. returns a tuple of success and encrypted string or failure and the problem character
 def encrypt(text:str, characterSet:tuple, encryptionKey:list):
     #check for character compatibility's
@@ -266,7 +279,7 @@ def encrypt(text:str, characterSet:tuple, encryptionKey:list):
 
 #I hate documenting but I want this code to be maintainable so its a necessary evil
 
-#need to add additional safety checks maybe
+
 #decrypts string argument. returns a tuple of either success and the decrypted string or failure and the problem character
 def decrypt(text:str, characterSet:tuple, encryptionKey:list):
     #check for character compatibility

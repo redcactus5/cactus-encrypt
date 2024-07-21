@@ -31,9 +31,9 @@ try:
     mode=build_mode.getBuildMode()
 except:
     ableToStart=False
-    print("\n")*50
-    print("a serious error occurred. the program has aborted the start operation to prevent further problems")
-    print("detected error: start configuration file could not be read")
+    print("\n"*50)
+    print("a fatal error occurred. the program has aborted the start operation for safety.")
+    print("detected error: (error 1) start configuration file could either not be read or not be found.")
     input("press enter to finish")
 
 
@@ -42,33 +42,33 @@ except:
 if(mode[0]=="RELEASE" and ableToStart):
     if(command_line_interface.backend.bmkv(True,mode[1])):
         try:#if so start in release mode
-            print("done!")
+            
             command_line_interface.start(False)
         except Exception as e:
-            print("\n")*50
-            print("a serious error occurred. the program has quit to prevent further problems")
+            print("\n"*50)
+            print("a fatal error occurred. error(2). the program has quit for safety.")
             print("detected error: "+str(e))
             input("press enter to finish")
     else:
-        print("\n")*50
-        print("a serious error occurred. the program has aborted the start operation to prevent further problems")
-        print("detected error: could not start due to invalid start configuration file part 2")
+        print("\n"*50)
+        print("a fatal error occurred. the program has aborted the start operation to prevent damage to your system.")
+        print("detected error: (error 3) could not start due to invalid start configuration constant part 2.")
         input("press enter to finish")
 #determine if this is a debug build
 elif(mode[0]=="TESTING BUILD" and ableToStart):
     if(command_line_interface.backend.bmkv(False,mode[1])):
         #if so start in debug mode
-        print("done!")
+        
         command_line_interface.start(True)
     else:
-        print("\n")*50
-        print("a serious error occurred. the program has aborted the start operation to prevent further problems")
-        print("detected error: could not start due to invalid start configuration file part 2")
+        print("\n"*50)
+        print("a fatal error occurred. the program has aborted the start operation to prevent damage to your system.")
+        print("detected error: (error 3) could not start due to invalid start configuration constant part 2.")
         input("press enter to finish")
-elif(ableToStart):#error out if no valid 
-    print("\n")*50
-    print("a serious error occurred. the program has aborted the start operation to prevent further problems")
-    print("detected error: could not start due to invalid start configuration file")
+elif(ableToStart):#error out if no valid build type tag
+    print("\n"*50)
+    print("a fatal error occurred. the program has aborted the start operation to prevent damage to your system.")
+    print("detected error: (error 4) could not start due to invalid start configuration constant part 1.")
     input("press enter to finish")
 
 

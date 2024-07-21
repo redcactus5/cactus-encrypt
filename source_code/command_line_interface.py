@@ -23,7 +23,7 @@ GLOBALDEBUGFLAG=False
 
 
 #TODO: remember to fix the version string for final release
-#TODO: when setting to a release build, remember to enable the global error handler in cactus encrpyt.py
+
 
 #"V2.0 beta: debug build 3"
 PRGVERSION="V2.0 RC3"
@@ -135,6 +135,9 @@ def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accur
     #2 is adaptive mode, it dynamically adjusts the accuracy value to the length of the input if it is lower than accuracy, and trims both the input and the option strings to the same length, then compares those. this can result in incorrect selections being made, so use with caution
     if(accuracyMode<0 or accuracyMode>2):
         #put error throwing code here
+        raise ValueError("argument error: invalid accuracy mode argument. argument: {"+str(accuracyMode)+"} given, \nonly inclusive integer values between 0 and 2 supported")
+        
+
     while True:
         uiHeader(currentMode)
         print(message)
@@ -148,10 +151,25 @@ def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accur
 
         if(len(selection)>=1):
 
-            #put if tree here to select the different mode here
+            if(accuracyMode==0):#exact mode
+                for i in range(len(options)):
+                    if(selection==str(options[i])):
+                        return i
+                    
 
+            elif(accuracyMode==1):#trim mode
                 if(accuracy>len(selection)):
                     accuracy=len(selection)
+
+                for i in range(len(options)):
+                    if(selection[:accuracy]==str(options[i])):
+                        return i
+                    
+
+            elif(accuracyMode==2):#adaptive mode
+                if(accuracy>len(selection)):
+                    accuracy=len(selection)
+
                 for i in range(len(options)):
                     if(selection[:accuracy]==str(options[i])[:accuracy]):
                         return i
@@ -170,7 +188,7 @@ def multipleChoiceScreen(message:str, optionsMessage:tuple, options:tuple, accur
             
 
 def booleanQuestionScreen(message:str,currentMode:str):
-    choice=multipleChoiceScreen(message,("(y)es","(n)o"),("y","n"),1,currentMode)
+    choice=multipleChoiceScreen(message,("(y)es","(n)o"),("yes","no"),1,currentMode,2)
     if(choice==0):
         return True
     return False
@@ -186,7 +204,7 @@ def enterFileNameScreen(message:str, currentMode:str):
 
         fileName=input("file name:")
 
-        if(multipleChoiceScreen("is \""+fileName+"\" correct?",("(c)onfirm","(r)e-enter"),("c","r"),1,currentMode)==0):
+        if(multipleChoiceScreen("is \""+fileName+"\" correct?",("(c)onfirm","(r)e-enter"),("confirm","re-enter","reenter"),1,currentMode,2)==0):
             return fileName
 
 
@@ -555,7 +573,7 @@ def decryptTerminalInput():
             errorScreen("uh, oh! \nthere is no encryption key in memory, and you need that to decrypt! \nplease load or generate one then try again!",menuName)
 
 
-def ecryptTXT():
+def encryptTXT():
     menuName="encrypt a text file"
 
     if(backend.isCharSetLoaded() and backend.isKeyLoaded()):
@@ -740,7 +758,7 @@ def exit():
     return booleanQuestionScreen("are you sure you want to quit?",menuName)
 
 
-
+'''
 def debugAction():
     
     global GLOBALDEBUGFLAG
@@ -751,7 +769,7 @@ def debugAction():
         print("placeholder action")
         input("press enter to continue")
     clear()
-
+'''
 
 
 
@@ -764,22 +782,25 @@ def CLI_V2():
     selectionAccuracy=2
 
     options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an encryption key from the terminal","(6) load an encryption key from a file","(7) generate an encryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file", "(15) sanitize text", "(16) sanitize text file","(17) help", "(18) quit")
-    optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","qu","ex")
+    optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","qu","q","ex","e")
     
-    
+    '''
     if(GLOBALDEBUGFLAG):
-        options=options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an encryption key from the terminal","(6) load an encryption key from a file","(7) generate an encryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file", "(15) sanitize text", "(16) sanitize text file","(17) help", "(18) quit","(dbg) debug action")
-        optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","qu","ex","dbg")
+        options=("(1) encrypt text","(2) encrypt a text file","(3) decrypt text","(4) decrypt a text file", "(5) load an encryption key from the terminal","(6) load an encryption key from a file","(7) generate an encryption key","(8) export currently loaded encryption key to the terminal","(9) export the currently loaded encryption key to a file", "(10) load a character set from the terminal","(11) load a character set from a file", "(12) scramble the currently loaded character set", "(13) export the currently loaded character set to the terminal", "(14) export the currently loaded character set to a file", "(15) sanitize text", "(16) sanitize text file","(17) help", "(18) quit","(dbg) debug action")
+        optionCodes=("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","qu","q","ex","e","dbg")
         selectionAccuracy=3
+    '''
+        
+
 
     while run:
-        selection=multipleChoiceScreen("welcome to cactus encrypt. please select an option:",options,optionCodes,selectionAccuracy,menuName)
+        selection=multipleChoiceScreen("welcome to cactus encrypt. please select an option:",options,optionCodes,selectionAccuracy,menuName,1)
 
         if(selection==0):
             encryptTerminalInput()
         
         elif(selection==1):
-            ecryptTXT()
+            encryptTXT()
 
         elif(selection==2):
             decryptTerminalInput()
@@ -826,14 +847,14 @@ def CLI_V2():
         elif(selection==16):
             helpScreen()
         
-        elif(selection==17 or selection==18 or selection==19):
+        elif(selection>=17 and selection<=21):
             if(exit()):
                 run=False
                 break
-        
-        elif(GLOBALDEBUGFLAG and selection==20):
+        '''
+        elif(GLOBALDEBUGFLAG and selection==22):
             debugAction()
-
+        '''
 
     clear()
     print("thank you for using cactus encrypt!")
@@ -843,28 +864,34 @@ def CLI_V2():
 
 def start(debugMode):
 
+
+    #these files are a completely optional feature, so we dont throw and error if they fail to load
     backend.loadCharSetFromTXT("default_charset.txt")
     backend.loadKeyFromTXT("default_key.txt")
-
+    
+    #we handle informing the user of helpfile errors elsewhere
     try:
-        helpFile = open("help.txt","r")
+        helpFile = backend.getTextFromFile("help.txt")
         global help
-        help=helpFile.read()
-        helpFile.close()
+        help=helpFile[1]    
     except:
         pass
+
+    #users will almost never see this, it only triggers in debug builds
     if(debugMode):
         global GLOBALDEBUGFLAG
         global PRGVERSION
         GLOBALDEBUGFLAG=True
     
-        
+        print("done!")
         PRGVERSION+=": DEBUG"
         clear()
         print("WARNING: this is a debug build. it is for closed testing purposes \nonly and is not to be shared with unauthorized parties.")
         ln(3)
         input("press enter to agree and continue")
         clear()
+    else:
+        print("done!")
     CLI_V2()
     
     
