@@ -445,7 +445,7 @@ def generateKey():
 
                 if(inputError):
                     uiHeader(menuName)
-                    print("input error: (error 38) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
+                    print("input error: (error 41) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
                     ln(2)
                     input("press enter to continue")
                 

@@ -92,9 +92,11 @@ this error is simple. with cactus encrypt, encryption keys and character sets ar
 this issue is simple. cactus encrypt isn't magic, no matter how much i wish it was. in order to encrypt or decrypt a file, all the characters in the file must also be in the currently loaded character set. if it finds one that isn't, it gives this error. fixing this is pretty easy. either remove all instances of that character from your file, or add it to the character set and generate a new encryption key. if all else fails, restarting the program and/or your computer may help.
 
 
+"input error: (errors 41-59) integrity check [number] failed; {cause}."
+this set of errors is somewhat complicated. they are caused by a character set you are attempting to load failing an integrity check. this can have a multitude of causes, but the usual suspects are: incorrectly entering a key, the key is missing parts, the key was made before the key generation bug fix, the key was tampered with, or the key has become corrupted through one means or another. there can be a multitude of fixes, depending on what is broken, but my main advice is to check the key for obvious errors then try again. 
 
 "warning, help file could not be loaded!" and "uh, oh! the help file couldn't be loaded!"
-these errors mean that the file you are reading right now could not be found or loaded by the program. this usually happens if it is open in another program, has had its name changed, cactus encrypt doesn't have the right file permissions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are rectified the try again.  if all else fails, restarting the program and/or your computer may help.
+these errors mean that the file you are reading right now could not be found or loaded by the program. this usually happens if it is open in another program, has had its name changed, cactus encrypt doesn't have the right file permissions, or has been removed from the cactus encrypt folder. to fix it, just make sure all of the above are rectified the try again. if all else fails, restarting the program and/or your computer may help. restarting the program and/or your computer may also help. if all else fails, you will have to generate a new key, as a corrupted key is usually unrecoverable.
 
 
 

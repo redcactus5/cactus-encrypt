@@ -182,14 +182,19 @@ def exportKeyToTXT(fileName:str):
 def loadKey(keyString:str):
     key=None
     global characterSet
+    try:
+        if(keyString==None or keyString==""):
+            return(False, "input error: (error 15) given key is empty! please try again with a valid key.")
+    except:
+        return (False, "verification error: (error 16) key could not be verified. please check the key for errors then try again.")
 
     if(not isCharSetLoaded()):
-        return (False, "input error: (error 16) character set key mismatch. no character set in memory to verify against. please load the correct character set then try again.")
+        return (False, "input error: (error 17) character set key mismatch. no character set in memory to verify against. please load the correct character set then try again.")
 
     try:
         key=crypto_engine.loadKey(keyString,characterSet)
     except:
-        return (False, "input error: (error 15) key could not be parsed. please check the key for errors then try again.")
+        return (False, "input error: (error 18) key could not be parsed. please check the key for errors then try again.")
     
     if(key[0]):
         key=key[1]
@@ -197,13 +202,13 @@ def loadKey(keyString:str):
         return (False, key[1])
 
     if(len(key[len(key)-1])!=len(characterSet)):
-        return (False, "input error: (error 17) character set key mismatch. character set and key do not have the same number of characters. please load the correct character set then try again.")
+        return (False, "input error: (error 19) character set key mismatch. character set and key do not have the same number of characters. please load the correct character set then try again.")
     
     
     try:
         setKey(key)
     except:
-        return (False, "input error: (error 18) key could not be stored. please check the key for errors then try again.")
+        return (False, "input error: (error 20) key could not be stored. please check the key for errors then try again.")
     return (True, "successful")
 
 
@@ -230,7 +235,7 @@ def loadCharSet(charSetString:str):
 
     try:
         if(charSetString==None or len(charSetString)<=0):
-            return(False, "input error: (error 19) character set is empty! please try again with a valid character set.")
+            return(False, "input error: (error 21) character set is empty! please try again with a valid character set.")
     except:
         return(False, "critical error: (error 22) character set could not be verified. please check it for errors then try again.")
 
@@ -238,25 +243,25 @@ def loadCharSet(charSetString:str):
     try:
         charSetTuple=tuple(charSetString)
     except:
-        return (False, "critical error: (error 20) character set could not be parsed. please check it for errors then try again.")
+        return (False, "critical error: (error 23) character set could not be parsed. please check it for errors then try again.")
     
     try:
         charLog=[]
         for char in charSetTuple:
             if(char in charLog):
-                return (False, "input error: (error 21) multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please remove all duplicates of the character then try again.")
+                return (False, "input error: (error 24) multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please remove all duplicates of the character then try again.")
             charLog.append(char)
     except:
-        return (False, "critical error: (error 22) character set could not be verified. please check it for errors then try again.")
+        return (False, "critical error: (error 25) character set could not be verified. please check it for errors then try again.")
         
     try:
         setCharSet(charSetTuple)
     except:
-        return (False, "critical error: (error 23) character set could not be stored. please check it for errors then try again.")
+        return (False, "critical error: (error 26) character set could not be stored. please check it for errors then try again.")
     try:
         setKey(None)
     except:
-        return (False, "critical error: (error 24) key could not be cleared. please check it for errors then try again.")
+        return (False, "critical error: (error 27) key could not be cleared. please check it for errors then try again.")
     return (True,"successful")
         
 
@@ -282,7 +287,7 @@ def exportCharSet():
     try:
         charSetString="".join(characterSet)
     except:
-        return (False, "critical error: (error 25) character set could not be processed. please check it for errors then try again.")
+        return (False, "critical error: (error 28) character set could not be processed. please check it for errors then try again.")
     return (True, charSetString)
 
 
@@ -313,7 +318,7 @@ def scrambleCharSet():
             scrambled.append(oldSet.pop(randint(0,len(oldSet)-1)))
         characterSet = tuple(scrambled)
     except:
-        return (False, "critical error: (error 26) character set could not be scrambled. please check it for errors then try again.")
+        return (False, "critical error: (error 29) character set could not be scrambled. please check it for errors then try again.")
     return (True,"successful")
 
 
@@ -366,7 +371,7 @@ def sanitizeText(text:str,attemptReplacement:bool):
         
         cleanText=cleanText.join(cleanTextList)
     except:
-        return (False, "critical error: (error 27) entered text could not be sanitized. please check it for problems then try again.")
+        return (False, "critical error: (error 30) entered text could not be sanitized. please check it for problems then try again.")
     
     return (True, cleanText)
 
@@ -439,10 +444,10 @@ def encryptText(text:str):
     try:
         encryptedText=crypto_engine.encrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 28) encryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error 31) encryption process failed. please check the text for errors then try again.",0)
     
     if(not encryptedText[0]):
-        return (False, "character error: (error 29) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "character error: (error 32) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return encryptedText
         
@@ -466,13 +471,13 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
     try:
         encryptedText=crypto_engine.encrypt(fileData[1], characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 30) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 33) encryption process failed. please check the file for errors then try again.")
     
     if((not encryptedText[0]) and encryptedText[2]==1):
-        return (False, "character error: (error 31) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "character error: (error 34) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
     elif((not encryptedText) and encryptedText[2]==0):
-        return (False, "critical error: (error 32) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 35) encryption process failed. please check the file for errors then try again.")
 
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -495,10 +500,10 @@ def decryptText(text:str):
     try:
         decryptedText=crypto_engine.decrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 33) decryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error 36) decryption process failed. please check the text for errors then try again.",0)
     
     if(not decryptedText[0]):
-        return (False, "character error: (error 34) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "character error: (error 37) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return decryptedText
 
@@ -521,16 +526,16 @@ def decryptTextFile(sourceFileName:str, destinationFileName:str):
     try:
         decryptedText=crypto_engine.decrypt(fileData[1], characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 35) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 38) encryption process failed. please check the file for errors then try again.")
     
 
 
     if((not decryptedText[0]) and decryptedText[2]==1):
-        return (False, "character error: (error 36) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "character error: (error 39) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
 
     elif((not decryptedText[0]) and decryptedText[2]==0):
-        return (False, "critical error: (error 37) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 40) encryption process failed. please check the file for errors then try again.")
     
 
     error=writeTextToFile(destinationFileName,decryptedText[1])
