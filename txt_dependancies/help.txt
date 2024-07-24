@@ -17,7 +17,7 @@ cactus encrypt is a flexible encryption program written entirely in python 3. ve
 
 
 general warnings:
-keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this. finally, due to the tightly linked nature of character sets and keys, you cannot load or generate a key unless you already have a character set loaded, and the program is specifically written to check for this. the sanitization features that remove characters not found in the currently loaded key from text and text file are very basic features and while they try their best, they are not guaranteed to work perfectly and will often cause text formatting problems and occasionally make text unreadable, depending on the key and text combination. additionally, when replacement mode is selected, the program will look through a list of potential characters to use for replacement (specifically this list: {" _-|*+.$?Xx"}), and pick the best replacement present, but if none are present in the key, invalid characters will only be removed, and no replacement will occur. due to a now fixed bug in the key generation code and key loading code of previous versions of the program, some old keys may no longer work.
+keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this. finally, due to the tightly linked nature of character sets and keys, you cannot load or generate a key unless you already have a character set loaded, and the program is specifically written to check for this. the sanitization features that remove characters not found in the currently loaded key from text and text file are very basic features and while they try their best, they are not guaranteed to work perfectly and will often cause text formatting problems and occasionally make text unreadable, depending on the key and text combination. due to a now fixed bug in the key generation code and key loading code of previous versions of the program, some old keys may no longer work.
 
 
 
@@ -38,61 +38,61 @@ by overwriting default_charset.txt and default_key.txt, you can replace the defa
 
 
 common errors:
-"io error: (error 5) file to read could not be opened." 
+"io error: file to read could not be opened." 
 this error occurs when the program is unable to find or open the specified file. this is usually caused by misspelling the file's name, not including the file extension, which is necessary, or that the file could not be accessed for one reason or another, often because another program is using it or cactus encrypt does not have the system permissions necessary to access it. this can usually be fixed by closing any other programs accessing the file, verifying that cactus encrypt has the needed system permissions, and verifying the file name given to the program is correct and has the proper extension. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"io error: (error 8) file to write could not be opened/created."
+"io error: file to write could not be opened/created."
 this error occurs when the program is not able to open or find the specified file. this is usually caused by misspelling the file's name, not including the file extension, which is necessary, \or that the file could not be accessed for one reason or another, often because another program is using it, the file is write protected, or cactus encrypt does not have the system permissions necessary to access it. this can usually be fixed by closing any other programs accessing the file, verifying that cactus encrypt has the needed system permissions, verifying the target file is not write protected, and verifying the file name given to the program is correct and has the proper extension. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"io error: (error 9) file could not be written to."
+"io error: file could not be written to."
 this is a slightly uncommon error that is caused by the currently open file could not be written to for one reason or another. this can have several causes, usually involving file system shenanigans, specific timing, and write protection. my best advice is to verify that the file is not write protected and that another program is not attempting to access it and try again. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"input error: (error 35) given complexity value is invalid."
+"input error: given complexity value is invalid."
 this one is an easy fix. this error occurs when the complexity value for key generation given to the program is not a positive integer (a whole number greater than zero ex. 5). to fix it, just try again with a positive integer.
 
 
 
-"input error: (error 15) key could not be parsed"
+"input error: key could not be parsed"
 this error occurs when the program fails to process a key given to it into its internal representation. this is usually caused by improperly entering the key or tampering with the key. my advice is to examine the key for errors (good luck with that), and try loading the key again. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"critical error: (error 19) character set could not be parsed."
+"critical error: character set could not be parsed."
 this error occurs when the program fails to process a character set given to it into its internal representation. this is usually caused by invalid/improperly formatted character sets, and character sets containing invalid characters. my advice is to examine the character set for errors and try again. cactus encrypt is pretty picky with how it likes its keys and character sets, so this error is often easily fixable. I recommend never messing with any working character sets to begin with. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"character error: (errors 30 and 35) the character {example} in the given file/text is not present in the currently loaded character set."
+"input error: the character {example} in the given file/text is not present in the currently loaded character set."
 this issue is simple. cactus encrypt isn't magic, no matter how much i wish it was. in order to encrypt or decrypt text, all the characters in the text must also be in the currently loaded character set. if it finds one that isn't, it gives this error. fixing this is pretty easy. either remove all instances of that character from your text, or add it to the character set and generate a new encryption key. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"critical error: (error 21) character set could not be verified."
+"critical error: character set could not be verified."
 this error occurs when the program encounters an error while attempting to verify a character set during loading. this is usually caused by invalid/improperly formatted character sets, and character sets containing invalid characters. my advice is to examine the character set for errors and try again. cactus encrypt is pretty picky with how it likes its keys and character sets, so this error is often easily fixable. I recommend never messing with any working character sets to begin with. if all else fails, restarting the program and/or your computer may help.
 
 
 
-""input error: (error 20) multiple occurrences of the character {example} were found in the character set." 
+""input error: multiple occurrences of the character {example} were found in the character set." 
 this is a simple issue with a simple fix. unfortunately, due to the nature of the cactus encrypt algorithm, character sets can only have one instance of a character per set. to prevent the problems this causes, the program checks for this and produces this error if detected. the fix is simple. follow the instructions in the error and remove any extra instances of the character in the set then try again. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"input error: (error 17) character set key mismatch. character set and key do not have the same number of characters."
+"input error: character set key mismatch. character set and key do not have the same number of characters."
 this error is simple. with cactus encrypt, encryption keys and character sets are closely tied together. if you mismatch them, neither will work correctly. in this case, the encryption key you are attempting to load was designed for a character set with a different number of characters. to fix this, just us a properly matched character set and encryption key pair. if all else fails, restarting the program and/or your computer may help.
 
 
 
-"character error: (errors 28 and 33) the character {example} in the given text is not present in the currently load character set."
+"input error: the character {example} in the given text is not present in the currently load character set."
 this issue is simple. cactus encrypt isn't magic, no matter how much i wish it was. in order to encrypt or decrypt a file, all the characters in the file must also be in the currently loaded character set. if it finds one that isn't, it gives this error. fixing this is pretty easy. either remove all instances of that character from your file, or add it to the character set and generate a new encryption key. if all else fails, restarting the program and/or your computer may help.
 
 
-"input error: (errors 41-59) integrity check [number] failed; {cause}."
+"input error: integrity check [number] failed; {cause}."
 this set of errors is somewhat complicated. they are caused by a character set you are attempting to load failing an integrity check. this can have a multitude of causes, but the usual suspects are: incorrectly entering a key, the key is missing parts, the key was made before the key generation bug fix, the key was tampered with, or the key has become corrupted through one means or another. there can be a multitude of fixes, depending on what is broken, but my main advice is to check the key for obvious errors then try again. 
 
 "warning, help file could not be loaded!" and "uh, oh! the help file couldn't be loaded!"

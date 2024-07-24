@@ -434,18 +434,27 @@ def generateKey():
                 inputError=False
 
                 try:
-                    userInput=int(userInput)
+                    userInput=userInput
                 except:
                     inputError=True
                 
+                if(not userInput.isnumeric()):
+                    inputError=True
+
+                try:
+                    userInput=int(userInput)
+                except:
+                    inputError=True
 
                 if(inputError==False and userInput<1):
                     inputError=True
 
+                
+
 
                 if(inputError):
                     uiHeader(menuName)
-                    print("input error: (error 41) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
+                    print("input error: (error 42) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
                     ln(2)
                     input("press enter to continue")
                 
@@ -660,12 +669,36 @@ def sanitizeText():
     if(backend.isCharSetLoaded()):
         if(booleanQuestionScreen("are you sure you want to sanitize text?",menuName)):
 
-            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work, and if no viable characters are found \nin the character set, invalid characters will simply be removed.",menuName)
+            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work, and the replacement you enter must already be \nin the loaded character set.",menuName)
+
+            replacementChar=""
+            if(attemptReplacement):
+                while(True):
+                    uiHeader(menuName)
+                    print("please enter the character to replace invalid characters with:")
+                    prospectiveReplacementChar=input("")
+                    if(len(prospectiveReplacementChar)>1):
+                        uiHeader()
+                        print("input error: more than one character entered. please try again with a single character.")
+                        ln(3)
+                        input("press enter to continue")
+                    elif(not(prospectiveReplacementChar in backend.getCharSet())):
+                        uiHeader()
+                        print("input error: entered character is not in the currently loaded character set. \nplease try again with a valid character.")
+                        ln(3)
+                        input("press enter to continue")
+                    elif(len(prospectiveReplacementChar)==0):
+                        attemptReplacement=False
+                        break
+                    else:
+                        replacementChar=prospectiveReplacementChar
+                        break
+
 
             uiHeader(menuName)
 
             if(attemptReplacement):
-                print("warning: this feature works by removing all instances of character not present in the currently\nloaded key from the text, and replacing them with valid spacing characters. using this feature can\nmake text unreadable and often breaks formatting. additionally, if no valid replacement is found in\nthe char set, no replacement will occur and all invalid characters will simple be removed")
+                print("warning: this feature works by removing all instances of character not present in the currently\nloaded key from the text, and replacing them with valid spacing characters. using this feature can\nmake text unreadable and often breaks formatting.")
             else:
                 print("warning: this feature works by removing all instances of character not present in the currently\nloaded key from the text. using this feature can make text unreadable and often breaks formatting.")
 
@@ -679,7 +712,7 @@ def sanitizeText():
             print("cleaning text...")
 
             start=time.time()
-            cleanText=backend.sanitizeText(toBeSanitized,attemptReplacement)
+            cleanText=backend.sanitizeText(toBeSanitized,attemptReplacement,replacementChar)
             total=time.time()-start
      
 
@@ -706,7 +739,31 @@ def sanitizeTXT():
 
         if(booleanQuestionScreen("are you sure you want to sanitize a text file?",menuName)):
 
-            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work, and if no viable characters are found \nin the character set, invalid characters will simply be removed. if you \nchoose not to attempt replacement, all invalid characters will be \nsimply removed.",menuName)
+            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work, and the replacement you enter must already be \nin the loaded character set.",menuName)
+
+            replacementChar=""
+            if(attemptReplacement):
+                while(True):
+                    uiHeader(menuName)
+                    print("please enter the character to replace invalid characters with:")
+                    prospectiveReplacementChar=input("")
+                    if(len(prospectiveReplacementChar)>1):
+                        uiHeader()
+                        print("input error: more than one character entered. please try again with a single character.")
+                        ln(3)
+                        input("press enter to continue")
+                    elif(not(prospectiveReplacementChar in backend.getCharSet())):
+                        uiHeader()
+                        print("input error: entered character is not in the currently loaded character set. \nplease try again with a valid character.")
+                        ln(3)
+                        input("press enter to continue")
+                    elif(len(prospectiveReplacementChar)==0):
+                        attemptReplacement=False
+                        break
+                    else:
+                        replacementChar=prospectiveReplacementChar
+                        break
+
             
             source=enterFileNameScreen("please enter the name of the file to sanitize (include the file extension).",menuName)
 
@@ -718,7 +775,7 @@ def sanitizeTXT():
             print("cleaning...")
 
             start=time.time()
-            success=backend.sanitizeTextFile(source,output,attemptReplacement)
+            success=backend.sanitizeTextFile(source,output,attemptReplacement,replacementChar)
             total=time.time()-start
 
             if(success[0]):

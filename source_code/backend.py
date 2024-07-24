@@ -323,7 +323,7 @@ def scrambleCharSet():
 
 
 
-def sanitizeText(text:str,attemptReplacement:bool):
+def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
 
     if(text==None or text==""):
 
@@ -337,22 +337,19 @@ def sanitizeText(text:str,attemptReplacement:bool):
 
     listedText=[]
 
-    replacementCandidates=list(" _-|*+.$?Xx")
+    
     
     
 
     try:
         listedText=list(text)
         
-
-        
         if(attemptReplacement):
-            replacement=""
-            for rep in replacementCandidates:
-                if(rep in characterSet):
-                    replacement=rep
-                    break
-
+            if(replacementChar not in characterSet):#specified replacement
+                return (False, "input error: (error 30) entered replacement character not present in loaded character set.\nplease try again with a valid character.")
+            
+            replacement=replacementChar
+            
             for char in listedText:
                 if(char in characterSet):
                     cleanTextList.append(char)
@@ -361,22 +358,21 @@ def sanitizeText(text:str,attemptReplacement:bool):
 
 
 
-        else:
+        else:#just remove invalid
             for char in listedText:
                 if(char in characterSet):
                     cleanTextList.append(char)
 
-            
 
         
         cleanText=cleanText.join(cleanTextList)
     except:
-        return (False, "critical error: (error 30) entered text could not be sanitized. please check it for problems then try again.")
+        return (False, "critical error: (error 31) entered text could not be sanitized. please check it for problems then try again.")
     
     return (True, cleanText)
 
 
-def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplacement:bool):
+def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplacement:bool,replacementChar:str):
     
 
     
@@ -386,7 +382,7 @@ def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplaceme
     if(not dubiousText[0]):
         return dubiousText
     
-    cleanText=sanitizeText(dubiousText[1],attemptReplacement)
+    cleanText=sanitizeText(dubiousText[1],attemptReplacement,replacementChar)
 
     if(not cleanText[0]):
         return cleanText
@@ -444,10 +440,10 @@ def encryptText(text:str):
     try:
         encryptedText=crypto_engine.encrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 31) encryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error 32) encryption process failed. please check the text for errors then try again.",0)
     
     if(not encryptedText[0]):
-        return (False, "character error: (error 32) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "input error: (error 33) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return encryptedText
         
@@ -471,13 +467,13 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
     try:
         encryptedText=crypto_engine.encrypt(fileData[1], characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 33) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 34) encryption process failed. please check the file for errors then try again.")
     
     if((not encryptedText[0]) and encryptedText[2]==1):
-        return (False, "character error: (error 34) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "input error: (error 35) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
     elif((not encryptedText) and encryptedText[2]==0):
-        return (False, "critical error: (error 35) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 36) encryption process failed. please check the file for errors then try again.")
 
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -500,10 +496,10 @@ def decryptText(text:str):
     try:
         decryptedText=crypto_engine.decrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 36) decryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error 37) decryption process failed. please check the text for errors then try again.",0)
     
     if(not decryptedText[0]):
-        return (False, "character error: (error 37) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "input error: (error 38) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return decryptedText
 
@@ -526,16 +522,16 @@ def decryptTextFile(sourceFileName:str, destinationFileName:str):
     try:
         decryptedText=crypto_engine.decrypt(fileData[1], characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 38) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 39) encryption process failed. please check the file for errors then try again.")
     
 
 
     if((not decryptedText[0]) and decryptedText[2]==1):
-        return (False, "character error: (error 39) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "input error: (error 40) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
 
     elif((not decryptedText[0]) and decryptedText[2]==0):
-        return (False, "critical error: (error 40) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 41) encryption process failed. please check the file for errors then try again.")
     
 
     error=writeTextToFile(destinationFileName,decryptedText[1])
