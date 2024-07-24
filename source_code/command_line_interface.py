@@ -669,7 +669,7 @@ def sanitizeText():
     if(backend.isCharSetLoaded()):
         if(booleanQuestionScreen("are you sure you want to sanitize text?",menuName)):
 
-            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work, and the replacement you enter must already be \nin the loaded character set.",menuName)
+            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work perfectly, and the replacement you enter must already be \nin the loaded character set. additionally, using this feature may break formatting.",menuName)
 
             replacementChar=""
             if(attemptReplacement):
@@ -677,19 +677,22 @@ def sanitizeText():
                     uiHeader(menuName)
                     print("please enter the character to replace invalid characters with:")
                     prospectiveReplacementChar=input("")
-                    if(len(prospectiveReplacementChar)>1):
-                        uiHeader()
+                    if(prospectiveReplacementChar==None):
+                        attemptReplacement=False
+                        break
+                    elif(len(prospectiveReplacementChar)<=0):
+                        attemptReplacement=False
+                        break
+                    elif(len(prospectiveReplacementChar)>1):
+                        uiHeader(menuName)
                         print("input error: more than one character entered. please try again with a single character.")
                         ln(3)
                         input("press enter to continue")
                     elif(not(prospectiveReplacementChar in backend.getCharSet())):
-                        uiHeader()
+                        uiHeader(menuName)
                         print("input error: entered character is not in the currently loaded character set. \nplease try again with a valid character.")
                         ln(3)
                         input("press enter to continue")
-                    elif(len(prospectiveReplacementChar)==0):
-                        attemptReplacement=False
-                        break
                     else:
                         replacementChar=prospectiveReplacementChar
                         break
@@ -739,7 +742,7 @@ def sanitizeTXT():
 
         if(booleanQuestionScreen("are you sure you want to sanitize a text file?",menuName)):
 
-            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work, and the replacement you enter must already be \nin the loaded character set.",menuName)
+            attemptReplacement=booleanQuestionScreen("would you like to attempt replacing invalid characters with valid replacements?\n\nwarning: this is not guaranteed to work perfectly, and the replacement you enter must already be \nin the loaded character set. additionally, using this feature may break text formatting.",menuName)
 
             replacementChar=""
             if(attemptReplacement):
