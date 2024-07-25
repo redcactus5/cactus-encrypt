@@ -327,7 +327,7 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
 
     if(text==None or text==""):
 
-        return ""
+        return (True ,"",0)
     global characterSet
 
 
@@ -337,7 +337,7 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
 
     listedText=[]
 
-    
+    invalidCharCount=0
     
     
 
@@ -355,6 +355,7 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
                     cleanTextList.append(char)
                 else:
                     cleanTextList.append(replacement)
+                    invalidCharCount+=1
 
 
 
@@ -362,6 +363,8 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
             for char in listedText:
                 if(char in characterSet):
                     cleanTextList.append(char)
+                else:
+                    invalidCharCount+=1
 
 
         
@@ -369,7 +372,7 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
     except:
         return (False, "critical error: (error 31) entered text could not be sanitized. please check it for problems then try again.")
     
-    return (True, cleanText)
+    return (True, cleanText,invalidCharCount)
 
 
 def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplacement:bool,replacementChar:str):
@@ -392,7 +395,7 @@ def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplaceme
     if(not error[0]):
         return error
     
-    return (True,"successful")
+    return (True,"successful",cleanText[2])
 
 
 

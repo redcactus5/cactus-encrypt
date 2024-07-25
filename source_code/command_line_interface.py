@@ -720,8 +720,10 @@ def sanitizeText():
      
 
             if(cleanText[0]):
-                terminalExportScreen("sanitization successful!",total,"please remember that curly braces are used to denote the start \nand end of the text, but can also appear in it.","sanitized text:{"+cleanText[1]+"}", menuName)
-            
+                if(attemptReplacement):
+                    terminalExportScreen("sanitization successful!\n"+str(cleanText[2])+" character(s) replaced.",total,"please remember that curly braces are used to denote the start \nand end of the text, but can also appear in it.","sanitized text:{"+cleanText[1]+"}", menuName)
+                else:
+                    terminalExportScreen("sanitization successful!\n"+str(cleanText[2])+" character(s) removed.",total,"please remember that curly braces are used to denote the start \nand end of the text, but can also appear in it.","sanitized text:{"+cleanText[1]+"}", menuName)
             else:
                 errorScreen("sanitization failed!\n\n"+cleanText[1], menuName)
 
@@ -782,7 +784,10 @@ def sanitizeTXT():
             total=time.time()-start
 
             if(success[0]):
-                finishedScreen("file sanitization successful!", total, menuName)
+                if(attemptReplacement):
+                    finishedScreen("file sanitization successful!\n"+str(success[2])+" character(s) replaced.", total, menuName)
+                else:
+                    finishedScreen("file sanitization successful!\n"+str(success[2])+" character(s) removed.", total, menuName)
             else:
                 errorScreen("file sanitization failed!\n\n"+success[1], menuName)
 
