@@ -927,7 +927,7 @@ def start(debugMode):
     #we handle informing the user of helpfile errors elsewhere
     try:
         helpFile = backend.getTextFromFile("help.txt")
-        if(help[0]):
+        if(helpFile[0]):
             global help
             help=helpFile[1]    
     except:

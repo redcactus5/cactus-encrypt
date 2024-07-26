@@ -23,4 +23,6 @@ if exist "debug build" (
     echo could not find debug build.
 )
 
+echo done!
+
 endlocal
