@@ -927,11 +927,12 @@ def start(debugMode):
     #we handle informing the user of helpfile errors elsewhere
     try:
         helpFile = backend.getTextFromFile("help.txt")
-        global help
-        help=helpFile[1]    
+        if(help[0]):
+            global help
+            help=helpFile[1]    
     except:
         pass
-
+    
     #users will almost never see this, it only triggers in debug builds
     if(debugMode):
         global GLOBALDEBUGFLAG
