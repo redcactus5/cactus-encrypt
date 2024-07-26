@@ -319,6 +319,10 @@ def scrambleCharSet():
         characterSet = tuple(scrambled)
     except:
         return (False, "critical error: (error 29) character set could not be scrambled. please check it for errors then try again.")
+    try:
+        setKey(None)
+    except:
+        return (False, "critical error: (error 27) key could not be cleared. please check it for errors then try again.")
     return (True,"successful")
 
 

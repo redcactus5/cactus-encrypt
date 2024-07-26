@@ -309,7 +309,7 @@ def loadCharSetFromTXT():
 def scrambleCharSet():
     menuName="scramble character set"
     if(backend.isCharSetLoaded()):
-        if(booleanQuestionScreen("are you sure you want to scramble the currently loaded character set?\n this will replace the currently loaded character set, \nand break compatibility with anything encrypted with it.",menuName)):
+        if(booleanQuestionScreen("are you sure you want to scramble the currently loaded character set?\n this will replace the currently loaded character set, \nand break compatibility with anything encrypted with it. additionally, \nany currently loaded  key will be cleared.",menuName)):
             
             uiHeader(menuName)
             print("now scrambling...")
