@@ -194,7 +194,7 @@ def loadKey(keyString:str,characterSet:tuple):
  
     #integrity check 0 (has part separation characters)
     if(not (" | " in keyString)):
-        return (False, "input error: (error 43) integrity check 0 failed; could not find separator 1. given key data is \ninvalid and possibly corrupted. please check the key for errors then try again.")
+        return (False, "input error: (error 45) integrity check 0 failed; could not find separator 1. given key data is \ninvalid and possibly corrupted. please check the key for errors then try again.")
     
 
     #separate the keystring into a list at the terminator strings
@@ -203,12 +203,12 @@ def loadKey(keyString:str,characterSet:tuple):
 
     #integrity check 1 (has at least the minimum number of parts)
     if(len(keyList)<5):
-        return (False, "input error: (error 44) integrity check 1 failed; key data is incomplete. given key data is \ninvalid and possibly corrupted. please check the key for errors then try again.")
+        return (False, "input error: (error 46) integrity check 1 failed; key data is incomplete. given key data is \ninvalid and possibly corrupted. please check the key for errors then try again.")
 
 
     #integrity check 2 (has a numeric part count)
     if(not keyList[0].isnumeric()):
-        return (False, "input error: (error 45) integrity check 2 failed; key data has invalid complexity value. given key \ndata is invalid and possibly corrupted. please check the key for errors then try again.")
+        return (False, "input error: (error 47) integrity check 2 failed; key data has invalid complexity value. given key \ndata is invalid and possibly corrupted. please check the key for errors then try again.")
 
 
     #convert the rotor count into a int and put it in its place in the decoded list
@@ -216,13 +216,13 @@ def loadKey(keyString:str,characterSet:tuple):
  
     #integrity check 3 (the part count is greater than zero)
     if(key[0]<1):
-        return (False, "input error: (error 46) integrity check 3 failed; key data has invalid complexity value. given key \ndata is invalid and possibly corrupted. please check the key for errors then try again.")
+        return (False, "input error: (error 48) integrity check 3 failed; key data has invalid complexity value. given key \ndata is invalid and possibly corrupted. please check the key for errors then try again.")
    
     
     #integrity check 4 (the length of the key is 3 plus the part count times 2 or 3+(C*2) )
     if(len(keyList)!=(key[0]*2)+3):
         #(1 part count + C wiring lists + C start positions+ 1 initial cypher + 1 final cypher))
-        return (False, "input error: (error 47) integrity check 4 failed; key data is improperly partitioned. given key data \nis invalid and possibly corrupted. please check the key for errors then try again.")
+        return (False, "input error: (error 49) integrity check 4 failed; key data is improperly partitioned. given key data \nis invalid and possibly corrupted. please check the key for errors then try again.")
 
 
     #decode the rotors
@@ -232,7 +232,7 @@ def loadKey(keyString:str,characterSet:tuple):
 
         #integrity check 5 (wiring is a properly formatted list)
         if(not ("," in keyList[rotor+1])):
-            return (False, "input error: (error 48) integrity check 5 failed; could not find separator 2. given key data is \ninvalid and possibly corrupted. please check the key for errors then try again.")
+            return (False, "input error: (error 50) integrity check 5 failed; could not find separator 2. given key data is \ninvalid and possibly corrupted. please check the key for errors then try again.")
 
 
         #split the string into list at the commas and put it in key
@@ -241,7 +241,7 @@ def loadKey(keyString:str,characterSet:tuple):
 
         #integrity check 6 (wiring has the same number of characters as the current character set)
         if(not(len(key[rotor+1])==characterSetLen)):
-            return (False, "input error: (error 49) integrity check 6 failed; key data incompatible with loaded character \nset and may be corrupted. given key data is invalid and possibly corrupted. please \ncheck the key for errors then try again.")
+            return (False, "input error: (error 51) integrity check 6 failed; key data incompatible with loaded character \nset and may be corrupted. given key data is invalid and possibly corrupted. please \ncheck the key for errors then try again.")
 
 
         #integerize rotor wiring in key
@@ -249,14 +249,14 @@ def loadKey(keyString:str,characterSet:tuple):
 
             #integrity check 7 (all indexes are numeric)
             if(not (key[rotor+1][character].isnumeric())):
-                return (False, "input error: (error 50) integrity check 7 failed; invalid values found in key data. given key data\nis invalid and possibly corrupted. please check the key for \nerrors then try again.")
+                return (False, "input error: (error 52) integrity check 7 failed; invalid values found in key data. given key data\nis invalid and possibly corrupted. please check the key for \nerrors then try again.")
             
 
             key[rotor+1][character]=int(key[rotor+1][character])
 
             #integrity check 8 (all indexes are within bounds)
             if(not(key[rotor+1][character]>=0 and key[rotor+1][character]<characterSetLen)):
-                return (False, "input error: (error 51) integrity check 8 failed; out of range values found in key data. \ngiven key data is invalid and possibly corrupted. please check the key for \nerrors then try again.")
+                return (False, "input error: (error 53) integrity check 8 failed; out of range values found in key data. \ngiven key data is invalid and possibly corrupted. please check the key for \nerrors then try again.")
 
 
 
@@ -265,7 +265,7 @@ def loadKey(keyString:str,characterSet:tuple):
 
         #integrity check 9 (starting positions are numeric)
         if(not (keyList[rotor+1+key[0]].isnumeric())):
-            return (False, "input error: (error 52) integrity check 9 failed; invalid values found in key data. given key \ndata is invalid and possibly corrupted. please check the key for \nerrors then try again.")
+            return (False, "input error: (error 54) integrity check 9 failed; invalid values found in key data. given key \ndata is invalid and possibly corrupted. please check the key for \nerrors then try again.")
         
         key.append(int(keyList[rotor+1+key[0]]))
 
@@ -274,7 +274,7 @@ def loadKey(keyString:str,characterSet:tuple):
             #may want to implement a repair function to fix keys affected by the old generation off by one error, though it probably
             #won't affect anyone to leave it like this, plus that would require heavy modification to alert the user to the fact an
             #error was repaired
-            return (False, "input error: (error 53) integrity check 10 failed; out of range values found in key data. given \nkey data is invalid and possibly corrupted. please check the key \nfor errors then try again.")
+            return (False, "input error: (error 55) integrity check 10 failed; out of range values found in key data. given \nkey data is invalid and possibly corrupted. please check the key \nfor errors then try again.")
         
 
 
@@ -285,34 +285,34 @@ def loadKey(keyString:str,characterSet:tuple):
    
         #integrity check 11 (cypher is a properly formatted list)
         if(not ("," in keyList[cypher+1+(key[0]*2)])):
-            return (False, "input error: (error 54) integrity check 11 failed; could not find separator 3. given key data \nis invalid and possibly corrupted. please check the key for \nerrors then try again.")
+            return (False, "input error: (error 56) integrity check 11 failed; could not find separator 3. given key data \nis invalid and possibly corrupted. please check the key for \nerrors then try again.")
         
         #take the string of the cypher wiring and split it into a list of strings, then add it to the end of the key
         key.append(keyList[cypher+1+(key[0]*2)].split(","))
 
         #integrity check 12 (cypher has the same number of characters as the current character set)
         if(not(len(key[cypher+1+(key[0]*2)])==characterSetLen)):
-            return (False, "input error: (error 55) integrity check 12 failed; key data is incompatible with currently loaded \ncharacter set and may be corrupted. given key data is invalid and possibly corrupted. \nplease check the key for errors then try again.")
+            return (False, "input error: (error 57) integrity check 12 failed; key data is incompatible with currently loaded \ncharacter set and may be corrupted. given key data is invalid and possibly corrupted. \nplease check the key for errors then try again.")
 
         #convert these strings into integers
         for character in range(len(key[cypher+1+(key[0]*2)])):
 
             #integrity check 13 (all indexes are numeric)
             if(not (key[cypher+1+(key[0]*2)][character].isnumeric())):
-                return (False, "input error: (error 56) integrity check 13 failed; invalid values found in key data. given key \ndata is invalid and possibly corrupted. please check the key for \nerrors then try again.")
+                return (False, "input error: (error 58) integrity check 13 failed; invalid values found in key data. given key \ndata is invalid and possibly corrupted. please check the key for \nerrors then try again.")
 
             key[cypher+1+(key[0]*2)][character]=int(key[cypher+1+(key[0]*2)][character])
 
             #integrity check 14 (all indexes are within bounds)
             if(not(key[cypher+1+(key[0]*2)][character]>=0 and key[cypher+1+(key[0]*2)][character]<characterSetLen)):
-                return (False, "input error: (error 57) integrity check 14 failed; out of range values found in key data. \ngiven key data is invalid and possibly corrupted. please check the key for errors then \ntry again.")
+                return (False, "input error: (error 59) integrity check 14 failed; out of range values found in key data. \ngiven key data is invalid and possibly corrupted. please check the key for errors then \ntry again.")
     
    
     #integrity check 15 (check to make sure what should be a rotor is in the right spot and a list)
     verificationRotorCount=0
     for check in range(key[0]):
         if(type(key[check+1])!=list):
-            return (False, "input error: (error 58) integrity check 15 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
+            return (False, "input error: (error 60) integrity check 15 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
         verificationRotorCount+=1
     
 
@@ -321,7 +321,7 @@ def loadKey(keyString:str,characterSet:tuple):
     verificationStartPosCount=0
     for check in range(key[0]):
         if(type(key[key[0]+check+1])!=int):
-            return (False, "input error: (error 59) integrity check 16 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
+            return (False, "input error: (error 61) integrity check 16 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
         verificationStartPosCount+=1
 
 
@@ -329,12 +329,12 @@ def loadKey(keyString:str,characterSet:tuple):
     verificationCypherCount=0
     for check in range(2):
         if(type(key[(key[0]*2)+check+1])!=list):
-            return (False, "input error: (error 60) integrity check 17 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
+            return (False, "input error: (error 62) integrity check 17 failed; key data is improperly formatted. given key \ndata is invalid and possibly corrupted. please check the key for errors then \ntry again.")
         verificationCypherCount+=1
     
     #integrity check 18 (check to make sure what we counted adds up to the whole key length)
     if(1+verificationRotorCount+verificationStartPosCount+verificationCypherCount!=len(key)):
-        (False, "input error: (error 61) integrity check 18 failed; key data is improperly partitioned. given key data is \ninvalid and possibly corrupted. please check the key for errors then \ntry again.")
+        (False, "input error: (error 63) integrity check 18 failed; key data is improperly partitioned. given key data is \ninvalid and possibly corrupted. please check the key for errors then \ntry again.")
 
 
     return (True, key)
