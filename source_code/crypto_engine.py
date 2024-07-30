@@ -1,6 +1,9 @@
-#cactus encrypt is a simple cli text encryption program written in python that implements the cactus cipher algorithm
-#Copyright 2023,2024 Redcactus5
+
+
 '''
+cactus encrypt is a simple cli text encryption program written in python that implements the cactus cipher algorithm
+Copyright 2023,2024 Redcactus5
+
 This file is part of Cactus Encrypt.
 
 Cactus Encrypt is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -8,9 +11,10 @@ Cactus Encrypt is free software: you can redistribute it and/or modify it under 
 Cactus Encrypt is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with Cactus Encrypt. If not, see <https://www.gnu.org/licenses/>. 
+
+this program is free, open source software released under the GNU General Public License version 3.0 or later version (GPL-3.0-or-later)
 '''
 
-#this program is free, open source software released under the GNU General Public License version 3.0 or later version (GPL-3.0-or-later)
 
 from random import randint
 
@@ -29,10 +33,10 @@ from random import randint
 
 
 
-'''
+
 #converts of string of characters into a list of their corresponding number values as 
-defined in the characters tuple (the index of the character is its number)
-'''
+#defined in the characters tuple (the index of the character is its number)
+
 def convertToNum(text:str, characterSet:tuple):
 
     textList=list(text)
@@ -45,10 +49,10 @@ def convertToNum(text:str, characterSet:tuple):
 
 
 
-'''
-converts a list of number into their corresponding text characters in the characterSet tuple 
-(what character is at that index). returns them all as a concatenated string
-'''
+
+#converts a list of number into their corresponding text characters in the characterSet tuple 
+#(what character is at that index). returns them all as a concatenated string
+
 def convertToText(numlist:list, characterSet:tuple):
 
     text=""
@@ -267,6 +271,9 @@ def loadKey(keyString:str,characterSet:tuple):
 
         #integrity check 10 (starting positions are within bounds)
         if(not ((key[rotor+1+key[0]]>=0) and (key[rotor+1+key[0]]<characterSetLen))):
+            #may want to implement a repair function to fix keys affected by the old generation off by one error, though it probably
+            #won't affect anyone to leave it like this, plus that would require heavy modification to alert the user to the fact an
+            #error was repaired
             return (False, "input error: (error 53) integrity check 10 failed; out of range values found in key data. given \nkey data is invalid and possibly corrupted. please check the key \nfor errors then try again.")
         
 
