@@ -250,16 +250,18 @@ def loadCharSet(charSetString:str):
         return (False, "critical error: (error 24) character set could not be parsed. please check it for errors then try again.")
     
     try:
-        charLog=[]
-        for char in charSetTuple:
-            if(char in charLog):
-                return (False, "input error: (error 25) multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please remove all duplicates of the character then try again.")
-            charLog.append(char)
-
         
         for char in charSetTuple:
             if(not (char.isprintable())):
-                return (False, "input error: (error 26) system control code found in character set. please remove any then try again.")
+                return (False, "input error: (error 25) system control code found in character set. please remove all instances then try again.")
+            
+        charLog=[]
+        for char in charSetTuple:
+            if(char in charLog):
+                return (False, "input error: (error 26) multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please remove all duplicates of the character then try again.")
+            charLog.append(char)
+
+        
     except:
         return (False, "critical error: (error 27) character set could not be verified. please check it for errors then try again.")
         
@@ -452,6 +454,12 @@ def encryptText(text:str):
     global characterSet
     global loadedKey
 
+
+
+    for char in text:
+        if(not char.isprintable()):
+            return (False, "input error: (error ) system control code found in the given text. please remove all instances then try again.",2)
+
     encryptedText=""
     try:
         encryptedText=crypto_engine.encrypt(text, characterSet, loadedKey)
@@ -475,21 +483,22 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
 
     if(not fileData[0]):
         return fileData
-    
-    global characterSet
-    global loadedKey
+
 
     encryptedText=""
     try:
-        encryptedText=crypto_engine.encrypt(fileData[1], characterSet, loadedKey)
+        encryptedText=encryptText(fileData[1])
     except:
         return (False, "critical error: (error 37) encryption process failed. please check the file for errors then try again.")
     
     if((not encryptedText[0]) and encryptedText[2]==1):
         return (False, "input error: (error 38) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
-    elif((not encryptedText) and encryptedText[2]==0):
+    elif((not encryptedText[0]) and encryptedText[2]==0):
         return (False, "critical error: (error 39) encryption process failed. please check the file for errors then try again.")
+
+    elif((not encryptedText[0]) and encryptedText[2]==2):
+        return (False, "input error: (error ) system control code found in the given file. please remove all instances then try again.")
 
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -507,6 +516,10 @@ def decryptText(text:str):
 
     global characterSet
     global loadedKey
+
+    for char in text:
+        if(not char.isprintable()):
+            return (False, "input error: (error ) system control code found in the given text. please remove all instances then try again.",2)
 
     decryptedText=""
     try:
@@ -531,12 +544,10 @@ def decryptTextFile(sourceFileName:str, destinationFileName:str):
     if(not fileData[0]):
         return fileData
     
-    global characterSet
-    global loadedKey
 
     decryptedText=""
     try:
-        decryptedText=crypto_engine.decrypt(fileData[1], characterSet, loadedKey)
+        decryptedText=decryptText(fileData[1])
     except:
         return (False, "critical error: (error 42) encryption process failed. please check the file for errors then try again.")
     
@@ -549,7 +560,8 @@ def decryptTextFile(sourceFileName:str, destinationFileName:str):
     elif((not decryptedText[0]) and decryptedText[2]==0):
         return (False, "critical error: (error 44) encryption process failed. please check the file for errors then try again.")
     
-
+    elif((not decryptedText[0]) and decryptedText[2]==2):
+        return (False, "input error: (error ) system control code found in the given file. please remove all instances then try again.")
     error=writeTextToFile(destinationFileName,decryptedText[1])
     
     if(not error[0]):
