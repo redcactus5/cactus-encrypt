@@ -456,16 +456,16 @@ def encryptText(text:str):
 
     for char in text:
         if(not char.isprintable()):
-            return (False, "input error: (error ) system control code found in the given text. please remove all instances then try again.",2)
+            return (False, "input error: (error 35) system control code found in the given text. please remove all instances then try again.",2)
 
     encryptedText=""
     try:
         encryptedText=crypto_engine.encrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 35) encryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error 36) encryption process failed. please check the text for errors then try again.",0)
     
     if(not encryptedText[0]):
-        return (False, "input error: (error 36) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "input error: (error 37) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return encryptedText
         
@@ -487,16 +487,16 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
     try:
         encryptedText=encryptText(fileData[1])
     except:
-        return (False, "critical error: (error 37) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 38) encryption process failed. please check the file for errors then try again.")
     
     if((not encryptedText[0]) and encryptedText[2]==1):
-        return (False, "input error: (error 38) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "input error: (error 39) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
     elif((not encryptedText[0]) and encryptedText[2]==0):
-        return (False, "critical error: (error 39) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 40) encryption process failed. please check the file for errors then try again.")
 
     elif((not encryptedText[0]) and encryptedText[2]==2):
-        return (False, "input error: (error ) system control code found in the given file. please remove all instances then try again.")
+        return (False, "input error: (error 41) system control code found in the given file. please remove all instances then try again.")
 
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -517,16 +517,16 @@ def decryptText(text:str):
 
     for char in text:
         if(not char.isprintable()):
-            return (False, "input error: (error ) system control code found in the given text. please remove all instances then try again.",2)
+            return (False, "input error: (error 42) system control code found in the given text. please remove all instances then try again.",2)
 
     decryptedText=""
     try:
         decryptedText=crypto_engine.decrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 40) decryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error 43) decryption process failed. please check the text for errors then try again.",0)
     
     if(not decryptedText[0]):
-        return (False, "input error: (error 41) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "input error: (error 44) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return decryptedText
 
@@ -547,19 +547,19 @@ def decryptTextFile(sourceFileName:str, destinationFileName:str):
     try:
         decryptedText=decryptText(fileData[1])
     except:
-        return (False, "critical error: (error 42) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 45) encryption process failed. please check the file for errors then try again.")
     
 
 
     if((not decryptedText[0]) and decryptedText[2]==1):
-        return (False, "input error: (error 43) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "input error: (error 46) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
 
     elif((not decryptedText[0]) and decryptedText[2]==0):
-        return (False, "critical error: (error 44) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error 47) encryption process failed. please check the file for errors then try again.")
     
     elif((not decryptedText[0]) and decryptedText[2]==2):
-        return (False, "input error: (error ) system control code found in the given file. please remove all instances then try again.")
+        return (False, "input error: (error 48) system control code found in the given file. please remove all instances then try again.")
     error=writeTextToFile(destinationFileName,decryptedText[1])
     
     if(not error[0]):
