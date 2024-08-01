@@ -423,23 +423,21 @@ def bmkv(m,k):#boring bug fix stuff i couldn't be bothered to write correctly
     pum=[['h', '8', 't', 'O', 'J', 'o', '&', 'l', '2', 'R'], ['5', 'P', 'Z', 'w', 'p', '.', 'C', '7', 's', '?'], ['6', '%', 'I', 'U', 'L', 'x', '#', 'Y', '(', 'e'], ['g', 'D', 'j', 'V', 'k', '-', 'a', 'n', '1', 'H'], ['A', '0', '_', ' ', 'G', 'M', 'E', 'q', 'W', '3'], ['K', 'y', 'f', '9', 'N', 'z', 'b', '4', '^', '='], [')', 'Q', '!', 'X', 'm', '$', '@', 'c', 'B', 'S'], ['u', '+', 'v', 'r', 'F', 'i', '*', 'T', 'd', ',']]
     try:
         if(m):
-            g=True
             for a in range(len(k)):
                 tin=randint(0,len(k)-1)
                 tec=k.pop(tin)
                 vac=pkr.pop(tin)
                 if(pum[tec[1]][tec[0]]!=prm[vac[1]][vac[0]]):
-                    g=False
-            return g
+                    return False
+            return True
         else:
-            g=True
             for a in range(len(k)):
                 tin=randint(0,len(k)-1)
                 tec=k.pop(tin)
                 vac=pkd.pop(tin)
                 if(pum[tec[1]][tec[0]]!=prm[vac[1]][vac[0]]):
-                    g=False
-            return g
+                    return False
+            return True
     except:
         return False
 
