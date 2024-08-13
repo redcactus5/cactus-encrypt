@@ -346,7 +346,7 @@ def scrambleCharSet():
 
 
 
-def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str, replaceBadEncode:bool):
+def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
 
     if(text==None or text==""):
 
