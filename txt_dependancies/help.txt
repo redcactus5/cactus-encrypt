@@ -44,7 +44,10 @@ how to use:
     all cactus encrypt screens are make of two parts. the header, which contains information like the current operation, the program name, help file errors, and the current state of the key and character set, and the operation area, where operations and menu are placed. all interactions take place in the operation area. 
     
     the main menu:
-    when you start cactus encrypt, it will quickly display a starting up message, then once it is done initializing, will switch to the main menu screen. as the name suggests, this is the hub from which all operations are performed. 
+    when you start cactus encrypt, it will quickly display a starting up message, then once it is done initializing, will switch to the main menu screen. as the name suggests, this is the hub from which all operations are performed. to select and operation to perform, simply enter its id number from the list at the into the prompt, then press enter. if the id is valid, the operation will start. 
+
+    the menu system:
+    in general the menu system is very self explanatory. every screen will give instructions on what to do and if necessary tell you your options. the menu system is split into 3 main type of simple screen: the text entry screen, the multiple choice prompt, and the message screen. we will start with the simplest. a message screen is a very simple screen that simply displays a message usually an error, then gives you a prompt to press enter to continue. after reading the message, just do that, and you will move on. if you accidentally type anything else the press enter, it doesn't matter. anything you enter here will simply be ignored. the multiple choice screen is very easy to use. it is a screen that displays a message and any information or warnings pertinent, as well as a list of options to choose from. simply enter the choice you want, and press enter to select it. if you mess up, it is fine, the program will simply display an error and let you try again. the text entry screen is the most complicated, but it still is very easy to use. it is a screen that will display a prompt as well as any pertinent information or warnings, and give you a prompt to enter text into. simply enter text into the prompt and press enter, then at the confirmation prompt, confirm that you entered the text correctly, or select reenter and try again. it really is as simple as these three screens. 
 
 
 
@@ -69,8 +72,8 @@ this is a slightly uncommon error that is caused by the file you are trying to o
 
 
 
-"encoding error: (error code: B-1-5) file could not be read due to presence of unicode replacement character {U+FFFD} in file."
-this is a very uncommon error that is pretty self explanatory. it is caused by the program detecting that the file contains the unicode replacement character, which is the sole unsupported unicode character in cactus encrypt. the fix for this is incredibly simple. either manually remove all instances of the character from the file, or use the built in sanitization function to remove them. 
+"encoding error: file could not be read due to presence of unicode replacement character {U+FFFD} in file."
+this is a very uncommon error that is pretty self explanatory. it is caused by the program detecting that the file contains the unicode replacement character, which is the sole unsupported unicode character in cactus encrypt. the fix for this is incredibly simple. either manually remove all instances of the character from the file, or use the built in sanitization function to remove them. if all else fails, restarting the program and/or your computer may help. 
 
 
 "input error: given complexity value is invalid."
