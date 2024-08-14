@@ -275,6 +275,9 @@ def loadCharSet():
 
     if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written, and any currently loaded key will be cleared.", menuName)):
         uiHeader(menuName)
+        
+        print("warning: the new character set cannot contain duplicate characters or the unicode replacement character {�}.")
+        ln()
         print("please enter the new character set.")
         ln()
         newSet=input("character set:")
@@ -296,7 +299,7 @@ def loadCharSetFromTXT():
 
     if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written and any currently loaded key will be cleared.",menuName)):
         uiHeader(menuName)
-        sourceFile=enterFileNameScreen("please enter the name of the file to load the character set from (include the file extension).",menuName)
+        sourceFile=enterFileNameScreen("warning: the new character set cannot contain duplicate characters or the unicode replacement character {�}.\n\nplease enter the name of the file to load the character set from (include the file extension).",menuName)
         uiHeader(menuName)
         print("now loading...")
 

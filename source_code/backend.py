@@ -99,6 +99,12 @@ def getTextFromFile(fileName:str):
     except:
         return (False,"io error: (error code: B-1-3) file could not be read. please check the file for errors then try again.")
     
+    try:
+        if("�" in text):
+            return (False,"encoding error: (error code: B-1-5) file could not be read due to presence of unicode replacement character {�} in file. please sanitize the file or manually remove all instances from the file, then try again.")
+    except:
+        return (False,"io error: (error code: B-1-3) file could not be read. please check the file for errors then try again.")
+
 
     try:
         file.close()
@@ -250,6 +256,8 @@ def loadCharSet(charSetString:str):
     except:
         return(False, "critical error: (error code: B-8-2) character set could not be verified. please check it for errors then try again.")
 
+
+
     charSetTuple=None
     try:
         charSetTuple=tuple(charSetString)
@@ -274,13 +282,19 @@ def loadCharSet(charSetString:str):
         return (False, "critical error: (error code: B-8-6) character set could not be verified. please check it for errors then try again.")
         
     try:
+        if("�" in charSetString):
+            return (False,"input error: (error code: B-8-7) character set could not be loaded due it containing the unicode replacement character {�}. please remove it from the character set then try again.")
+    except:
+        return (False, "critical error: (error code: B-8-3) character set could not be parsed. please check it for errors then try again.")
+
+    try:
         setCharSet(charSetTuple)
     except:
-        return (False, "critical error: (error code: B-8-7) character set could not be stored. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-8-8) character set could not be stored. please check it for errors then try again.")
     try:
         setKey(None)
     except:
-        return (False, "critical error: (error code: B-8-8) key could not be cleared. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-8-9) key could not be cleared. please check it for errors then try again.")
     return (True,"successful")
         
 
@@ -374,8 +388,8 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
             replacement=replacementChar
             
             for char in listedText:
-                if(char!="�"):
-                    if(char in characterSet):
+                
+                if(char in characterSet):
                         cleanTextList.append(char)
                 else:
                     cleanTextList.append(replacement)
@@ -385,8 +399,8 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
 
         else:#just remove invalid
             for char in listedText:
-                if(char!="�"):
-                    if(char in characterSet):
+                
+                if(char in characterSet):
                         cleanTextList.append(char)
                 else:
                     invalidCharCount+=1

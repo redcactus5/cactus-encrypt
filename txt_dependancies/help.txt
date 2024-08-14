@@ -9,7 +9,7 @@ cactus encrypt has no warranties and anyone using the program does so at their o
 though cactus encrypt is an encryption program, it was simply made for fun and likely not secure. 
 DO NOT USE IT FOR CRITICAL AND/OR SECURITY APPLICATIONS! I cannot be held liable if you do anyway and something bad happens.
 
-
+�
 
 now on to the details:
 cactus encrypt is a flexible encryption program written entirely in python 3. version 2.0 bring many new features to the table, including support for encrypting text files, a built in text filter function, and interchangeable character sets. since this program can get a bit cryptic, this guide is here to give you a hand. using the program is fairly simple, just follow the onscreen instructions, and give input when prompted. it is designed to be mostly idiot proof and to recover from potential crashes, even in the worst case scenarios, but not everything can be tested for.
