@@ -442,11 +442,8 @@ def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplaceme
     
     
 
-
-    if(not dubiousText[0]):
-        return dubiousText
     
-    cleanText=sanitizeText(dubiousText[1],attemptReplacement,replacementChar)
+    cleanText=sanitizeText(dubiousText,attemptReplacement,replacementChar)
 
     if(not cleanText[0]):
         return cleanText

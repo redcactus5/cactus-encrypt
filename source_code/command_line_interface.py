@@ -933,10 +933,11 @@ def start(debugMode):
     
     #we handle informing the user of helpfile errors elsewhere
     try:
-        helpFile = backend.getTextFromFile("help.txt")
-        if(helpFile[0]):
-            global help
-            help=helpFile[1]    
+        helpFile = open("help.txt",'r', encoding='utf-8')
+        global help
+        help=helpFile.read()
+        helpFile.close()
+            
     except:
         pass
     
