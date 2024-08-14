@@ -85,17 +85,31 @@ def getTextFromFile(fileName:str):
     file=None
     text=""
     try:
-        file=open(fileName,'r')
+        file=open(fileName,'r', encoding='utf-8')
+    except UnicodeDecodeError:
+        return (False,"encoding error: (error code: B-1-2) file could not be opened due to non unicode encodings. please sanitize the file or manually remove all non unicode characters, then try again.")
     except:
-        return (False,"io error: (error 6) file to read could not be opened. please check that file is present, accessible, and the name is correct, then try again.")
+        return (False,"io error: (error code: B-1-1) file to read could not be opened. please check that file is present, accessible, and the name is correct, then try again.")
+    
+
     try:
         text=file.read()
+    except UnicodeDecodeError:
+        return (False,"encoding error: (error code: B-1-2) file could not be opened due to non unicode encodings. please sanitize the file or manually remove all non unicode characters, then try again.")
     except:
-        return (False,"io error: (error 7) file could not be read. please check the file for errors then try again.")
+        return (False,"io error: (error code: B-1-3) file could not be read. please check the file for errors then try again.")
+    
+    try:
+        if("�" in text):
+            return (False,"encoding error: (error code: B-1-5) file could not be read due to presence of unicode replacement character {�} in file. please sanitize the file or manually remove all instances from the file, then try again.")
+    except:
+        return (False,"io error: (error code: B-1-3) file could not be read. please check the file for errors then try again.")
+
+
     try:
         file.close()
     except:
-        return (False,"io error: (error 8) read file could not be closed. please check file for errors then try again.")
+        return (False,"io error: (error code: B-1-4) read file could not be closed. please check file for errors then try again.")
     return (True,text)
 
 
@@ -109,15 +123,15 @@ def writeTextToFile(fileName:str,text:str):
     try:
         file=open(fileName,'w')
     except:
-        return (False,"io error: (error 9) file to write could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessible, then try again.")
+        return (False,"io error: (error code: B-2-1) file to write could not be opened/created. please check that file is present, writeable, has the correct name, and that the location is accessible, then try again.")
     try:
         file.write(text)
     except:
-        return (False, "io error: (error 10) file could not be written to. please check that the file is not write protected then try again.")
+        return (False, "io error: (error code: B-2-2) file could not be written to. please check that the file is not write protected then try again.")
     try:
         file.close()
     except:
-        return (False,"io error: (error 11) written file could not be closed. please check file for errors then try again.")
+        return (False,"io error: (error code: B-2-3) written file could not be closed. please check file for errors then try again.")
     return (True,"successful")
 
 
@@ -130,16 +144,16 @@ def generateKey(rotorCount:int):
     global characterSet
     global loadedKey
     if(type(rotorCount) is not int or rotorCount<1):
-        return (False, "input error: (error 12) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
+        return (False, "input error: (error code: B-3-1) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
     try:
         newKey=crypto_engine.generateKey(rotorCount, characterSet)
     except:
-        return (False, "critical error: (error 13) new key could not be generated. please check input for errors then try again.")
+        return (False, "critical error: (error code: B-3-2) new key could not be generated. please check input for errors then try again.")
 
     try:
         setKey(newKey)
     except:
-        return (False, "critical error: (error 14) the newly generated key could not be loaded. please check for errors then try again.")
+        return (False, "critical error: (error code: B-3-3) the newly generated key could not be loaded. please check for errors then try again.")
 
     return (True, "successful")
 
@@ -154,7 +168,7 @@ def exportKey():
     try:
         keyString=crypto_engine.exportKey(loadedKey)
     except:
-        return (False, "critical error: (error 15) key could not be compiled to a string. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-4-1) key could not be compiled to a string. please check it for errors then try again.")
     return (True,keyString)
 
 
@@ -187,17 +201,17 @@ def loadKey(keyString:str):
     global characterSet
     try:
         if(keyString==None or keyString==""):
-            return(False, "input error: (error 16) given key is empty! please try again with a valid key.")
+            return(False, "input error: (error code: B-6-1) given key is empty! please try again with a valid key.")
     except:
-        return (False, "verification error: (error 17) key could not be verified. please check the key for errors then try again.")
+        return (False, "verification error: (error code: B-6-2) key could not be verified. please check the key for errors then try again.")
 
     if(not isCharSetLoaded()):
-        return (False, "input error: (error 18) character set key mismatch. no character set in memory to verify against. please load the correct character set then try again.")
+        return (False, "input error: (error code: B-6-3) character set key mismatch. no character set in memory to verify against. please load the correct character set then try again.")
 
     try:
         key=crypto_engine.loadKey(keyString,characterSet)
     except:
-        return (False, "input error: (error 19) key could not be parsed. please check the key for errors then try again.")
+        return (False, "input error: (error code: B-6-4) key could not be parsed. please check the key for errors then try again.")
     
     if(key[0]):
         key=key[1]
@@ -205,13 +219,13 @@ def loadKey(keyString:str):
         return (False, key[1])
 
     if(len(key[len(key)-1])!=len(characterSet)):
-        return (False, "input error: (error 20) character set key mismatch. character set and key do not have the same number of characters. please load the correct character set then try again.")
+        return (False, "input error: (error code: B-6-5) character set key mismatch. character set and key do not have the same number of characters. please load the correct character set then try again.")
     
     
     try:
         setKey(key)
     except:
-        return (False, "input error: (error 21) key could not be stored. please check the key for errors then try again.")
+        return (False, "input error: (error code: B-6-6) key could not be stored. please check the key for errors then try again.")
     return (True, "successful")
 
 
@@ -238,41 +252,49 @@ def loadCharSet(charSetString:str):
 
     try:
         if(charSetString==None or len(charSetString)<=0):
-            return(False, "input error: (error 22) character set is empty! please try again with a valid character set.")
+            return(False, "input error: (error code: B-8-1) character set is empty! please try again with a valid character set.")
     except:
-        return(False, "critical error: (error 23) character set could not be verified. please check it for errors then try again.")
+        return(False, "critical error: (error code: B-8-2) character set could not be verified. please check it for errors then try again.")
+
+
 
     charSetTuple=None
     try:
         charSetTuple=tuple(charSetString)
 
     except:
-        return (False, "critical error: (error 24) character set could not be parsed. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-8-3) character set could not be parsed. please check it for errors then try again.")
     
     try:
         
         for char in charSetTuple:
             if(not (char.isprintable())):
-                return (False, "input error: (error 25) system control code found in character set. please remove all instances then try again.")
+                return (False, "input error: (error code: B-8-4) non unicode encodings found in character set. please remove all instances then try again.")
             
         charLog=[]
         for char in charSetTuple:
             if(char in charLog):
-                return (False, "input error: (error 26) multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please remove all duplicates of the character then try again.")
+                return (False, "input error: (error code: B-8-5) multiple occurrences of the character {"+str(char)+"} were found in the \ncharacter set. please remove all duplicates of the character then try again.")
             charLog.append(char)
 
         
     except:
-        return (False, "critical error: (error 27) character set could not be verified. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-8-6) character set could not be verified. please check it for errors then try again.")
         
+    try:
+        if("�" in charSetString):
+            return (False,"input error: (error code: B-8-7) character set could not be loaded due it containing the unicode replacement character {�}. please remove it from the character set then try again.")
+    except:
+        return (False, "critical error: (error code: B-8-3) character set could not be parsed. please check it for errors then try again.")
+
     try:
         setCharSet(charSetTuple)
     except:
-        return (False, "critical error: (error 28) character set could not be stored. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-8-8) character set could not be stored. please check it for errors then try again.")
     try:
         setKey(None)
     except:
-        return (False, "critical error: (error 29) key could not be cleared. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-8-9) key could not be cleared. please check it for errors then try again.")
     return (True,"successful")
         
 
@@ -298,7 +320,7 @@ def exportCharSet():
     try:
         charSetString="".join(characterSet)
     except:
-        return (False, "critical error: (error 30) character set could not be processed. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-10-1) character set could not be processed. please check it for errors then try again.")
     return (True, charSetString)
 
 
@@ -329,11 +351,11 @@ def scrambleCharSet():
             scrambled.append(oldSet.pop(randint(0,len(oldSet)-1)))
         characterSet = tuple(scrambled)
     except:
-        return (False, "critical error: (error 31) character set could not be scrambled. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-12-1) character set could not be scrambled. please check it for errors then try again.")
     try:
         setKey(None)
     except:
-        return (False, "critical error: (error 32) key could not be cleared. please check it for errors then try again.")
+        return (False, "critical error: (error code: B-12-2) key could not be cleared. please check it for errors then try again.")
     return (True,"successful")
 
 
@@ -354,20 +376,21 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
 
     invalidCharCount=0
     
-    
+
 
     try:
         listedText=list(text)
         
         if(attemptReplacement):
             if(replacementChar not in characterSet):#specified replacement
-                return (False, "input error: (error 33) entered replacement character not present in loaded character set.\nplease try again with a valid character.")
+                return (False, "input error: (error code: B-13-1) entered replacement character not present in loaded character set.\nplease try again with a valid character.")
             
             replacement=replacementChar
             
             for char in listedText:
+                
                 if(char in characterSet):
-                    cleanTextList.append(char)
+                        cleanTextList.append(char)
                 else:
                     cleanTextList.append(replacement)
                     invalidCharCount+=1
@@ -376,8 +399,9 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
 
         else:#just remove invalid
             for char in listedText:
+                
                 if(char in characterSet):
-                    cleanTextList.append(char)
+                        cleanTextList.append(char)
                 else:
                     invalidCharCount+=1
 
@@ -385,22 +409,41 @@ def sanitizeText(text:str,attemptReplacement:bool, replacementChar:str):
         
         cleanText=cleanText.join(cleanTextList)
     except:
-        return (False, "critical error: (error 34) entered text could not be sanitized. please check it for problems then try again.")
+        return (False, "critical error: (error code: B-13-2) entered text could not be sanitized. please check it for problems then try again.")
     
     return (True, cleanText,invalidCharCount)
 
 
 def sanitizeTextFile(sourceFileName:str,destinationFileName:str,attemptReplacement:bool,replacementChar:str):
     
+    file=None
+    dubiousText=""
+
+    try:
+        if(attemptReplacement):
+            file=open(sourceFileName, 'r', encoding='utf-8', errors="replace")
+        else:
+            file=open(sourceFileName, 'r', encoding='utf-8', errors="ignore")
+    except:
+        return (False,"io error: (error code: B-1-1) file to read could not be opened. please check that file is present, accessible, and the name is correct, then try again.")
+    
+
+    try:
+        dubiousText=file.read()
+    except:
+        return (False,"io error: (error code: B-14-2) file could not be read. please check the file for errors then try again.")
+    
+
+    try:
+        file.close()
+    except:
+        return (False,"io error: (error code: B-14-3) read file could not be closed. please check file for errors then try again.")
+    
+    
+    
 
     
-    dubiousText=getTextFromFile(sourceFileName)
-
-
-    if(not dubiousText[0]):
-        return dubiousText
-    
-    cleanText=sanitizeText(dubiousText[1],attemptReplacement,replacementChar)
+    cleanText=sanitizeText(dubiousText,attemptReplacement,replacementChar)
 
     if(not cleanText[0]):
         return cleanText
@@ -456,16 +499,16 @@ def encryptText(text:str):
 
     for char in text:
         if(not char.isprintable()):
-            return (False, "input error: (error 35) system control code found in the given text. please remove all instances then try again.",2)
+            return (False, "input error: (error code: B-16-1) non unicode encodings found in the given text. please remove all instances then try again.",2)
 
     encryptedText=""
     try:
         encryptedText=crypto_engine.encrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 36) encryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error code: B-16-2) encryption process failed. please check the text for errors then try again.",0)
     
     if(not encryptedText[0]):
-        return (False, "input error: (error 37) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "input error: (error code: B-16-3) the character {"+encryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return encryptedText
         
@@ -487,16 +530,16 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
     try:
         encryptedText=encryptText(fileData[1])
     except:
-        return (False, "critical error: (error 38) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error code: B-17-1) encryption process failed. please check the file for errors then try again.")
     
     if((not encryptedText[0]) and encryptedText[2]==1):
-        return (False, "input error: (error 39) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "input error: (error code: B-17-2) the character {"+encryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
     elif((not encryptedText[0]) and encryptedText[2]==0):
-        return (False, "critical error: (error 40) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error code: B-17-3) encryption process failed. please check the file for errors then try again.")
 
     elif((not encryptedText[0]) and encryptedText[2]==2):
-        return (False, "input error: (error 41) system control code found in the given file. please remove all instances then try again.")
+        return (False, "input error: (error code: B-17-4) non unicode encodings found in the given file. please remove all instances then try again.")
 
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -517,16 +560,16 @@ def decryptText(text:str):
 
     for char in text:
         if(not char.isprintable()):
-            return (False, "input error: (error 42) system control code found in the given text. please remove all instances then try again.",2)
+            return (False, "input error: (error code: B-18-1) non unicode encodings found in the given text. please remove all instances then try again.",2)
 
     decryptedText=""
     try:
         decryptedText=crypto_engine.decrypt(text, characterSet, loadedKey)
     except:
-        return (False, "critical error: (error 43) decryption process failed. please check the text for errors then try again.",0)
+        return (False, "critical error: (error code: B-18-2) decryption process failed. please check the text for errors then try again.",0)
     
     if(not decryptedText[0]):
-        return (False, "input error: (error 44) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
+        return (False, "input error: (error code: B-18-3) the character {"+decryptedText[1]+"} in the given text is not present in the currently load character set. \nplease either add it to the character set or remove it from the text, then try again.",1)
     
     return decryptedText
 
@@ -547,19 +590,19 @@ def decryptTextFile(sourceFileName:str, destinationFileName:str):
     try:
         decryptedText=decryptText(fileData[1])
     except:
-        return (False, "critical error: (error 45) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error code: B-19-1) encryption process failed. please check the file for errors then try again.")
     
 
 
     if((not decryptedText[0]) and decryptedText[2]==1):
-        return (False, "input error: (error 46) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
+        return (False, "input error: (error code: B-19-2) the character {"+decryptedText[1]+"} in the given file is not present in the currently loaded character set. \nplease either add it to the character set or remove it from the file, then try again.")
     
 
     elif((not decryptedText[0]) and decryptedText[2]==0):
-        return (False, "critical error: (error 47) encryption process failed. please check the file for errors then try again.")
+        return (False, "critical error: (error code: B-19-3) encryption process failed. please check the file for errors then try again.")
     
     elif((not decryptedText[0]) and decryptedText[2]==2):
-        return (False, "input error: (error 48) system control code found in the given file. please remove all instances then try again.")
+        return (False, "input error: (error code: B-19-4) non unicode encodings found in the given file. please remove all instances then try again.")
     error=writeTextToFile(destinationFileName,decryptedText[1])
     
     if(not error[0]):

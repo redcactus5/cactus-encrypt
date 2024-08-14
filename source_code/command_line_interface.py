@@ -275,6 +275,9 @@ def loadCharSet():
 
     if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written, and any currently loaded key will be cleared.", menuName)):
         uiHeader(menuName)
+        
+        print("warning: the new character set cannot contain duplicate characters or the unicode replacement character {�}.")
+        ln()
         print("please enter the new character set.")
         ln()
         newSet=input("character set:")
@@ -296,7 +299,7 @@ def loadCharSetFromTXT():
 
     if(booleanQuestionScreen("are you sure you want to load a new character set? \nany currently loaded character set will be over written and any currently loaded key will be cleared.",menuName)):
         uiHeader(menuName)
-        sourceFile=enterFileNameScreen("please enter the name of the file to load the character set from (include the file extension).",menuName)
+        sourceFile=enterFileNameScreen("warning: the new character set cannot contain duplicate characters or the unicode replacement character {�}.\n\nplease enter the name of the file to load the character set from (include the file extension).",menuName)
         uiHeader(menuName)
         print("now loading...")
 
@@ -459,7 +462,7 @@ def generateKey():
 
                 if(inputError):
                     uiHeader(menuName)
-                    print("input error: (error 5) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
+                    print("input error: (error code: I-18-1) given complexity value is invalid. please check that the complexity \nvalue is a positive integer, then try again.")
                     ln(2)
                     input("press enter to continue")
                 
@@ -933,7 +936,8 @@ def start(debugMode):
         helpFile = backend.getTextFromFile("help.txt")
         if(helpFile[0]):
             global help
-            help=helpFile[1]    
+            help=helpFile[1]
+            
     except:
         pass
     
