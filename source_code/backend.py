@@ -269,7 +269,7 @@ def loadCharSet(charSetString:str):
         
         for char in charSetTuple:
             if(not (char.isprintable())):
-                return (False, "input error: (error code: B-8-4) system control code found in character set. please remove all instances then try again.")
+                return (False, "input error: (error code: B-8-4) non unicode encodings found in character set. please remove all instances then try again.")
             
         charLog=[]
         for char in charSetTuple:
@@ -499,7 +499,7 @@ def encryptText(text:str):
 
     for char in text:
         if(not char.isprintable()):
-            return (False, "input error: (error code: B-16-1) system control code found in the given text. please remove all instances then try again.",2)
+            return (False, "input error: (error code: B-16-1) non unicode encodings found in the given text. please remove all instances then try again.",2)
 
     encryptedText=""
     try:
@@ -539,7 +539,7 @@ def encryptTextFile(sourceFileName:str,destinationFileName:str):
         return (False, "critical error: (error code: B-17-3) encryption process failed. please check the file for errors then try again.")
 
     elif((not encryptedText[0]) and encryptedText[2]==2):
-        return (False, "input error: (error code: B-17-4) system control code found in the given file. please remove all instances then try again.")
+        return (False, "input error: (error code: B-17-4) non unicode encodings found in the given file. please remove all instances then try again.")
 
     error=writeTextToFile(destinationFileName,encryptedText[1])
     
@@ -560,7 +560,7 @@ def decryptText(text:str):
 
     for char in text:
         if(not char.isprintable()):
-            return (False, "input error: (error code: B-18-1) system control code found in the given text. please remove all instances then try again.",2)
+            return (False, "input error: (error code: B-18-1) non unicode encodings found in the given text. please remove all instances then try again.",2)
 
     decryptedText=""
     try:
@@ -602,7 +602,7 @@ def decryptTextFile(sourceFileName:str, destinationFileName:str):
         return (False, "critical error: (error code: B-19-3) encryption process failed. please check the file for errors then try again.")
     
     elif((not decryptedText[0]) and decryptedText[2]==2):
-        return (False, "input error: (error code: B-19-4) system control code found in the given file. please remove all instances then try again.")
+        return (False, "input error: (error code: B-19-4) non unicode encodings found in the given file. please remove all instances then try again.")
     error=writeTextToFile(destinationFileName,decryptedText[1])
     
     if(not error[0]):

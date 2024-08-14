@@ -2,14 +2,13 @@ Welcome to cactus encrypt version 2.0!
 
 
 
-
 as its creator and sole dev, I thank you for using my little passion project.
 cactus encrypt is entirely free, so if you paid for it, you have been scammed and should demand your money back.
 cactus encrypt has no warranties and anyone using the program does so at their own risk.
 though cactus encrypt is an encryption program, it was simply made for fun and likely not secure. 
 DO NOT USE IT FOR CRITICAL AND/OR SECURITY APPLICATIONS! I cannot be held liable if you do anyway and something bad happens.
 
-�
+
 
 now on to the details:
 cactus encrypt is a flexible encryption program written entirely in python 3. version 2.0 bring many new features to the table, including support for encrypting text files, a built in text filter function, and interchangeable character sets. since this program can get a bit cryptic, this guide is here to give you a hand. using the program is fairly simple, just follow the onscreen instructions, and give input when prompted. it is designed to be mostly idiot proof and to recover from potential crashes, even in the worst case scenarios, but not everything can be tested for.
@@ -17,7 +16,7 @@ cactus encrypt is a flexible encryption program written entirely in python 3. ve
 
 
 general warnings:
-keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this. finally, due to the tightly linked nature of character sets and keys, you cannot load or generate a key unless you already have a character set loaded, and the program is specifically written to check for this. the sanitization features that remove characters not found in the currently loaded key from text and text file are very basic features and while they try their best, they are not guaranteed to work perfectly and will often cause text formatting problems and occasionally make text unreadable, depending on the key and text combination. due to a now fixed bug in the key generation code and key loading code of previous pre-release test versions of the program, some very old keys may no longer work.
+cactus encrypt is compatible with the utf-8 character set only. keys and character sets are very tightly linked in cactus encrypt, to the point of where character sets can also be considered part of the key. if you don't use correctly matching character sets, encryption and decryption will most likely fail. additionally, text encrypted with one one pair can only be decrypted with the same pair. if you try to use a different one, it won't work. also, due to complex internal encoding reasons, character sets can only have ONE occurrence of the any character in them. having more than one will always cause decryption to fail, and as such the program is specifically written to check for this. finally, due to the tightly linked nature of character sets and keys, you cannot load or generate a key unless you already have a character set loaded, and the program is specifically written to check for this. there is only one utf-8 character cactus encrypt is not compatible with, that being the unicode replacement character {U+FFFD}. allowing this character would break several features, so the program is designed to check for and prevent the use of it. the sanitization features that remove characters not found in the currently loaded key from text and text file are very basic features and while they try their best, they are not guaranteed to work perfectly and will often cause text formatting problems and occasionally make text unreadable, depending on the key and text combination. due to a now fixed bug in the key generation code and key loading code of previous pre-release test versions of the program, some very old keys may no longer work. this affects all keys generated with versions before release candidate 3.
 
 
 
@@ -32,8 +31,20 @@ cactus encrypt can perform 17 operations. it can decrypt and encrypt text entere
 
 
 advanced features:
-by overwriting default_charset.txt and default_key.txt, you can replace the default key and character set with your own, and have it automatically load it at start up, so long as the new files have the exact same names, and are valid.
+by overwriting default_charset.txt and default_key.txt, you can replace the default key and character set with your own, and have it automatically load it at start up, so long as the new files have the exact same names, and are valid. there is a shorthand for closing the program quickly. simply enter {e} or {q} at the main menu prompt. doing so will open the quit prompt. 
 
+
+
+how to use:
+    starting the program:
+    to start cactus encrypt, simply double click on the executable file labeled cactus_encrypt.exe
+    this will start the program and automatically open a terminal window
+
+    the menu layout:
+    all cactus encrypt screens are make of two parts. the header, which contains information like the current operation, the program name, help file errors, and the current state of the key and character set, and the operation area, where operations and menu are placed. all interactions take place in the operation area. 
+    
+    the main menu:
+    when you start cactus encrypt, it will quickly display a starting up message, then once it is done initializing, will switch to the main menu screen. as the name suggests, this is the hub from which all operations are performed. 
 
 
 
@@ -49,8 +60,17 @@ this error occurs when the program is not able to open or find the specified fil
 
 
 "io error: file could not be written to."
-this is a slightly uncommon error that is caused by the currently open file could not be written to for one reason or another. this can have several causes, usually involving file system shenanigans, specific timing, and write protection. my best advice is to verify that the file is not write protected and that another program is not attempting to access it and try again. if all else fails, restarting the program and/or your computer may help.
+this is a slightly uncommon error that is caused when the currently open file could not be written to for one reason or another. this can have several causes, usually involving file system shenanigans, specific timing, and write protection. my best advice is to verify that the file is not write protected and that another program is not attempting to access it and try again. if all else fails, restarting the program and/or your computer may help.
 
+
+
+"encoding error: file could not be opened due to non unicode encodings" 
+this is a slightly uncommon error that is caused by the file you are trying to open either containing non unicode encoded characters, or not being encoded in unicode. there are two possible fixes for this. if the file just contains some non unicode characters, simply remove them either manually or with the built in sanitize function, then try again. if the file is entirely encoded in a non unicode format, first convert it to utf-8, then try again. if all else fails, restarting the program and/or your computer may help.
+
+
+
+"encoding error: (error code: B-1-5) file could not be read due to presence of unicode replacement character {U+FFFD} in file."
+this is a very uncommon error that is pretty self explanatory. it is caused by the program detecting that the file contains the unicode replacement character, which is the sole unsupported unicode character in cactus encrypt. the fix for this is incredibly simple. either manually remove all instances of the character from the file, or use the built in sanitization function to remove them. 
 
 
 "input error: given complexity value is invalid."
@@ -68,8 +88,8 @@ this error occurs when the program fails to process a character set given to it 
 
 
 
-"input error: system control code found in the given file/text. please remove all instances then try again."
-this error is both simple and somewhat complicated. it is caused by the program detecting a control code inside the text or file contents you are attempting to encrypt/decrypt. control codes being in the data seriously mess up the program and prevent it from running, and as such are never allowed in character sets or files/text being encrypted/decrypted, and cactus encrypt is designed to check for them. the fix is very simple. you can either go through the file/text you are trying to encrypt/decrypt and manually remove all control codes, or do the much simpler option and use the cactus encrypt's built in sanitization function. after you remove all control codes from your text/file, it should be encrypted/decrypted normally, so long as there are no other problems with it.  if all else fails, restarting the program and/or your computer may help.
+"input error: non unicode encoding found in the given file/text. please remove all instances then try again."
+this error is both simple and somewhat complicated. it is caused by the program detecting a non unicode encoded character inside the text or file contents you are attempting to encrypt/decrypt. non unicode encoded characters being in the data seriously mess up the program and prevent it from running, and as such are never allowed in character sets or files/text being encrypted/decrypted, and cactus encrypt is designed to check for them. the fix is very simple. you can either go through the file/text you are trying to encrypt/decrypt and manually remove all non unicode encoded characters, or do the much simpler option and use the cactus encrypt's built in sanitization function. after you remove all non unicode encoded characters from your text/file, it should be encrypted/decrypted normally, so long as there are no other problems with it.  if all else fails, restarting the program and/or your computer may help.
 
 
 
@@ -78,8 +98,8 @@ this issue is simple. cactus encrypt isn't magic, no matter how much i wish it w
 
 
 
-"input error: system control code found in character set. please remove all instances then try again."
-this error is both simple and somewhat complicated. it is caused by the program detecting a control code inside the character set you are attempting to load. control codes being in the character set seriously mess up the program and prevent it from running, so it is designed to check for this. the fix is very simple. just go through the character set and remove any control codes in it. these can be hard to spot as they usually are invisible, but it can be done. after you remove them, it should load normally, so long as there are no other problems with it.  if all else fails, restarting the program and/or your computer may help.
+"input error: non unicode encoding found in character set. please remove all instances then try again."
+this error is both simple and somewhat complicated. it is caused by the program detecting a non unicode encoded character inside the character set you are attempting to load. non unicode encoded characters being in the character set seriously mess up the program and prevent it from running, so it is designed to check for this. the fix is very simple. just go through the character set and remove any non unicode encoded characters in it. these can be hard to spot as they usually are invisible, but it can be done. after you remove them, it should load normally, so long as there are no other problems with it.  if all else fails, restarting the program and/or your computer may help.
 
 
 
