@@ -78,7 +78,7 @@ class Rotor:
         #the wiring list used for decryption. it stores the index where a number in encoding wiring is found at the index of the number itself.
         self.decodingWiring = [0] * len(wiring)
 
-        #precompute the index values and populate decoding wiring with them
+        #pre-compute the index values and populate decoding wiring with them
         for i in range(len(wiring)):
             self.decodingWiring[wiring[i]] = i
 
@@ -91,14 +91,14 @@ class Rotor:
             return True
         return False
     
-    #self explanitory name
+    #self explanatory name
     def encodeValue(self,number:int):
         searchNumber=number+self.pos#calculate number to get
         while(searchNumber>len(self.encodingWiring)-1):#logic to prevent index errors and enforce rollover
             searchNumber-=len(self.encodingWiring)
         return self.encodingWiring[searchNumber]#return final number
     
-     #self explanitory name
+     #self explanatory name
     def decodeValue(self, number: int):#basically the same type of logic as encode value
         numIndex = self.decodingWiring[number] - self.pos #get the index of number and adjust it for the rotor position
         while numIndex < 0:#adjust back up if we roll over
