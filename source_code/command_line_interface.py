@@ -927,6 +927,7 @@ def CLI_V2():
 def start(debugMode):
 
 
+
     #these files are a completely optional feature, so we dont throw and error if they fail to load
     backend.loadCharSetFromTXT("default_charset.txt")
     backend.loadKeyFromTXT("default_key.txt")
@@ -941,6 +942,8 @@ def start(debugMode):
     except:
         pass
     
+
+
     #users will almost never see this, it only triggers in debug builds
     if(debugMode):
         global GLOBALDEBUGFLAG

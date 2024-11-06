@@ -42,7 +42,7 @@ except:
 
 
 #determine if this is a release build
-if(mode[0]=="RELEASE" and ableToStart):
+if(ableToStart and mode[0]=="RELEASE"):
     if(command_line_interface.backend.bmkv(True,mode[1])):
         try:#if so start in release mode
             
@@ -58,7 +58,7 @@ if(mode[0]=="RELEASE" and ableToStart):
         print("detected error: (error code: L-2-2) could not start due to invalid start configuration constant part 2.")
         input("press enter to finish")
 #determine if this is a debug build
-elif(mode[0]=="TESTING BUILD" and ableToStart):
+elif(ableToStart and mode[0]=="TESTING BUILD"):
     if(command_line_interface.backend.bmkv(False,mode[1])):
         #if so start in debug mode
         
