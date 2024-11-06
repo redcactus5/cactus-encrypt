@@ -951,6 +951,8 @@ def start(debugMode):
         PRGVERSION+=": DEBUG"
         clear()
         print("WARNING: this is a debug build. it is for closed testing purposes \nonly and is not to be shared with unauthorized parties.")
+        ln()
+        print("if you do not agree to this, close the program.")
         ln(3)
         input("press enter to agree and continue")
         clear()
