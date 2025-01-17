@@ -88,7 +88,7 @@ def uiHeader(currentMode:str):
     global LICENSESHOWN
     global GLOBALDEBUGFLAG
     print("cactus encrypt "+PRGVERSION+" by Redcactus5")
-    print("Copyright 2023,2024 Redcactus5")
+    print("Copyright 2023-2025 Redcactus5")
     ln()
     if(GLOBALDEBUGFLAG):
         print("*debug mode*")
