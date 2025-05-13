@@ -2,7 +2,7 @@
 
 '''
 cactus encrypt is a simple cli text encryption program written in python that implements the cactus cipher algorithm
-Copyright 2023,2024 Redcactus5
+Copyright 2023-2025 Redcactus5
 
 This file is part of Cactus Encrypt.
 

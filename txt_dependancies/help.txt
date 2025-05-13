@@ -169,7 +169,7 @@ have fun with cactus encrypt!
 powered by Python https://www.python.org/
 powered by Nuitka https://nuitka.net/
 
-copyright 2023,2024 Redcactus5
+copyright 2023-2025 Redcactus5
 
 This file is part of Cactus Encrypt.
 
