@@ -1,8 +1,14 @@
 # cactus-encrypt
-cactus encrypt is a simple command line encryption program I wrote in my free time because I was bored. 
-It is written entirely in python 3 and uses the simple but flexable cactus encrypt encryption algorithm I created along side it.
-it is very posible to make a gui wrapper for the program, but I probable won't make one because i'm lazy.
-cactus encrypt is compiled using the excellent nuitka compiler. 
+cactus encrypt is a simple command line encryption program I wrote in my free time because I was bored. It implements a 
+flexible rotor based encryption algorithm with interchangeable character sets and rotors I call the cactus cipher. 
+Rotors can be generated on the fly, and encryption keys can use any number of rotors. It is written entirely in python 3
+and is compiled using the excellent Nuitka compiler. it is very possible to make a gui wrapper for the program, 
+(the modular design makes this quite easy) but I probably won't make one because I'm lazy. 
 
-WARNING!
-cactus encrypt uses a nonstandard character set and will either refuse to work or completely break if an unsupported character is used. a list of supported characters is avalible on the information screen.
+Copyright 2023-2025 Redcactus5
+
+this program is free, open source software released under the GNU General Public License version 3.0 or later version (GPL-3.0-or-later)
+
+powered by Python
+
+powered by Nuitka
