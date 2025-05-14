@@ -23,8 +23,9 @@ this program is free, open source software released under the GNU General Public
 
 
 
+
 print("starting up...")
-(preStartCheck1)=True
+preStartCheck1=True
 
 #import needed files, and check if they exist at all
 try:
@@ -70,10 +71,13 @@ ableToStart=False
 if(preStartCheck2):
     #do some basic config formatting checks before we even do verifacation. this is not a deep verfiaction
     errorcode=1
-    if(mode!=None):
+    if(not(mode is None)):
         errorcode+=1
-        if(type(mode)==tuple):
-            errorcode+=1       
+        if(isinstance(mode, tuple)):
+            errorcode+=1   
+            if(len(mode)>1):
+                errorcode+=1
+                ableToStart=True   
     else:
         print("\n"*50)
         print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
