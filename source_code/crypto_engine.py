@@ -333,7 +333,7 @@ def loadKey(keyString:str,characterSet:tuple):
         verificationCypherCount+=1
     
     #integrity check 18 (check to make sure what we counted adds up to the whole key length)
-    if(1+verificationRotorCount+verificationStartPosCount+verificationCypherCount!=len(key)):
+    if((1+verificationRotorCount+verificationStartPosCount+verificationCypherCount)!=len(key)):
         return (False, "input error: (error code: E-5-19) integrity check 18 failed; key data is improperly partitioned. given key data is \ninvalid and possibly corrupted. please check the key for errors then \ntry again.")
 
 
