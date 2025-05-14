@@ -30,7 +30,7 @@ GLOBALDEBUGFLAG=False
 
 
 #"V2.0 beta: debug build 3"
-PRGVERSION="V2.0 RC3"
+PRGVERSION="V2.0"
 #"V2.0"
 
 
@@ -59,7 +59,7 @@ def ln(*number:int):
     elif(number[0]==1):
         print("")
     
-    elif(number[0]>=1):
+    elif(number[0]>1):
         print("\n"*(number[0]-1))
 
 #self explanitory, it clears the terminal
@@ -434,7 +434,8 @@ def generateKey():
 
             while True:
                 uiHeader(menuName)
-                print("please enter a complexity value for the new key (complexity value must be a positive integer).")
+                print("please enter a complexity value for the new key (complexity value must be a positive integer).\n")
+                print("warning: although using a higher complexity value does improves security, it also increases key generation, \nencryption, and decryption time significantly!")
                 ln()
                 userInput=input("complexity value:")
 

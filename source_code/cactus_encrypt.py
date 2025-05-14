@@ -16,63 +16,139 @@ this program is free, open source software released under the GNU General Public
 '''
 
 
-#this file is basically just a launcher for the main program
+#this file is basically just a launcher for the main program, and it does a whole lot of unnecessesary verifaction
+
+
+
+
 
 
 
 print("starting up...")
+preStartCheck1=True
 
-#import needed files
-import command_line_interface
-#this file determines what type of build this is and what mode to run in as a result
-import build_mode
+#import needed files, and check if they exist at all
+try:
+    #this file determines what type of build this is and what mode to run in as a result
+    import build_mode
+except ImportError:
+    (preStartCheck1)=False
+    print("\n"*50)
+    print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+    print("detected error: (error code: L-1-1) start configuration file could not be found.")
+    input("press enter to finish")
+if((preStartCheck1)):
+    try:
+        import command_line_interface
+    except ImportError:
+        (preStartCheck1)=False
+        print("\n"*50)
+        print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+        print("detected error: (error code: L-1-2) the main program files could not be found or had a dependancy error.")
+        input("press enter to finish")
 
 #attempt get the build mode from the file
 mode=None
-ableToStart=True
-try:
-    mode=build_mode.getBuildMode()
-except:
-    ableToStart=False
-    print("\n"*50)
-    print("a fatal error occurred. the program has aborted the start operation for safety.")
-    print("detected error: (error code: L-1-1) start configuration file could either not be read or not be found.")
-    input("press enter to finish")
+
+preStartCheck2=False
+
+if((preStartCheck1)):
+    preStartCheck2=True
 
 
+    try:
+        mode=build_mode.getBuildMode()
+    except:
+        preStartCheck2=False
+        mode=None
+        print("\n"*50)
+        print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+        print("detected error: (error code: L-2-1) start configuration file could either not be read or not be found.")
+        input("press enter to finish")
 
-#determine if this is a release build
-if(ableToStart and mode[0]=="RELEASE"):
-    if(command_line_interface.backend.bmkv(True,mode[1])):
-        try:#if so start in release mode
-            
-            command_line_interface.start(False)
-        except Exception as e:
-            print("\n"*50)
-            print("a fatal error occurred (error code: L-2-1). the program has quit for safety.")
-            print("detected error: "+str(e))
-            input("press enter to finish")
+ableToStart=False
+
+if(preStartCheck2):
+    #do some basic config formatting checks before we even do verifacation. this is not a deep verfiaction
+    errorcode=1
+    if(not(mode is None)):
+        errorcode+=1
+        if(isinstance(mode, tuple)):
+            errorcode+=1   
+            if(len(mode)>1):
+                errorcode+=1
+                ableToStart=True   
     else:
         print("\n"*50)
-        print("a fatal error occurred. the program has aborted the start operation to prevent damage to your system.")
-        print("detected error: (error code: L-2-2) could not start due to invalid start configuration constant part 2.")
+        print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+        print("detected error: (error code: L-3-"+str(errorcode)+") start configuration file is corrupted or improperly formatted.")
         input("press enter to finish")
-#determine if this is a debug build
-elif(ableToStart and mode[0]=="TESTING BUILD"):
-    if(command_line_interface.backend.bmkv(False,mode[1])):
-        #if so start in debug mode
+
+
         
-        command_line_interface.start(True)
-    else:
+
+
+if(ableToStart):
+
+    #determine if this is a release build
+    if(mode[0]=="RELEASE"):
+
+
+        
+    
+        if(command_line_interface.backend.bmkv(True,mode[1])==1):
+            try:#if so start in release mode
+                
+                command_line_interface.start(False)
+            except Exception as e:
+                print("\n"*50)
+                print("a fatal error occurred (error code: L-4-1). the program has quit to prevent further errors.")
+                print("detected error: "+str(e))
+                input("press enter to finish")
+
+
+
+        elif(command_line_interface.backend.bmkv(True,mode[1])==0):
+            print("\n"*50)
+            print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+            print("detected error: (error code: L-4-2) could not start due to invalid start configuration file part 2.")
+            input("press enter to finish")
+    
+        elif(command_line_interface.backend.bmkv(True,mode[1])==-1):
+            print("\n"*50)
+            print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+            print("detected error: (error code: L-4-3) could not start due to configuration verifaction process failure.")
+            input("press enter to finish")
+    
+    
+    #determine if this is a debug build
+    elif(mode[0]=="TESTING BUILD"):
+        
+        
+        if(command_line_interface.backend.bmkv(False,mode[1])==1):
+            #if so start in debug mode
+            command_line_interface.start(True)
+
+
+        elif(command_line_interface.backend.bmkv(False,mode[1])==0):
+            print("\n"*50)
+            print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+            print("detected error: (error code: L-5-1) could not start due to invalid start configuration file part 2.")
+            input("press enter to finish")
+        
+        elif(command_line_interface.backend.bmkv(False,mode[1])==-1):
+            print("\n"*50)
+            print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+            print("detected error: (error code: L-6-2) could not start due to configuration verifaction process failure.")
+            input("press enter to finish")
+
+
+
+    elif(ableToStart):#error out if no valid build type tag
         print("\n"*50)
-        print("a fatal error occurred. the program has aborted the start operation to prevent damage to your system.")
-        print("detected error: (error code: L-3-1) could not start due to invalid start configuration constant part 2.")
+        print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+        print("detected error: (error code: L-7-1) could not start due to invalid start configuration file part 1.")
         input("press enter to finish")
-elif(ableToStart):#error out if no valid build type tag
-    print("\n"*50)
-    print("a fatal error occurred. the program has aborted the start operation to prevent damage to your system.")
-    print("detected error: (error code: L-4-1) could not start due to invalid start configuration constant part 1.")
-    input("press enter to finish")
 
 
 
