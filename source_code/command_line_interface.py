@@ -30,7 +30,7 @@ GLOBALDEBUGFLAG=False
 
 
 #"V2.0 beta: debug build 3"
-PRGVERSION="V2.0 RC3"
+PRGVERSION="V2.0"
 #"V2.0"
 
 
@@ -59,7 +59,7 @@ def ln(*number:int):
     elif(number[0]==1):
         print("")
     
-    elif(number[0]>=1):
+    elif(number[0]>1):
         print("\n"*(number[0]-1))
 
 #self explanitory, it clears the terminal
