@@ -435,6 +435,7 @@ def generateKey():
             while True:
                 uiHeader(menuName)
                 print("please enter a complexity value for the new key (complexity value must be a positive integer).")
+                print("warning! though using a higher number improves security, it also increases key generation, \nencryption, and decryption times!")
                 ln()
                 userInput=input("complexity value:")
 
