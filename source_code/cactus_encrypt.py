@@ -73,13 +73,7 @@ if(preStartCheck2):
     if(mode!=None):
         errorcode+=1
         if(type(mode)==tuple):
-            errorcode+=1
-            if(len(mode)==2):
-                errorcode+=1
-                if(type(mode[0])==str):
-                    errorcode+=1
-                    if(type(mode[1])==list):
-                        ableToStart=True
+            errorcode+=1       
     else:
         print("\n"*50)
         print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
