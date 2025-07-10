@@ -21,7 +21,7 @@ this program is free, open source software released under the GNU General Public
 
 
 
-
+import os
 
 
 print("starting up...")
@@ -46,6 +46,21 @@ if((preStartCheck1)):
         print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
         print("detected error: (error code: L-1-2) the main program files could not be found or had a dependancy error.")
         input("press enter to finish")
+
+
+if(not os.path.exists("LICENSES/COPYING.txt")):
+    (preStartCheck1)=False
+    print("\n"*50)
+    print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+    print("detected error: (error code: L-1-3) this program is open source and must be distributed with its licenses.\nPlease ensure the LICENSES directory is present and contains COPYING.txt and Nuitka-Apache-2.0-LICENSE.txt.")
+    input("press enter to finish")
+
+if(not os.path.exists("LICENSES/Nuitka-Apache-2.0-LICENSE.txt")):
+    (preStartCheck1)=False
+    print("\n"*50)
+    print("a fatal error occurred. the program has aborted the start operation to prevent further errors.")
+    print("detected error: (error code: L-1-3) this program is open source and must be distributed with its licenses.\nPlease ensure the LICENSES directory is present and contains COPYING.txt and Nuitka-Apache-2.0-LICENSE.txt.")
+    input("press enter to finish")
 
 #attempt get the build mode from the file
 mode=None

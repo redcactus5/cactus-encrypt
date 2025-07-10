@@ -6,7 +6,7 @@ if exist "release build" (
     echo release build found!
     echo starting compilation...
     cd "release build"
-    python -m nuitka --standalone --windows-icon-from-ico=cactus_encrypt_icon.ico  cactus_encrypt.py
+    python -m nuitka --onefile --windows-icon-from-ico=cactus_encrypt_icon.ico  cactus_encrypt.py
     cd ..
 ) else (
     echo could not find release build.
@@ -17,7 +17,7 @@ if exist "debug build" (
     echo debug build found!
     echo starting compilation...
     cd "debug build"
-    python -m nuitka --standalone --windows-icon-from-ico=cactus_encrypt_icon.ico  cactus_encrypt.py
+    python -m nuitka --onefile --windows-icon-from-ico=cactus_encrypt_icon.ico  cactus_encrypt.py
     cd ..
 ) else (
     echo could not find debug build.
