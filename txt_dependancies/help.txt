@@ -21,7 +21,7 @@ cactus encrypt is compatible with the utf-8 character set only. keys and charact
 
 
 the structure of the program folder:
-the program is distributed as a zip file containing a folder. in this folder you will find several files and the cactus encrypt executable. do not delete or modify any of these file unless explicitly stated that you can. messing with these files will likely prevent the program from running correctly or at all.
+the program is distributed as a zip file containing a folder. in this folder you will find several files and the cactus encrypt executable. do not delete the license or help files.
 
 
 
@@ -166,8 +166,10 @@ have fun with cactus encrypt!
 
 
 
-powered by Python https://www.python.org/
-powered by Nuitka https://nuitka.net/
+
+Packaged with Nuitka © Copyright 2025 Kay Hayen and Nuitka Contributors https://nuitka.net/
+
+
 
 copyright 2023-2025 Redcactus5
 

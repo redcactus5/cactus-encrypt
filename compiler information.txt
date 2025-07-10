@@ -1,6 +1,6 @@
 compiler is called nuitka
 
-build command is: python -m nuitka --standalone cactus_encrypt.py 
+build command is: python -m nuitka --onefile cactus_encrypt.py 
 
 build command with icon is: 
 python -m nuitka --standalone --windows-icon-from-ico=cactus_encrypt_icon.ico  cactus_encrypt.py
