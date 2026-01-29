@@ -167,6 +167,7 @@ have fun with cactus encrypt!
 
 Packaged with Nuitka © Copyright 2025 Kay Hayen and Nuitka Contributors https://nuitka.net/
 
+
 This project uses Python, which is © Python Software Foundation.
 Python is licensed under the Python Software Foundation License Version 2.
 See https://docs.python.org/3/license.html for details.
